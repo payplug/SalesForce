@@ -1,0 +1,9 @@
+<div class="tab-pane payplug-${paymentOption.ID}-content payplug-payment-content" id="payplug-${paymentOption.ID}-content"
+    role="tabpanel">
+    <fieldset class="payment-form-fields">
+        <input type="hidden" class="form-control"
+            name="dwfrm_billing_paymentMethod"
+            value="${paymentOption.ID}"
+        />
+    </fieldset>
+</div>

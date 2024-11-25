@@ -1,0 +1,3 @@
+<span>${pdict.paymentMethodName}</span>
+
+<a id="js-submitPayPlugPayment" diabled data-urlplaceorder="${URLUtils.url('PayPlug-CreateOrderHPP')}" href="${pdict.paymentURL}"></a>

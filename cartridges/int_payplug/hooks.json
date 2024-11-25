@@ -1,0 +1,12 @@
+{
+    "hooks": [
+        {
+            "name": "app.payment.processor.payplug",
+            "script": "./cartridge/scripts/hooks/payment/processor/payplug_payment"
+        },
+		{
+            "name": "app.payment.form.processor.payplug",
+            "script": "./cartridge/scripts/hooks/payment/processor/payplug_form_payment"
+        }
+    ]
+}

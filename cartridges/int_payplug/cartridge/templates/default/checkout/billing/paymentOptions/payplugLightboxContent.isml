@@ -1,0 +1,18 @@
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addCss('/css/payplug.css');
+</isscript>
+
+<div class="tab-pane payplug-${paymentOption.ID}-content payplug-payment-content" id="payplug-${paymentOption.ID}-content"
+    role="tabpanel">
+    <div class="payplug-payment-content-inner">
+        <fieldset class="payment-form-fields">
+            <input type="hidden" class="form-control"
+                name="dwfrm_billing_paymentMethod"
+                value="${paymentOption.ID}" />
+        </fieldset>
+        <div class="payplugLightboxForm">
+            <button data-pp-lightbox-url="${URLUtils.https('PayPlug-GetLightboxForm', 'paymentMethodID', paymentOption.ID)}" data-pp-paymentid="${paymentOption.ID}" class="btn btn-default payplugLightbox">Buy now - ${paymentOption.ID}</button>
+        </div>
+    </div>
+</div>

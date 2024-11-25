@@ -1,0 +1,13 @@
+<li class="nav-item" data-method-id="${paymentOption.ID}">
+    <a class="nav-link payplug-payment-tab" data-toggle="tab" href="${'#payplug-'+paymentOption.ID}-content" role="tab">
+        <isif condition="${paymentOption.img}">
+            <img class=""
+                src="${paymentOption.img}"
+                height="32"
+                alt="${paymentOption.name}"
+                title="${paymentOption.name}"
+            />
+        </isif>
+        ${paymentOption.name}
+    </a>
+</li>

@@ -1,0 +1,15 @@
+<isscript>
+    const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
+</isscript>
+<div id="payplug-payment-url" data-url="${URLUtils.http('PayPlug-GetHPP')}"></div>
+<isloop items="${pdict.order.billing.payment.applicablePaymentMethods}" var="paymentOption">
+    <isif condition="${paymentOption.ID === 'CREDIT_CARD'}">
+        <isinclude template="checkout/billing/paymentOptions/creditCardTab" />
+    </isif>
+    <isscript>
+        var paymentMethod = PayPlugUtils.getPaymentMethodByID(paymentOption.ID);
+    </isscript>
+    <isif condition="${PayPlugUtils.isPaymentMethodPayPlug(paymentMethod)}">
+        <isinclude template="checkout/billing/paymentOptions/payplugTab" />
+    </isif>
+</isloop>

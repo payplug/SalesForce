@@ -1,0 +1,5 @@
+<form action="${pdict.continueUrl}" method="POST">
+    <input type="hidden" name="orderID" value="${pdict.orderID}" />
+    <input type="hidden" name="orderToken" value="${pdict.orderToken}" />
+</form>
+<script> document.forms[0].submit(); </script>

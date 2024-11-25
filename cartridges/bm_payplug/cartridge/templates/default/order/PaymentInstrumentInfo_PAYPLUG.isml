@@ -1,0 +1,70 @@
+<!--- TEMPLATENAME: PaymentInstrumentInfo_PAYPLUG.isml --->
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+
+<isscript>
+	var payplugPaymentData = JSON.parse(pdict.Order.getCustom()['payplugPaymentData']);
+</isscript>
+
+<div id="Payplugtable" style="margin-top: 10px;">
+    <table class="infobox w e">
+        <thead>
+            <tr>
+                <th align="left" width="150">
+                    <img border="0" src="${URLUtils.staticURL('/images/logo_payplug.svg')}" width="100">
+                </th>
+                <isif condition="${payplugPaymentData === null}"><th>Waiting for IPN</th><iselse/><th>Payment info</th></isif>
+            </tr>
+        </thead>
+        <isif condition="${payplugPaymentData !== null}">
+            <isset name="paymentMethod" value="${payplugPaymentData.payment_method ? payplugPaymentData.payment_method.type : 'credit card'}" scope="page" />
+            <tbody>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.transactionid', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.id}</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.paymentpaid', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.is_paid}</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.amount', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.amount}</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.paid_at', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.paid_at}</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.limit_capture', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.paid_at} ??</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.paymentMethod', 'payplug', null)}</td>
+                    <td class="infobox_item">${paymentMethod}</td>
+                </tr>
+                <isif condition="${paymentMethod === 'credit card'}">
+                    <tr>
+                        <td class="infobox_title">${Resource.msg('order.masked_card', 'payplug', null)}</td>
+                        <td class="infobox_item">**** **** **** ${payplugPaymentData.card.last4}</td>
+                    </tr>
+                    <tr>
+                        <td class="infobox_title">${Resource.msg('order.card.expiration', 'payplug', null)}</td>
+                        <td class="infobox_item">${payplugPaymentData.card.exp_month}/${payplugPaymentData.card.exp_year}</td>
+                    </tr>
+                </isif>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.3dsecure', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.is_3ds}</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.is_live', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.is_live}</td>
+                </tr>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.link_payplug', 'payplug', null)}</td>
+                    <td class="infobox_item"><a href="${payplugPaymentData.hosted_payment.payment_url}">${payplugPaymentData.id}</a></td>
+                </tr>
+            </tbody>
+        </isif>
+    </table>
+</div>
