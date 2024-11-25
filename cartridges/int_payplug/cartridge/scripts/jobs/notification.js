@@ -6,6 +6,8 @@ const OrderMgr = require('dw/order/OrderMgr');
 const Transaction = require('dw/system/Transaction');
 const CustomObjectMgr = require('dw/object/CustomObjectMgr');
 
+const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
+
 module.exports.execute = function (args) {
     const payplugNotifications = CustomObjectMgr.getAllCustomObjects('payplugNotification');
 
@@ -28,6 +30,10 @@ module.exports.execute = function (args) {
                 order.addNote('PAYPLUG NOTIFICATION - NOT PAID', message);
 				order.getCustom()['payplugPaymentData'] = message;
             }
+			if (!empty(payplugPaymentData.card.id)) {
+				order.addNote('PAYPLUG CARD', 'Saving Credit card on customer with id: ' + payplugPaymentData.card.id)
+				PayPlugUtils.saveCreditCard(order, payplugPaymentData);
+			}
             Logger.info('Process notification for order {0}', payplugPaymentData.metadata.transaction_id);
             CustomObjectMgr.remove(notification);
 

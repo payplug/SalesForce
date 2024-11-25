@@ -16,6 +16,12 @@ PayPlugPaymentModel.prototype.createPayment = function createPayment(paymentMeth
     return paymentStatus;
 }
 
+PayPlugPaymentModel.prototype.removeCustomerCardFromWallet = function removeCustomerCardFromWallet(cardID) {
+	const status = PayPlugPaymentAPI.removeCustomerCardFromWallet(cardID);
+
+	return status;
+}
+
 PayPlugPaymentModel.prototype.capturePayment = function capturePayment(order) {
     const paymentStatus = PayPlugPaymentAPI.capturePayment(order);
 

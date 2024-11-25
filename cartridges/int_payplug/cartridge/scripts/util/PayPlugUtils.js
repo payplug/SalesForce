@@ -29,6 +29,40 @@ PayPlugUtils.createOrderNo = function createOrderNo() {
     return basket.getCustom()['payplugOrderNo'];
 }
 
+PayPlugUtils.saveCreditCard = function saveCreditCard(order, payplugPaymentData) {
+	const customer = order.getCustomer();
+	if (isTokenLinkedToCustomer(order.getCustomer(), payplugPaymentData.card.id)) {
+		return;
+	}
+	const wallet = customer.getProfile().getWallet();
+	const newCreditCard = wallet.createPaymentInstrument('PAYPLUG_ONECLICK');
+	newCreditCard.setCreditCardHolder(payplugPaymentData.billing.last_name + ' ' + payplugPaymentData.billing.first_name);
+	newCreditCard.setCreditCardNumber("**** **** **** " + payplugPaymentData.card.last4);
+	newCreditCard.setCreditCardExpirationMonth(payplugPaymentData.card.exp_month);
+	newCreditCard.setCreditCardExpirationYear(payplugPaymentData.card.exp_year);
+	newCreditCard.setCreditCardType(payplugPaymentData.card.brand);
+	newCreditCard.setCreditCardToken(payplugPaymentData.card.id);
+}
+
+function isTokenLinkedToCustomer(customer, token) {
+	if (!customer || !customer.profile || !token) {
+        return false;
+    }
+
+    var paymentInstruments = customer.profile.wallet.paymentInstruments.iterator();
+
+    while (paymentInstruments.hasNext()) {
+        var paymentInstrument = paymentInstruments.next();
+        var storedToken = paymentInstrument.getCreditCardToken();
+
+        if (storedToken && storedToken === token) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 PayPlugUtils.formatPhoneNumber = function formatPhoneNumber(phoneNumber, countryCode) {
 	const cleanedNumber = phoneNumber.replace(/[^0-9]/g, '');
 
