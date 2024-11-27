@@ -1,5 +1,6 @@
 'use strict';
 
+const server = require('server');
 const Site = require('dw/system/Site');
 const Locale = require('dw/util/Locale');
 const URLUtils = require('dw/web/URLUtils');
@@ -57,6 +58,7 @@ function PayPlugPaymentRequest(paymentMethod, formChanged) {
 		force_3ds: Site.getCurrent().getCustomPreferenceValue('PP_force3DS'),
 		allow_save_card: Site.getCurrent().getCustomPreferenceValue('PP_allowSaveCard'),
 		notification_url: URLUtils.https('PayPlug-Notification').abs().toString(),
+		initiator: 'PAYER',
 		metadata: {
 			transaction_id: PayPlugUtils.createOrderNo(),
 			customer_id: customer.isAuthenticated() ? customer.getID() : '',
@@ -71,12 +73,17 @@ function PayPlugPaymentRequest(paymentMethod, formChanged) {
 	if (ppPaymentMethod && ppPaymentMethod !== 'credit_card') {
 		this.body.payment_method = ppPaymentMethod;
 		this.body.allow_save_card = false;
-	} else if (isDifferedPaymentEnabled) {
-		this.body.authorized_amount = this.body.amount;
-		this.body.auto_capture = true;
-		delete this.body.amount;
+	} else {
+		if (!empty(server.forms.getForm('billing').payplugCreditCard.value)) {
+			this.body.payment_method = server.forms.getForm('billing').payplugCreditCard.value;
+			this.body.allow_save_card = false;
+		}
+		if (isDifferedPaymentEnabled) {
+			this.body.authorized_amount = this.body.amount;
+			this.body.auto_capture = false;
+			delete this.body.amount;
+		}
 	}
-
 }
 
 function _getCartItemInfo(cart) {

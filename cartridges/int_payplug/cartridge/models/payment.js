@@ -20,6 +20,7 @@ function applicablePaymentMethods(paymentMethods) {
             ID: method.ID,
             name: method.name,
             isPayPlug: PayPlugUtils.isPaymentMethodPayPlug(method),
+			isCreditCard: method.getCustom()['PP_paymentMethod'].getValue() === 'credit_card',
 			isLightbox: Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue() === 'lightbox',
 			img: method.getImage() ? method.getImage().getHttpsURL() : false
         };

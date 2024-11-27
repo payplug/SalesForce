@@ -32,11 +32,11 @@
                 </tr>
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.paid_at', 'payplug', null)}</td>
-                    <td class="infobox_item">${payplugPaymentData.paid_at}</td>
+                    <td class="infobox_item">${StringUtils.formatCalendar(new dw.util.Calendar(new Date(payplugPaymentData.paid_at * 1000)), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)}</td>
                 </tr>
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.limit_capture', 'payplug', null)}</td>
-                    <td class="infobox_item">${payplugPaymentData.paid_at} ??</td>
+                    <td class="infobox_item">${StringUtils.formatCalendar(new dw.util.Calendar(new Date((payplugPaymentData.paid_at * 1000) + (6 * 24 * 60 * 60 * 1000))), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)}</td>
                 </tr>
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.paymentMethod', 'payplug', null)}</td>
@@ -62,7 +62,11 @@
                 </tr>
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.link_payplug', 'payplug', null)}</td>
-                    <td class="infobox_item"><a href="${payplugPaymentData.hosted_payment.payment_url}">${payplugPaymentData.id}</a></td>
+                    <td class="infobox_item">
+                        <a href="${(payplugPaymentData.is_live ? 'https://portal.payplug.com/#/payments/online/' : 'https://portal-qa.payplug.com/#/payments/online/') + payplugPaymentData.id}">
+                            ${payplugPaymentData.id}
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </isif>

@@ -10,7 +10,7 @@
             <tbody style="float:right;">
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.paymentmethod', 'payplug', null)}</td>
-                    <td class="infobox_item">${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod']}</td>
+                    <td class="infobox_item">${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod'] || 'credit card'}</td>
                 </tr>
                 <isif condition="${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod'] === 'credit card'}">
                     <tr>

@@ -1,3 +1,8 @@
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addCss('/css/payplug.css');
+</isscript>
+
 <div class="tab-pane payplug-${paymentOption.ID}-content payplug-payment-content" id="payplug-${paymentOption.ID}-content"
     role="tabpanel">
     <fieldset class="payment-form-fields">
@@ -6,4 +11,24 @@
             value="${paymentOption.ID}"
         />
     </fieldset>
+    <isif condition="${paymentOption.isCreditCard && dw.system.Site.current.preferences.custom['PP_oneClickPayment']}">
+        <div class="payplugSavedCard">
+            <isloop items="${customer.profile.wallet.paymentInstruments}" var="wallet">
+                <fieldset class="payment-form-fields">
+                    <input type="radio"
+                        name="dwfrm_billing_payplugCreditCard"
+                        value="${wallet.getCreditCardToken()}" />
+                    <p>${Resource.msg('label.payment.credit', 'account', null)} ${wallet.creditCardType}</p>
+                    <p>${wallet.maskedCreditCardNumber}</p>
+                    <p>${Resource.msg('label.payment.ending', 'account', null)} ${wallet.creditCardExpirationMonth}/${wallet.creditCardExpirationYear}</p>
+                </fieldset>
+            </isloop>
+            <fieldset class="payment-form-fields">
+                <input type="radio"
+                    name="dwfrm_billing_payplugCreditCard"
+                    value="" checked />
+                <p>${Resource.msg('other.credit.card', 'payplug', null)}</p>
+            </fieldset>
+        </div>
+    </isif>
 </div>
