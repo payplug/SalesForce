@@ -1,1 +1,1 @@
-${pdict.orderConfirmDetails.getPaymentInstrument().getPaymentMethod()}
+${dw.order.PaymentMgr.getPaymentMethod(pdict.orderConfirmDetails.getPaymentInstrument().getPaymentMethod()).getName()}

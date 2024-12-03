@@ -9,12 +9,34 @@ const CustomObjectMgr = require('dw/object/CustomObjectMgr');
 
 const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
 
-module.exports.execute = function (args) {
-    const payplugNotifications = CustomObjectMgr.getAllCustomObjects('payplugNotification');
+var PayPlugNotifications;
 
-    while (payplugNotifications.hasNext()) {
-        let notification = payplugNotifications.next();
-        let message = notification.getCustom()['payplugLog'];
+exports.beforeStep = function (params, stepExecution) {
+    PayPlugNotifications = CustomObjectMgr.getAllCustomObjects('payplugNotification');
+};
+
+/**
+ * @returns {number} total count
+ */
+exports.getTotalCount = function () {
+    if (!PayPlugNotifications.getCount()) {
+        Logger.info('No notifications found to handle');
+    } else {
+        Logger.info('{0} step started', 'PayPlugNotification');
+    }
+
+    return PayPlugNotifications.getCount();
+};
+
+exports.read = function () {
+    if (PayPlugNotifications.hasNext()) {
+        return PayPlugNotifications.next();
+    }
+};
+
+
+exports.process = function (notification) {
+		let message = notification.getCustom()['payplugLog'];
 		let payplugPaymentData = JSON.parse(message);
 
         var order = OrderMgr.getOrder(payplugPaymentData.metadata.transaction_id);
@@ -46,7 +68,22 @@ module.exports.execute = function (args) {
             CustomObjectMgr.remove(notification);
         }
         Transaction.commit();
+};
+
+exports.write = function (order) {
+};
+
+/**
+ * @param {boolean} success - job status
+ */
+exports.afterStep = function (success) {
+    if (!empty(PayPlugNotifications)) {
+        PayPlugNotifications.close();
     }
 
-    payplugNotifications.close();
-}
+    if (!success) {
+        Logger.error('{0} step finished unsuccessfully', 'PayPlugNotification');
+    } else {
+        Logger.info('{0} step finished successfully', 'PayPlugNotification');
+    }
+};
