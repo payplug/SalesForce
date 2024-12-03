@@ -32,12 +32,20 @@
                 </tr>
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.paid_at', 'payplug', null)}</td>
-                    <td class="infobox_item">${StringUtils.formatCalendar(new dw.util.Calendar(new Date(payplugPaymentData.paid_at * 1000)), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)}</td>
+                    <td class="infobox_item">
+                        <isif condition="${!empty(payplugPaymentData.paid_at)}">
+                            ${StringUtils.formatCalendar(new dw.util.Calendar(new Date(payplugPaymentData.paid_at * 1000)), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)}
+                        <iselse/>
+                            NOT_PAID
+                        </isif>
+                    </td>
                 </tr>
-                <tr>
-                    <td class="infobox_title">${Resource.msg('order.limit_capture', 'payplug', null)}</td>
-                    <td class="infobox_item">${StringUtils.formatCalendar(new dw.util.Calendar(new Date((payplugPaymentData.paid_at * 1000) + (6 * 24 * 60 * 60 * 1000))), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)}</td>
-                </tr>
+                <isif condition="${!empty(payplugPaymentData.authorization)}">
+                    <tr>
+                        <td class="infobox_title">${Resource.msg('order.limit_capture', 'payplug', null)}</td>
+                        <td class="infobox_item">${StringUtils.formatCalendar(new dw.util.Calendar(new Date((payplugPaymentData.authorization.expires_at * 1000))), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)}</td>
+                    </tr>
+                </isif>
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.paymentMethod', 'payplug', null)}</td>
                     <td class="infobox_item">${paymentMethod}</td>

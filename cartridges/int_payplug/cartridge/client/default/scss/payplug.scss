@@ -12,22 +12,22 @@
 		background-color: #ffffff;
 
 		&:last-child {
-		margin-bottom: 0;
+			margin-bottom: 0;
 		}
 
 		input[type="radio"] {
-		margin-right: 10px;
-		cursor: pointer;
+			margin-right: 10px;
+			cursor: pointer;
 		}
 
 		p {
-		margin: 5px 0;
-		font-size: 14px;
-		color: #333;
+			margin: 5px 0;
+			font-size: 14px;
+			color: #333;
 
-		&:first-of-type {
-			font-weight: bold;
-		}
+			&:first-of-type {
+				font-weight: bold;
+			}
 		}
 	}
 }

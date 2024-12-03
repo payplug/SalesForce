@@ -40,7 +40,7 @@ PayPlugPaymentAPI.prototype.capturePayment = function capturePayment(order) {
         require('~/cartridge/services/callbacks/PayPlugCallbacks.js').patchCallback()
     );
     serviceModel.setLogger(LOGGER_PayPlug);
-    return serviceModel.executeCall(new PayPlugCaptureRequest(form).getRequest(), OVERLAY_RESPONSE.CaptureResponse);
+    return serviceModel.executeCall(new PayPlugCaptureRequest(order).getRequest(), OVERLAY_RESPONSE.CaptureResponse);
 }
 
 PayPlugPaymentAPI.prototype.removeCustomerCardFromWallet = function removeCustomerCardFromWallet(cardID) {

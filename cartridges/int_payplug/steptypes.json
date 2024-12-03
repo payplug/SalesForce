@@ -1,31 +1,59 @@
 {
-    "step-types": {
-        "script-module-step":
-        [
-            {
-                "@type-id": "custom.PayPlugPaymentNotification",
-                "@supports-parallel-execution": "false",
-                "@supports-site-context": "true",
-                "@supports-organization-context": "false",
-                "description": "Handle PayPlug Notification",
-                "module": "int_payplug/cartridge/scripts/jobs/notification.js",
-                "function": "execute",
-                "transactional": "false",
-                "timeout-in-seconds": "900",
-                "status-codes": {
-                    "status":
-                    [
+	"step-types": {
+		"script-module-step": [
+			{
+				"@type-id": "custom.PayPlugPaymentNotification",
+				"@supports-parallel-execution": "false",
+				"@supports-site-context": "true",
+				"@supports-organization-context": "false",
+				"description": "Handle PayPlug Notification",
+				"module": "int_payplug/cartridge/scripts/jobs/notification.js",
+				"function": "execute",
+				"transactional": "false",
+				"timeout-in-seconds": "900",
+				"status-codes": {
+					"status": [
+						{
+							"@code": "ERROR",
+							"description": "Used when the step failed with an error."
+						},
+						{
+							"@code": "FINISHED",
+							"description": "Used when the step finished successfully."
+						}
+					]
+				}
+			}
+		],
+		"chunk-script-module-step": [
+			{
+				"@type-id": "custom.PayPlugPaymentCapture",
+				"@supports-parallel-execution": "false",
+				"@supports-site-context": "true",
+				"@supports-organization-context": "false",
+				"description": "Handle PayPlug Capture",
+				"module": "int_payplug/cartridge/scripts/jobs/capture.js",
+				"before-step-function": "beforeStep",
+				"total-count-function": "getTotalCount",
+				"read-function": "read",
+				"process-function": "process",
+				"write-function": "write",
+				"after-step-function": "afterStep",
+				"chunk-size": 50,
+				"transactional": "false",
+				"status-codes": {
+                    "status": [
                         {
                             "@code": "ERROR",
-                            "description": "Used when the step failed with an error."
+                            "description": "The PayPlug job step has failed."
                         },
                         {
-                            "@code": "FINISHED",
-                            "description": "Used when the step finished successfully."
+                            "@code": "OK",
+                            "description": "The PayPlug job step finished successfully."
                         }
                     ]
                 }
-            }
-        ]
-    }
+			}
+		]
+	}
 }

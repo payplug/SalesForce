@@ -11,7 +11,7 @@
             value="${paymentOption.ID}"
         />
     </fieldset>
-    <isif condition="${paymentOption.isCreditCard && dw.system.Site.current.preferences.custom['PP_oneClickPayment']}">
+    <isif condition="${paymentOption.isCreditCard && dw.system.Site.current.preferences.custom['PP_oneClickPayment'] && customer.isAuthenticated()}">
         <div class="payplugSavedCard">
             <isloop items="${customer.profile.wallet.paymentInstruments}" var="wallet">
                 <fieldset class="payment-form-fields">

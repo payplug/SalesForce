@@ -15,7 +15,7 @@ function PayPlugCaptureRequest(order) {
     this.body = {
 		captured: true
 	};
-	this.paymentReference = order.getCustom()['PP_paymentReference'];
+	this.paymentReference = order.getCustom()['pp_pspReference'];
 }
 
 
