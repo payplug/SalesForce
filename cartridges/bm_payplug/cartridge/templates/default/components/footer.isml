@@ -1,0 +1,2 @@
+<script src="${URLUtils.staticURL('/js/payplugBM.js')}"></script>
+<script>jQuery.noConflict();</script>

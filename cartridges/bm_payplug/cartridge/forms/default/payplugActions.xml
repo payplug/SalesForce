@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19" object-def="Custom.ppOptions">
+    <field formid="ppOrder" type="string" mandatory="false"/>
+	<field formid="ppOrderRefund" type="string" mandatory="false" binding="ppOrderRefund"/>
+    <field formid="ppOrderRefundAmount" label="forms.ppOrderRefundAmount" type="string" mandatory="false" binding="ppOrderRefundAmount"/>
+    <action formid="ppOrderCaptureSubmit" valid-form="true" />
+    <action formid="ppOrderRefundSubmit" valid-form="true" />
+    <action formid="ppOrderRefundSubmit" valid-form="true" />
+</form>

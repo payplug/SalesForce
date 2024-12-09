@@ -10,8 +10,8 @@ function PayPlugPaymentModel() {}
  * @return Payment formToken
  */
 
-PayPlugPaymentModel.prototype.createPayment = function createPayment(paymentMethod) {
-    const paymentStatus = PayPlugPaymentAPI.createPayment(paymentMethod);
+PayPlugPaymentModel.prototype.createPayment = function createPayment(paymentMethod, creditCardID) {
+    const paymentStatus = PayPlugPaymentAPI.createPayment(paymentMethod, creditCardID);
 
     return paymentStatus;
 }
@@ -26,6 +26,18 @@ PayPlugPaymentModel.prototype.capturePayment = function capturePayment(order) {
     const paymentStatus = PayPlugPaymentAPI.capturePayment(order);
 
     return paymentStatus;
+}
+
+PayPlugPaymentModel.prototype.refundPayment = function refundPayment(amount, order) {
+    const paymentStatus = PayPlugPaymentAPI.createRefund(amount, order);
+
+    return paymentStatus;
+}
+
+PayPlugPaymentModel.prototype.oneySimulation = function oneySimulation(amount) {
+    const status = PayPlugPaymentAPI.oneySimulation(amount);
+
+    return status;
 }
 
 module.exports = PayPlugPaymentModel;

@@ -1,0 +1,117 @@
+<isdecorate template="application/MenuFrame">
+<isinclude template="components/header"/>
+
+    <img border="0" src="${URLUtils.staticURL('/images/logo_payplug.svg')}" width="100">
+    <isif condition="${!empty(pdict.order)}">
+        <isset name="order" value="${pdict.order}" scope="page"/>
+        <div class="bm-payplug">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <isbreadcrumbs bctext1="PayPlug" bcurl1="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'custom_module_payplug')}" bctext2="${Resource.msg('order.manageOrders','locale',null)}" bcurl2="${URLUtils.url('PayPlugBM-HandleOrders')}" bctext3="${Resource.msgf('order.number', 'locale', null, order.currentOrderNo)}" />
+                        <div class="bm-actions">
+                            <a class="btn btn-lg view-btn" href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}">${Resource.msg('order.viewInBM','locale',null)}</a>
+                            <isif condition ="${!empty(pdict.responseMessage)}">
+                                <div class="bm-refund-block">
+                                <isif condition ="${pdict.operationSuccess == 'true'}">
+                                    <div class="bg-info">
+                                        <i class="fa fa-times bm-close" aria-hidden="true"></i>
+                                        ${pdict.responseMessage}
+                                    </div>
+                                <iselse/>
+                                    <div class="bg-info-error">
+                                        <i class="fa fa-times bm-close" aria-hidden="true"></i>
+                                        ${pdict.responseMessage}
+                                    </div>
+                                </isif>
+                                </div>
+                            </isif>
+                        </div>
+                        <isset name="orderTotalRefund" value="${order.totalGrossPrice.value}" scope="page"/>
+                        <isif condition="${!order.getCustom()['pp_isCaptured']}">
+                            <form method="post" action="${URLUtils.url('PayPlugBM-HandleOrdersForm')}" class="bm-actions-form">
+                                <input type="hidden" value="${order.orderNo}" name="${pdict.CurrentForms.payplugActions.ppOrder.htmlName}"/>
+                                <button name="${pdict.CurrentForms.payplugActions.ppOrderCaptureSubmit.htmlName}" class="btn btn-lg view-btn">${Resource.msg('order.captureOrder', 'locale', null)}</button>
+                            </form>
+                        <iselse/>
+                            <form method="post" action="${URLUtils.url('PayPlugBM-HandleOrdersForm')}" class="bm-actions-form">
+                                <input type="hidden" value="${order.orderNo}" name="${pdict.CurrentForms.payplugActions.ppOrder.htmlName}"/>
+                                <div class="form-group">
+                                    <label for="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}">${Resource.msg('order.refundAmount', 'locale', null)}</label>
+                                    <input type="text" name="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}" placeholder="${(orderTotalRefund - order.custom.pp_amountRefunded)}" id="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}"/>
+                                </div>
+                                <button name="${pdict.CurrentForms.payplugActions.ppOrderRefundSubmit.htmlName}" class="btn btn-lg view-btn">${Resource.msg('order.refundOrder', 'locale', null)}</button>
+                            </form>
+                        </isif>
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="card">
+                                    <h5 class="card-header bg-primary">${Resource.msg('order.cardTitle', 'locale', null)}</h5>
+                                    <div class="card-body">
+                                        <h5 class="card-title">${Resource.msgf('order.number', 'locale', null, order.currentOrderNo)}</h5>
+                                        <p class="card-text">${Resource.msg('order.dateReceived', 'locale', null)} <span class="text-nodecoration">${order.creationDate}</span></p>
+                                        <p class="card-text">${Resource.msg('order.customer', 'locale', null)} <span class="text-nodecoration">${order.customer.profile ? order.customer.profile.firstName + " " + order.customer.profile.lastName : order.customerName}</span></p>
+                                        <p class="card-text">${Resource.msg('order.customerNo', 'locale', null)} <span class="text-nodecoration">${order.customer.profile ? order.customer.profile.customerNo : 'n/a'}</span></p>
+                                        <p class="card-text">${Resource.msg('order.ipaddress', 'locale', null)} <span class="text-nodecoration">${order.remoteHost}</span></p>
+                                        <p class="card-text">${Resource.msg('order.email', 'locale', null)} <span class="text-nodecoration">${order.customer.profile ? order.customer.profile.email : order.customerEmail}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="card">
+                                    <h5 class="card-header bg-primary">${Resource.msg('order.cardPaymentTitle', 'locale', null)}</h5>
+                                    <div class="card-body">
+                                        <p class="card-text">${Resource.msgf('order.limitcapture', 'locale', null)} <span class="text-nodecoration">${order.getCustom()['pp_limitCapture']}</span></p>
+                                        <p class="card-text">${Resource.msgf('order.paymentMethod', 'locale', null)} <span class="text-nodecoration">${order.paymentInstrument.paymentMethod}</span></p>
+                                        <p class="card-text">${Resource.msgf('order.paymentStatus', 'locale', null)} <span class="text-nodecoration">${order.getPaymentStatus()}</span></p>
+                                        <p class="card-text">${Resource.msgf('order.totalAmount', 'locale', null)} <span class="text-nodecoration">${order.totalGrossPrice}</span></p>
+                                        <p class="card-text">${Resource.msgf('order.captured', 'locale', null)}
+                                            <span class="text-nodecoration">
+                                                <isif condition="${order.custom.pp_isCaptured}">
+                                                    ${Resource.msgf('order.authorizeYes', 'locale', null)}
+                                                <iselse/>
+                                                    ${Resource.msgf('order.authorizeNo', 'locale', null)}
+                                                </isif>
+                                            </span>
+                                        </p>
+                                        <p class="card-text">${Resource.msgf('order.refundedAmount', 'locale', null)}
+                                            <span class="text-nodecoration">${order.getCustom()['pp_amountRefunded']}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <isif condition="${!empty(order.getCustom()['payplugPaymentData'])}">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <h5 class="card-header bg-primary">${Resource.msg('order.payplug.data', 'locale', null)}</h5>
+                                        <div class="card-body">
+                                            <isset name="paymentData" value="${JSON.parse(order.getCustom()['payplugPaymentData'])}" scope="page" />
+                                            <isloop items="${Object.keys(paymentData)}" var="key">
+                                                <isif condition="${typeof paymentData[key] === 'object' && paymentData[key] != null}">
+                                                    <!-- Handle nested objects -->
+                                                    <br/>
+                                                    <h2>${key}</h2>
+                                                    <div class="nested-object">
+                                                        <isloop items="${Object.keys(paymentData[key])}" var="nestedKey">
+                                                            <p class="card-text">${nestedKey} <span class="text-nodecoration">${paymentData[key][nestedKey]}</span></p>
+                                                        </isloop>
+                                                    </div>
+                                                <iselse/>
+                                                    <p class="card-text">${key} <span class="text-nodecoration">${paymentData[key]}</span></p>
+                                                </isif>
+                                            </isloop>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </isif>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </isif>
+
+<isinclude template="components/footer"/>
+</isdecorate>

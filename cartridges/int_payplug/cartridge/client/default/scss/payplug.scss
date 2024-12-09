@@ -1,33 +1,157 @@
-.payplugLightbox {
-	display: none;
+.payplugLightbox,
+.payplugIntegratedPayment {
+  display: none;
 }
 
 .payplugSavedCard {
+  .payment-form-fields {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background-color: #ffffff;
 
-	.payment-form-fields {
-		margin-bottom: 15px;
-		padding: 15px;
-		border: 1px solid #dcdcdc;
-		border-radius: 8px;
-		background-color: #ffffff;
+    &:last-child {
+      margin-bottom: 0;
+    }
 
-		&:last-child {
-			margin-bottom: 0;
-		}
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
 
-		input[type="radio"] {
-			margin-right: 10px;
-			cursor: pointer;
-		}
+    p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #333;
 
-		p {
-			margin: 5px 0;
-			font-size: 14px;
-			color: #333;
+      &:first-of-type {
+        font-weight: bold;
+      }
+    }
+  }
+}
 
-			&:first-of-type {
-				font-weight: bold;
-			}
-		}
-	}
+#scheme {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  input[type="radio"] {
+    display: none;
+
+    &:checked + img {
+      border: 2px solid #007bff;
+      border-radius: 4px;
+    }
+  }
+
+  img {
+    width: 26px;
+    height: 21px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+#cardholder-input-container,
+#pan-input-container,
+#cvv-input-container,
+#exp-input-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px; // Ajustez la largeur maximale selon vos besoins
+  margin: 0 auto; // Centre le conteneur horizontalement
+  padding: 10px;
+  border: 1px solid #ccc; // Bordure légère
+  border-radius: 8px; // Coins arrondis
+  background-color: #f9f9f9; // Couleur d'arrière-plan douce
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Ombre discrète pour l'élévation visuelle
+
+  iframe {
+    display: block;
+    width: 100%; // Adapte l'iframe à la largeur du conteneur
+    height: 100%; // Adapte l'iframe à la hauteur disponible
+    min-height: 200px; // Hauteur minimale pour assurer une bonne lisibilité
+    border: none; // Supprime les bordures par défaut
+    border-radius: 6px; // Coins arrondis pour correspondre au conteneur
+    background-color: #fff; // Couleur d'arrière-plan blanche
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); // Légère ombre interne pour l'iframe
+
+    &:focus {
+      outline: 2px solid #007bff; // Indique que l'iframe est active
+    }
+  }
+}
+
+.payment-options {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .option {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .details {
+      margin-bottom: 15px;
+
+      p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #555;
+
+        strong {
+          color: #000;
+        }
+      }
+    }
+
+    .installments {
+      list-style-type: none;
+      padding: 0;
+
+      h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #444;
+      }
+
+      li {
+        font-size: 14px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+        color: #666;
+
+        span {
+          font-weight: bold;
+          color: #333;
+        }
+      }
+    }
+  }
 }

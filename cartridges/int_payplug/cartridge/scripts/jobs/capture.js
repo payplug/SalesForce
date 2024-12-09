@@ -1,5 +1,6 @@
 'use strict';
 
+const Order = require('dw/order/Order');
 const Logger = require('dw/system/Logger');
 const Status = require('dw/system/Status');
 const OrderMgr = require('dw/order/OrderMgr');
@@ -11,10 +12,10 @@ var ordersToCapture;
 
 exports.beforeStep = function (params, stepExecution) {
 	let date = new Date();
-	date.setDate(date.getDate() + 1);
+	date.setDate(date.getDate() + 5);
     const dateToCapture = StringUtils.formatCalendar(new dw.util.Calendar(date), request.locale, dw.util.Calendar.LONG_DATE_PATTERN)
 
-	ordersToCapture = OrderMgr.searchOrders('custom.pp_limitCapture = {0}', 'creationDate desc', [dateToCapture]);
+	ordersToCapture = OrderMgr.searchOrders('custom.pp_limitCapture = {0} AND custom.pp_isCaptured != {1} AND paymentStatus = {2}', 'creationDate desc', dateToCapture, true, Order.PAYMENT_STATUS_PAID);
 };
 
 /**

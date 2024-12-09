@@ -16,12 +16,13 @@ const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
  */
 function applicablePaymentMethods(paymentMethods) {
     return collections.map(paymentMethods, function (method) {
+		let paymentMethod = method.getCustom()['PP_paymentMethod'].getValue() || 'credit_card';
         return {
             ID: method.ID,
             name: method.name,
             isPayPlug: PayPlugUtils.isPaymentMethodPayPlug(method),
-			isCreditCard: method.getCustom()['PP_paymentMethod'].getValue() === 'credit_card',
-			isLightbox: Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue() === 'lightbox',
+			isCreditCard: paymentMethod === 'credit_card',
+			integrationMode: paymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue(),
 			img: method.getImage() ? method.getImage().getHttpsURL() : false
         };
     });

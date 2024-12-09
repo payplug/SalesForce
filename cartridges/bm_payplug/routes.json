@@ -1,0 +1,17 @@
+{
+	"merchant_tools": {
+		"routes": [
+			{
+				"id": "PayPlugOrders",
+				"label": "Filter PayPlug Orders",
+				"template": "payplugOrders",
+				"controller": "PayPlugController-PayPlugOrders",
+				"permissions": [
+					"siteadmin",
+					"admin"
+				],
+				"subRoutes": []
+			}
+		]
+	}
+}

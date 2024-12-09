@@ -69,6 +69,10 @@
                     <td class="infobox_item">${payplugPaymentData.is_live}</td>
                 </tr>
                 <tr>
+                    <td class="infobox_title">${Resource.msg('order.refundedAmount', 'payplug', null)}</td>
+                    <td class="infobox_item">${pdict.Order.getCustom()['pp_amountRefunded']}</td>
+                </tr>
+                <tr>
                     <td class="infobox_title">${Resource.msg('order.link_payplug', 'payplug', null)}</td>
                     <td class="infobox_item">
                         <a href="${(payplugPaymentData.is_live ? 'https://portal.payplug.com/#/payments/online/' : 'https://portal-qa.payplug.com/#/payments/online/') + payplugPaymentData.id}">

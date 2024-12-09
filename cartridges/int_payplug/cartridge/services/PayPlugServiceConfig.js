@@ -34,4 +34,8 @@ PayPlugServiceConfig.getCreateRefundEndpoint = function getCreateRefundEndpoint(
     return StringUtils.format("{0}/payments/{1}/refunds", API_VERSION, paymentReference);
 }
 
+PayPlugServiceConfig.getOneySimulation = function getOneySimulation() {
+    return StringUtils.format("{0}/oney_payment_simulations", API_VERSION);
+}
+
 module.exports = PayPlugServiceConfig;

@@ -1,0 +1,50 @@
+<isdecorate template="application/MenuFrame">
+<isinclude template="components/header"/>
+
+    <img border="0" src="${URLUtils.staticURL('/images/logo_payplug.svg')}" width="100">
+    <isif condition="${!empty(pdict.orders)}">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <isbreadcrumbs bctext1="Merchant Tools" bcurl1="${URLUtils.url('ViewApplication-CompressMenuGroup', 'OverviewPage', 'SiteNavigationBar-ShowSiteOverview')}" bctext2="PayPlug Module" bcurl2="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'custom_module_payplug')}" bctext3="${Resource.msg('order.manageOrders','locale',null)}" />
+                    <div class="info"></div>
+                    <table id="ordersTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>${Resource.msg('order.numberNoColon','locale',null)}</th>
+                                <th>${Resource.msg('order.date','locale',null)}</th>
+                                <th>${Resource.msg('order.paymentStatusNoColon','locale',null)}</th>
+                                <th>${Resource.msg('order.totalRefunded','locale',null)}</th>
+                                <th>${Resource.msg('order.status','locale',null)}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <isloop iterator="${pdict.orders}" alias="order" status="status">
+                                <tr>
+                                    <td><a href="${URLUtils.url('PayPlugBM-HandleOrders', 'viewOrder', order.currentOrderNo)}">${order.currentOrderNo}</a></td>
+                                    <td>${order.creationDate}</td>
+                                    <td>${order.getCustom()['pp_isCaptured'] ? 'Captured' : 'Not Captured'}</td>
+                                    <td>${dw.value.Money(order.getCustom()['pp_amountRefunded'], order.getCurrencyCode())}</td>
+                                    <td>${order.getPaymentStatus()}</td>
+                                    <td><a href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}" class="action-link">${Resource.msg('order.viewInBM', 'locale', null)}</a></td>
+                                </tr>
+                            </isloop>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>${Resource.msg('order.numberNoColon','locale',null)}</th>
+                                <th>${Resource.msg('order.date','locale',null)}</th>
+                                <th>${Resource.msg('order.paymentStatusNoColon','locale',null)}</th>
+                                <th>${Resource.msg('order.total','locale',null)}</th>
+                                <th>${Resource.msg('order.status','locale',null)}</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </isif>
+
+</isdecorate>

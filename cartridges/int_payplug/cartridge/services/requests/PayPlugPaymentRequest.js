@@ -1,6 +1,6 @@
 'use strict';
 
-const server = require('server');
+// const server = require('server');
 const Site = require('dw/system/Site');
 const Locale = require('dw/util/Locale');
 const URLUtils = require('dw/web/URLUtils');
@@ -13,7 +13,9 @@ const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
 const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig');
 
 
-function PayPlugPaymentRequest(paymentMethod, formChanged) {
+function PayPlugPaymentRequest(paymentMethod, creditCardID) {
+	const ppPaymentMethod = paymentMethod.getCustom()['PP_paymentMethod'].getValue() || 'credit_card';
+	const integrationMode = ppPaymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue();
 	this.cart = BasketMgr.getCurrentBasket();
     this.body = {
         currency: this.cart.getCurrencyCode(),
@@ -41,22 +43,23 @@ function PayPlugPaymentRequest(paymentMethod, formChanged) {
             email: this.cart.getCustomerEmail(),
 			address1: this.cart.getDefaultShipment().getShippingAddress().getAddress1(),
 			address2: this.cart.getDefaultShipment().getShippingAddress().getAddress2(),
-			company_name: this.cart.getDefaultShipment().getShippingAddress().getCompanyName(),
+			company_name: this.cart.getDefaultShipment().getShippingAddress().getCompanyName() || 'company',
 			postcode: this.cart.getDefaultShipment().getShippingAddress().getPostalCode(),
 			city: this.cart.getDefaultShipment().getShippingAddress().getCity(),
 			country: this.cart.getDefaultShipment().getShippingAddress().getCountryCode().getValue().toUpperCase(),
 			language: Locale.getLocale(request.getLocale()).getLanguage().toLowerCase(),
+			delivery_type: 'OTHER',
 		},
 		payment_context: {
 			cart: _getCartItemInfo(this.cart)
 		},
 		hosted_payment: {
-			return_url: Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue() === 'lightbox' ? URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentMethod.getID()).abs().toString() :
-			URLUtils.https('PayPlug-ReturnURL').abs().toString(),
+			return_url: integrationMode === 'HPP' ? URLUtils.https('PayPlug-ReturnURL').abs().toString() :
+				URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentMethod.getID()).abs().toString(),
 			cancel_url: URLUtils.https('PayPlug-CancelURL').abs().toString(),
 		},
 		force_3ds: Site.getCurrent().getCustomPreferenceValue('PP_force3DS'),
-		allow_save_card: Site.getCurrent().getCustomPreferenceValue('PP_allowSaveCard'),
+		allow_save_card: customer.isAuthenticated() && Site.getCurrent().getCustomPreferenceValue('PP_oneClickPayment'),
 		notification_url: URLUtils.https('PayPlug-Notification').abs().toString(),
 		initiator: 'PAYER',
 		metadata: {
@@ -67,15 +70,19 @@ function PayPlugPaymentRequest(paymentMethod, formChanged) {
 
 	this.body.amount = Math.round(this.cart.getTotalGrossPrice().getValue() * 100);
 
-	const ppPaymentMethod = paymentMethod.getCustom()['PP_paymentMethod'].getValue();
 	const isDifferedPaymentEnabled = Site.getCurrent().getCustomPreferenceValue('PP_differedPayment');
 
-	if (ppPaymentMethod && ppPaymentMethod !== 'credit_card') {
+	if (ppPaymentMethod !== 'credit_card') {
 		this.body.payment_method = ppPaymentMethod;
 		this.body.allow_save_card = false;
+		if (ppPaymentMethod.indexOf('oney') !== -1) {
+			this.body.authorized_amount = this.body.amount;
+			this.body.auto_capture = false;
+			delete this.body.amount;
+		}
 	} else {
-		if (!empty(server.forms.getForm('billing').payplugCreditCard.value)) {
-			this.body.payment_method = server.forms.getForm('billing').payplugCreditCard.value;
+		if (!empty(creditCardID)) {
+			this.body.payment_method = creditCardID;
 			this.body.allow_save_card = false;
 		}
 		if (isDifferedPaymentEnabled) {
@@ -84,12 +91,17 @@ function PayPlugPaymentRequest(paymentMethod, formChanged) {
 			delete this.body.amount;
 		}
 	}
+
+	if (integrationMode === 'integrated' && (this.body.payment_method === 'credit_card' || empty(this.body.payment_method))) {
+		this.body.integration = 'INTEGRATED_PAYMENT';
+		delete this.body.hosted_payment.cancel_url;
+	}
 }
 
 function _getCartItemInfo(cart) {
 	var calendar = new Calendar();
 	const shippingMethod = cart.getDefaultShipment().getShippingMethod();
-	const expectedDelivery = (!empty(shippingMethod) && !empty(shippingMethod.getCustom()['PP_deliveryDate'])) ? shippingMethod.getCustom()['PP_deliveryDate'] : 0;
+	const expectedDelivery = 0;
 
 	calendar.add(Calendar.DAY_OF_MONTH, expectedDelivery);
 	// Formatte la date en YYYY-MM-DD
@@ -109,7 +121,7 @@ function _getCartItemInfo(cart) {
 			brand: product.getBrand() || 'none',
 			expected_delivery_date: expected_delivery_date,
 			delivery_label: !empty(shippingMethod) ? shippingMethod.getID() + '_' + shippingMethod.getDisplayName() : '',
-			delivery_type: (!empty(shippingMethod) && !empty(shippingMethod.getCustom()['PP_deliveryType'].getValue())) ? shippingMethod.getCustom()['PP_deliveryType'].getValue() : 'carrier',
+			delivery_type: 'carrier',
             merchant_item_id: productLineItem.getProductID(),
 			name: productLineItem.getProductName(),
 			price: Math.round(productLineItem.getPrice().getValue() * 100) / productLineItem.getQuantityValue(),

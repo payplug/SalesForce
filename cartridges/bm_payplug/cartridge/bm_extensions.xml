@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<extensions xmlns="http://www.demandware.com/xml/bmmodules/2007-12-11" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.demandware.com/xml/bmmodules/2007-12-11 bmext.xsd">
+
+	<menuitem id="custom_module_payplug" position="2600" site="true">
+        <name xml:lang="x-default">PayPlug Module</name>
+        <short_description xml:lang="x-default">PayPlug Module</short_description>
+        <description xml:lang="x-default">PayPlug Module</description>
+        <icon>images/logo_payplug.svg</icon>
+    </menuitem>
+
+    <menuaction id="custom_module_payplug_submManage Orders" menupath="custom_module_payplug" position="1" site="true">
+        <name xml:lang="x-default">Manage Orders</name>
+        <short_description xml:lang="x-default">Manage Orders </short_description>
+        <description xml:lang="x-default">Manage Orders</description>
+        <exec pipeline="PayPlugBM" node="HandleOrders"/>
+        <sub-pipelines>
+            <pipeline name="PayPlugBM" />
+        </sub-pipelines>
+        <icon>images/logo_payplug.svg</icon>
+    </menuaction>
+
+</extensions>

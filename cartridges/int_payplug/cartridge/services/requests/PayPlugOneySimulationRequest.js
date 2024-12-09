@@ -11,23 +11,20 @@ const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
 const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig');
 
 
-function PayPlugCreateRefundRequest(amount, order) {
+function PayPlugOneySimulationRequest(amount) {
     this.body = {
 		amount: amount,
-		metadata: {
-			customer_id: order.getCustomerNo(),
-			transaction_id: order.getOrderNo()
-		}
+		country: Locale.getLocale(request.getLocale()).getCountry(),
+		operations: ["x3_with_fees", "x4_with_fees", "x3_without_fees", "x4_without_fees"]
 	};
-	this.paymentReference = order.getCustom()['pp_pspReference'];
 }
 
 
-PayPlugCreateRefundRequest.prototype.getRequest = function getRequest() {
+PayPlugOneySimulationRequest.prototype.getRequest = function getRequest() {
     return {
-        endpoint: PayPlugServiceConfig.getCreateRefundEndpoint(this.paymentReference),
+        endpoint: PayPlugServiceConfig.getOneySimulation(),
         body: this.body
     };
 }
 
-module.exports = PayPlugCreateRefundRequest;
+module.exports = PayPlugOneySimulationRequest;

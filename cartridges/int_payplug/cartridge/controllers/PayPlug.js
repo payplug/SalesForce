@@ -26,7 +26,7 @@ const basketCalculationHelpers = require('*/cartridge/scripts/helpers/basketCalc
 server.get('GetHPP', server.middleware.https, function (req, res, next) {
     const paymentMethod = PaymentManager.getPaymentMethod(BasketMgr.getCurrentBasket().getPaymentInstrument().getPaymentMethod());
 	const PayPlugPayment = new PayPlugPaymentModel();
-	const PaymentResponse = PayPlugPayment.createPayment(paymentMethod);
+	const PaymentResponse = PayPlugPayment.createPayment(paymentMethod, server.forms.getForm('billing').payplugCreditCard.value);
 
 	res.render('payplug/paymentSummary', {
 		paymentMethodName: paymentMethod.getName(),
@@ -37,13 +37,14 @@ server.get('GetHPP', server.middleware.https, function (req, res, next) {
 });
 
 
-server.get('GetLightboxForm', server.middleware.https, function (req, res, next) {
+server.get('GetForm', server.middleware.https, function (req, res, next) {
 	const paymentMethod = PaymentManager.getPaymentMethod(req.querystring.paymentMethodID);
 	const PayPlugPayment = new PayPlugPaymentModel();
-	const PaymentResponse = PayPlugPayment.createPayment(paymentMethod);
+	const PaymentResponse = PayPlugPayment.createPayment(paymentMethod, server.forms.getForm('billing').payplugCreditCard.value);
 
 	res.json({
-		payplug_url: PaymentResponse.getPaymentURL()
+		payplug_url: PaymentResponse.getPaymentURL(),
+		payplug_id: PaymentResponse.getPaymentID()
 	})
 
 	next();
@@ -483,6 +484,16 @@ server.post('Notification', server.middleware.https, function (req, res, next) {
 		error: false,
 		message: ''
 	});
+	next();
+});
+
+server.get('OneySimuation', server.middleware.https, function (req, res, next) {
+	const PayPlug = new PayPlugPaymentModel();
+	const simu = PayPlug.oneySimulation(200000);
+	res.render('payplug/oneySimuation', {
+		simu: simu
+	});
+
 	next();
 });
 

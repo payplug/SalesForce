@@ -335,7 +335,13 @@ var billingHelpers = require('./billing');
                                     $('.cancel-new-payment').removeClass('checkout-hidden');
                                 }
 
-								if ($('.payplugLightboxForm').is(':visible')) {
+								if ($('.payplugIntegrated').is(':visible') && !$('input[name="dwfrm_billing_payplugCreditCard"]:checked').val()) {
+									const visibleButton = $('.payplugIntegrated').filter(function () {
+										// Vérifier si le bouton est visible
+										return $(this).is(':visible');
+									}).first();
+									visibleButton.find('#payplugIntegratedPayment').trigger('click');
+								} else if ($('.payplugLightboxForm').is(':visible')) {
 									const visibleButton = $('.payplugLightboxForm').filter(function () {
 										// Vérifier si le bouton est visible
 										return $(this).is(':visible');

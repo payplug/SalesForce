@@ -1,6 +1,7 @@
 <isscript>
     const customSitePrefs = dw.system.Site.current.preferences.custom;
 </isscript>
-<isif condition="${customSitePrefs.PP_integrationMode.getValue() === 'lightbox'}">
-    <script src="${customSitePrefs.PP_libraryUrl}"></script>
+
+<isif condition="${customSitePrefs.PP_integrationMode.getValue() === 'integrated'}">
+    <script src="${customSitePrefs.PP_libraryIntegratedUrl}"></script>
 </isif>

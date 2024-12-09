@@ -6,7 +6,13 @@
     <isscript>
         var assets = require('*/cartridge/scripts/assets.js');
         assets.addJs('/js/checkout.js');
-        assets.addJs('/js/payplug.js');
+        if (dw.system.Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue() === 'lightbox') {
+            assets.addJs('/js/payplugLightbox.js');
+        }
+        if (dw.system.Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue() === 'integrated') {
+            assets.addJs('/js/payplugLightbox.js');
+            assets.addJs('/js/payplugIntegrated.js')
+        }
         assets.addCss('/css/checkout/checkout.css');
     </isscript>
 
