@@ -76,7 +76,7 @@
                         <isinclude template="cart/cartShippingMethodSelection" />
                     </div>
                     <isinclude template="cart/cartTotals" />
-                    <isinclude template="payplug/cart/oneycart" />
+                    <isinclude template="payplug/oneysimulation" />
                     <div class="row">
                         <div class="col-12 checkout-continue">
                             <isinclude template="cart/checkoutButtons" />

@@ -14,11 +14,23 @@ OneySimulationHelper.applySimulationInViewData = function applySimulationInViewD
     if (currentBasket) {
         const cartTotal = parseFloat(currentBasket.totalGrossPrice * 100);
 		const PayPlug = new PayPlugPaymentModel();
-        viewData.oneySimulation = PayPlug.oneySimulation(cartTotal);
+        viewData.oneySimulation = PayPlug.oneySimulation(cartTotal).response;
 
         res.setViewData(viewData);
     }
 
+    next();
+}
+
+OneySimulationHelper.applySimulationInViewDataProduct = function applySimulationInViewDataProduct(req, res, next) {
+	var viewData = res.getViewData();
+
+    const productPrice = viewData.product.price.sales ? viewData.product.price.sales.value : viewData.product.price.min.sales.value;
+    const PayPlug = new PayPlugPaymentModel();
+	viewData.oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice * 100)).response;
+
+
+    res.setViewData(viewData);
     next();
 }
 
