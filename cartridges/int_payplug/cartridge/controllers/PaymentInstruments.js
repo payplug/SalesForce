@@ -9,8 +9,8 @@ const PayPlugPaymentModel = require('~/cartridge/models/PayPlugPaymentModel');
 server.extend(module.superModule);
 
 server.append('DeletePayment',
-    function (req, res, next) {
-    	const UUID = req.querystring.UUID;
+	function (req, res, next) {
+		const UUID = req.querystring.UUID;
 		const paymentInstruments = req.currentCustomer.wallet.paymentInstruments;
 		const paymentToDelete = array.find(paymentInstruments, function (item) {
 			return UUID === item.UUID && item.raw.getCreditCardToken().includes('card_');
@@ -21,8 +21,8 @@ server.append('DeletePayment',
 		}
 
 
-        next();
-    }
+		next();
+	}
 );
 
 module.exports = server.exports();

@@ -4,34 +4,34 @@
 const Transaction = require('dw/system/Transaction');
 
 function Handle(basket, paymentInformation, paymentMethodID) {
-    Transaction.wrap(function () {
-        basket.removeAllPaymentInstruments();
-        basket.createPaymentInstrument(paymentMethodID, basket.totalGrossPrice);
-    });
+	Transaction.wrap(function () {
+		basket.removeAllPaymentInstruments();
+		basket.createPaymentInstrument(paymentMethodID, basket.totalGrossPrice);
+	});
 
-    return {
-        error: false
-    };
+	return {
+		error: false
+	};
 }
 
 function Authorize(orderNumber, paymentInstrument, paymentProcessor) {
-    var serverErrors = [];
-    var fieldErrors = {};
-    var error = false;
+	var serverErrors = [];
+	var fieldErrors = {};
+	var error = false;
 
-    try {
-        Transaction.wrap(function () {
-            paymentInstrument.paymentTransaction.setTransactionID(orderNumber);
-            paymentInstrument.paymentTransaction.setPaymentProcessor(paymentProcessor);
-        });
-    } catch (e) {
-        error = true;
-        serverErrors.push(
-            Resource.msg('error.technical', 'checkout', null)
-        );
-    }
+	try {
+		Transaction.wrap(function () {
+			paymentInstrument.paymentTransaction.setTransactionID(orderNumber);
+			paymentInstrument.paymentTransaction.setPaymentProcessor(paymentProcessor);
+		});
+	} catch (e) {
+		error = true;
+		serverErrors.push(
+			Resource.msg('error.technical', 'checkout', null)
+		);
+	}
 
-    return { fieldErrors: fieldErrors, serverErrors: serverErrors, error: error };
+	return { fieldErrors: fieldErrors, serverErrors: serverErrors, error: error };
 }
 
 exports.Handle = Handle;

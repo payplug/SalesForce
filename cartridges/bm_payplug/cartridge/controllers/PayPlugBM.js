@@ -10,24 +10,24 @@ const PayPlugPaymentModel = require('*/cartridge/models/PayPlugPaymentModel');
 
 function HandleOrders() {
 	var responseMessage = '';
-    if (!request.httpParameterMap.responseMessage.empty) {
-        responseMessage = request.httpParameterMap.responseMessage;
-    }
+	if (!request.httpParameterMap.responseMessage.empty) {
+		responseMessage = request.httpParameterMap.responseMessage;
+	}
 
-    var operationSuccess = '';
-    if (!request.httpParameterMap.operationSuccess.empty) {
-        operationSuccess = request.httpParameterMap.operationSuccess;
-    }
+	var operationSuccess = '';
+	if (!request.httpParameterMap.operationSuccess.empty) {
+		operationSuccess = request.httpParameterMap.operationSuccess;
+	}
 
 	if (!request.httpParameterMap.viewOrder.empty) {
-        var order = OrderMgr.getOrder(request.httpParameterMap.viewOrder);
+		var order = OrderMgr.getOrder(request.httpParameterMap.viewOrder);
 
 
-        ISML.renderTemplate('order/payplugOrder', {
-            order: order,
+		ISML.renderTemplate('order/payplugOrder', {
+			order: order,
 			responseMessage: responseMessage,
-            operationSuccess: operationSuccess
-        });
+			operationSuccess: operationSuccess
+		});
 	} else {
 		var orders = OrderMgr.searchOrders(
 			"custom.isPayPlug = {0}",
@@ -45,7 +45,7 @@ function HandleOrdersForm() {
 	var ppActions = session.forms.payplugActions;
 	if (ppActions.valid) {
 		const PayPlugPayment = new PayPlugPaymentModel();
-        var order = OrderMgr.getOrder(ppActions.ppOrder.htmlValue);
+		var order = OrderMgr.getOrder(ppActions.ppOrder.htmlValue);
 		if (ppActions.ppOrderRefundSubmit.submitted) {
 			var refundAmount;
 

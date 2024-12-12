@@ -1,7 +1,7 @@
 'use strict';
 
 function RemoveCustomerCardResponse(response) {
-    this.response = response;
+	this.response = response;
 }
 
 

@@ -31,7 +31,7 @@
                             <isif condition="${paymentOption.integrationMode === 'lightbox'}">
                                 ${Resource.msg('other.credit.card', 'payplug', null)}
                             <iselse/>
-                                <div class="payplugIntegrated">
+                                <div class="payplugIntegrated" data-pp-is-live="${dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM}">
                                     <form id="my-payment-form">
                                         <div id="scheme"></div>
                                         <div id="cardholder-input-container"></div>

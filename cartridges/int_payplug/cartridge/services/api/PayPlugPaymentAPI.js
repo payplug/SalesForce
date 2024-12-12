@@ -19,57 +19,57 @@ const PayPlugRemoveCustomerCardRequest = require('~/cartridge/services/requests/
 const LOGGER_PayPlug = Logger.getLogger("PayPlug", "service");
 const OVERLAY_RESPONSE = {
 	PaymentResponse: require('*/cartridge/services/responses/PaymentResponse'),
-    CaptureResponse: require('*/cartridge/services/responses/CaptureResponse'),
-	CreateRefund : require('*/cartridge/services/responses/CreateRefundResponse'),
-    OneySimulationResponse: require('*/cartridge/services/responses/OneySimulationResponse'),
-    RemoveCustomerCardResponse: require('*/cartridge/services/responses/RemoveCustomerCardResponse'),
+	CaptureResponse: require('*/cartridge/services/responses/CaptureResponse'),
+	CreateRefund: require('*/cartridge/services/responses/CreateRefundResponse'),
+	OneySimulationResponse: require('*/cartridge/services/responses/OneySimulationResponse'),
+	RemoveCustomerCardResponse: require('*/cartridge/services/responses/RemoveCustomerCardResponse'),
 }
 
-function PayPlugPaymentAPI() {}
+function PayPlugPaymentAPI() { }
 
 PayPlugPaymentAPI.prototype.createPayment = function createPayment(paymentMethod, creditCardID) {
 	const serviceModel = new ServiceModel(
-        PayPlugServiceConfig.getServiceName(),
-        require('~/cartridge/services/callbacks/PayPlugCallbacks.js').postCallback()
-    );
-    serviceModel.setLogger(LOGGER_PayPlug);
-    return serviceModel.executeCall(new PayPlugPaymentRequest(paymentMethod, creditCardID).getRequest(), OVERLAY_RESPONSE.PaymentResponse);
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').postCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugPaymentRequest(paymentMethod, creditCardID).getRequest(), OVERLAY_RESPONSE.PaymentResponse);
 }
 
 PayPlugPaymentAPI.prototype.capturePayment = function capturePayment(order) {
 	const serviceModel = new ServiceModel(
-        PayPlugServiceConfig.getServiceName(),
-        require('~/cartridge/services/callbacks/PayPlugCallbacks.js').patchCallback()
-    );
-    serviceModel.setLogger(LOGGER_PayPlug);
-    return serviceModel.executeCall(new PayPlugCaptureRequest(order).getRequest(), OVERLAY_RESPONSE.CaptureResponse);
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').patchCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugCaptureRequest(order).getRequest(), OVERLAY_RESPONSE.CaptureResponse);
 }
 
 PayPlugPaymentAPI.prototype.removeCustomerCardFromWallet = function removeCustomerCardFromWallet(cardID) {
 	const serviceModel = new ServiceModel(
-        PayPlugServiceConfig.getServiceName(),
-        require('~/cartridge/services/callbacks/PayPlugCallbacks.js').deleteCallback()
-    );
-    serviceModel.setLogger(LOGGER_PayPlug);
-    return serviceModel.executeCall(new PayPlugRemoveCustomerCardRequest(cardID).getRequest(), OVERLAY_RESPONSE.RemoveCustomerCardResponse);
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').deleteCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugRemoveCustomerCardRequest(cardID).getRequest(), OVERLAY_RESPONSE.RemoveCustomerCardResponse);
 }
 
 PayPlugPaymentAPI.prototype.createRefund = function createRefund(amount, order) {
 	const serviceModel = new ServiceModel(
-        PayPlugServiceConfig.getServiceName(),
-        require('~/cartridge/services/callbacks/PayPlugCallbacks.js').postCallback()
-    );
-    serviceModel.setLogger(LOGGER_PayPlug);
-    return serviceModel.executeCall(new PayPlugCreateRefundRequest(amount, order).getRequest(), OVERLAY_RESPONSE.CreateRefund);
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').postCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugCreateRefundRequest(amount, order).getRequest(), OVERLAY_RESPONSE.CreateRefund);
 }
 
 PayPlugPaymentAPI.prototype.oneySimulation = function oneySimulation(amount) {
 	const serviceModel = new ServiceModel(
-        PayPlugServiceConfig.getServiceName(),
-        require('~/cartridge/services/callbacks/PayPlugCallbacks.js').postCallback()
-    );
-    serviceModel.setLogger(LOGGER_PayPlug);
-    return serviceModel.executeCall(new PayPlugOneySimulationRequest(amount).getRequest(), OVERLAY_RESPONSE.OneySimulationResponse);
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').postCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugOneySimulationRequest(amount).getRequest(), OVERLAY_RESPONSE.OneySimulationResponse);
 }
 
 module.exports = PayPlugPaymentAPI;

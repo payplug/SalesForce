@@ -12,16 +12,16 @@ const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig'
 
 
 function PayPlugRemoveCustomerCardRequest(cardID) {
-    this.body = {};
+	this.body = {};
 	this.cardID = cardID;
 }
 
 
 PayPlugRemoveCustomerCardRequest.prototype.getRequest = function getRequest() {
-    return {
-        endpoint: PayPlugServiceConfig.getRemoveCardEndpoint(this.cardID),
-        body: this.body
-    };
+	return {
+		endpoint: PayPlugServiceConfig.getRemoveCardEndpoint(this.cardID),
+		body: this.body
+	};
 }
 
 module.exports = PayPlugRemoveCustomerCardRequest;

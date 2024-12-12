@@ -12,7 +12,7 @@ const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig'
 
 
 function PayPlugCreateRefundRequest(amount, order) {
-    this.body = {
+	this.body = {
 		amount: amount,
 		metadata: {
 			customer_id: order.getCustomerNo(),
@@ -24,10 +24,10 @@ function PayPlugCreateRefundRequest(amount, order) {
 
 
 PayPlugCreateRefundRequest.prototype.getRequest = function getRequest() {
-    return {
-        endpoint: PayPlugServiceConfig.getCreateRefundEndpoint(this.paymentReference),
-        body: this.body
-    };
+	return {
+		endpoint: PayPlugServiceConfig.getCreateRefundEndpoint(this.paymentReference),
+		body: this.body
+	};
 }
 
 module.exports = PayPlugCreateRefundRequest;

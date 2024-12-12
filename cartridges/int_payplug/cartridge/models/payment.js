@@ -15,17 +15,17 @@ const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
  *      current cart
  */
 function applicablePaymentMethods(paymentMethods) {
-    return collections.map(paymentMethods, function (method) {
+	return collections.map(paymentMethods, function (method) {
 		let paymentMethod = method.getCustom()['PP_paymentMethod'].getValue() || 'credit_card';
-        return {
-            ID: method.ID,
-            name: method.name,
-            isPayPlug: PayPlugUtils.isPaymentMethodPayPlug(method),
+		return {
+			ID: method.ID,
+			name: method.name,
+			isPayPlug: PayPlugUtils.isPaymentMethodPayPlug(method),
 			isCreditCard: paymentMethod === 'credit_card',
 			integrationMode: paymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue(),
 			img: method.getImage() ? method.getImage().getHttpsURL() : false
-        };
-    });
+		};
+	});
 }
 
 /**
@@ -36,12 +36,12 @@ function applicablePaymentMethods(paymentMethods) {
  *      current basket.
  */
 function applicablePaymentCards(paymentCards) {
-    return collections.map(paymentCards, function (card) {
-        return {
-            cardType: card.cardType,
-            name: card.name
-        };
-    });
+	return collections.map(paymentCards, function (card) {
+		return {
+			cardType: card.cardType,
+			name: card.name
+		};
+	});
 }
 
 /**
@@ -51,27 +51,27 @@ function applicablePaymentCards(paymentCards) {
  * @returns {Array} Array of objects that contain information about the selected payment instruments
  */
 function getSelectedPaymentInstruments(selectedPaymentInstruments) {
-    return collections.map(selectedPaymentInstruments, function (paymentInstrument) {
-        let paymentMethod = PaymentMgr.getPaymentMethod(paymentInstrument.paymentMethod);
-        var results = {
-            paymentMethod: paymentInstrument.paymentMethod,
-            amount: paymentInstrument.paymentTransaction.amount.value,
-            isPayPlug: (paymentMethod ? PayPlugUtils.isPaymentMethodPayPlug(paymentMethod) : false)
-        };
-        if (paymentInstrument.paymentMethod === 'CREDIT_CARD') {
-            results.lastFour = paymentInstrument.creditCardNumberLastDigits;
-            results.owner = paymentInstrument.creditCardHolder;
-            results.expirationYear = paymentInstrument.creditCardExpirationYear;
-            results.type = paymentInstrument.creditCardType;
-            results.maskedCreditCardNumber = paymentInstrument.maskedCreditCardNumber;
-            results.expirationMonth = paymentInstrument.creditCardExpirationMonth;
-        } else if (paymentInstrument.paymentMethod === 'GIFT_CERTIFICATE') {
-            results.giftCertificateCode = paymentInstrument.giftCertificateCode;
-            results.maskedGiftCertificateCode = paymentInstrument.maskedGiftCertificateCode;
-        }
+	return collections.map(selectedPaymentInstruments, function (paymentInstrument) {
+		let paymentMethod = PaymentMgr.getPaymentMethod(paymentInstrument.paymentMethod);
+		var results = {
+			paymentMethod: paymentInstrument.paymentMethod,
+			amount: paymentInstrument.paymentTransaction.amount.value,
+			isPayPlug: (paymentMethod ? PayPlugUtils.isPaymentMethodPayPlug(paymentMethod) : false)
+		};
+		if (paymentInstrument.paymentMethod === 'CREDIT_CARD') {
+			results.lastFour = paymentInstrument.creditCardNumberLastDigits;
+			results.owner = paymentInstrument.creditCardHolder;
+			results.expirationYear = paymentInstrument.creditCardExpirationYear;
+			results.type = paymentInstrument.creditCardType;
+			results.maskedCreditCardNumber = paymentInstrument.maskedCreditCardNumber;
+			results.expirationMonth = paymentInstrument.creditCardExpirationMonth;
+		} else if (paymentInstrument.paymentMethod === 'GIFT_CERTIFICATE') {
+			results.giftCertificateCode = paymentInstrument.giftCertificateCode;
+			results.maskedGiftCertificateCode = paymentInstrument.maskedGiftCertificateCode;
+		}
 
-        return results;
-    });
+		return results;
+	});
 }
 
 /**
@@ -82,26 +82,26 @@ function getSelectedPaymentInstruments(selectedPaymentInstruments) {
  * @constructor
  */
 function Payment(currentBasket, currentCustomer, countryCode) {
-    var paymentAmount = currentBasket.totalGrossPrice;
-    var paymentMethods = PaymentMgr.getApplicablePaymentMethods(
-        currentCustomer,
-        countryCode,
-        paymentAmount.value
-    );
-    var paymentCards = PaymentMgr.getPaymentMethod(PaymentInstrument.METHOD_CREDIT_CARD)
-        .getApplicablePaymentCards(currentCustomer, countryCode, paymentAmount.value);
-    var paymentInstruments = currentBasket.paymentInstruments;
+	var paymentAmount = currentBasket.totalGrossPrice;
+	var paymentMethods = PaymentMgr.getApplicablePaymentMethods(
+		currentCustomer,
+		countryCode,
+		paymentAmount.value
+	);
+	var paymentCards = PaymentMgr.getPaymentMethod(PaymentInstrument.METHOD_CREDIT_CARD)
+		.getApplicablePaymentCards(currentCustomer, countryCode, paymentAmount.value);
+	var paymentInstruments = currentBasket.paymentInstruments;
 
-    // TODO: Should compare currentBasket and currentCustomer and countryCode to see
-    //     if we need them or not
-    this.applicablePaymentMethods =
-        paymentMethods ? applicablePaymentMethods(paymentMethods) : null;
+	// TODO: Should compare currentBasket and currentCustomer and countryCode to see
+	//     if we need them or not
+	this.applicablePaymentMethods =
+		paymentMethods ? applicablePaymentMethods(paymentMethods) : null;
 
-    this.applicablePaymentCards =
-        paymentCards ? applicablePaymentCards(paymentCards) : null;
+	this.applicablePaymentCards =
+		paymentCards ? applicablePaymentCards(paymentCards) : null;
 
-    this.selectedPaymentInstruments = paymentInstruments ?
-        getSelectedPaymentInstruments(paymentInstruments) : null;
+	this.selectedPaymentInstruments = paymentInstruments ?
+		getSelectedPaymentInstruments(paymentInstruments) : null;
 }
 
 module.exports = Payment;

@@ -12,7 +12,7 @@ const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig'
 
 
 function PayPlugCaptureRequest(order) {
-    this.body = {
+	this.body = {
 		captured: true
 	};
 	this.paymentReference = order.getCustom()['pp_pspReference'];
@@ -20,10 +20,10 @@ function PayPlugCaptureRequest(order) {
 
 
 PayPlugCaptureRequest.prototype.getRequest = function getRequest() {
-    return {
-        endpoint: PayPlugServiceConfig.getCaptureEndpoint(this.paymentReference),
-        body: this.body
-    };
+	return {
+		endpoint: PayPlugServiceConfig.getCaptureEndpoint(this.paymentReference),
+		body: this.body
+	};
 }
 
 module.exports = PayPlugCaptureRequest;

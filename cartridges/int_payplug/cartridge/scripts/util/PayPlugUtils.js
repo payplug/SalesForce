@@ -11,22 +11,22 @@ const CustomObjectMgr = require('dw/object/CustomObjectMgr');
 function PayPlugUtils() { }
 
 PayPlugUtils.isPaymentMethodPayPlug = function isPaymentMethodPayPlug(paymentMethod) {
-    return (paymentMethod.getPaymentProcessor().getID() === 'PAYPLUG');
+	return (paymentMethod.getPaymentProcessor().getID() === 'PAYPLUG');
 }
 
 PayPlugUtils.getPaymentMethodByID = function getPaymentMethodByID(paymentMethodID) {
-    return PaymentMgr.getPaymentMethod(paymentMethodID);
+	return PaymentMgr.getPaymentMethod(paymentMethodID);
 }
 
 PayPlugUtils.createOrderNo = function createOrderNo() {
 	const basket = BasketMgr.getCurrentBasket();
-    if (empty(basket.getCustom()['payplugOrderNo'])) {
-        Transaction.wrap(function () {
-            basket.getCustom()['payplugOrderNo'] = OrderMgr.createOrderNo();
-        });
-    }
+	if (empty(basket.getCustom()['payplugOrderNo'])) {
+		Transaction.wrap(function () {
+			basket.getCustom()['payplugOrderNo'] = OrderMgr.createOrderNo();
+		});
+	}
 
-    return basket.getCustom()['payplugOrderNo'];
+	return basket.getCustom()['payplugOrderNo'];
 }
 
 PayPlugUtils.saveCreditCard = function saveCreditCard(order, payplugPaymentData) {
@@ -46,75 +46,75 @@ PayPlugUtils.saveCreditCard = function saveCreditCard(order, payplugPaymentData)
 
 function isTokenLinkedToCustomer(customer, token) {
 	if (!customer || !customer.profile || !token) {
-        return false;
-    }
+		return false;
+	}
 
-    var paymentInstruments = customer.profile.wallet.paymentInstruments.iterator();
+	var paymentInstruments = customer.profile.wallet.paymentInstruments.iterator();
 
-    while (paymentInstruments.hasNext()) {
-        var paymentInstrument = paymentInstruments.next();
-        var storedToken = paymentInstrument.getCreditCardToken();
+	while (paymentInstruments.hasNext()) {
+		var paymentInstrument = paymentInstruments.next();
+		var storedToken = paymentInstrument.getCreditCardToken();
 
-        if (storedToken && storedToken === token) {
-            return true;
-        }
-    }
+		if (storedToken && storedToken === token) {
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 PayPlugUtils.formatPhoneNumber = function formatPhoneNumber(phoneNumber, countryCode) {
 	const cleanedNumber = phoneNumber.replace(/[^0-9]/g, '');
 
-    // Define country-specific prefixes
-    const prefixes = {
-        FR: '+33',
-        UK: '+44',
-        IT: '+39'
-    };
+	// Define country-specific prefixes
+	const prefixes = {
+		FR: '+33',
+		UK: '+44',
+		IT: '+39'
+	};
 
-    // Check if the country code is supported
-    if (!prefixes[countryCode]) {
+	// Check if the country code is supported
+	if (!prefixes[countryCode]) {
 		return null;
-    }
+	}
 
-    let formattedNumber;
+	let formattedNumber;
 
-    switch (countryCode) {
-        case 'FR': // France
-            // Remove leading zero for French numbers
-            formattedNumber = cleanedNumber.startsWith('0')
-                ? prefixes[countryCode] + cleanedNumber.slice(1)
-                : prefixes[countryCode] + cleanedNumber;
-            break;
+	switch (countryCode) {
+		case 'FR': // France
+			// Remove leading zero for French numbers
+			formattedNumber = cleanedNumber.startsWith('0')
+				? prefixes[countryCode] + cleanedNumber.slice(1)
+				: prefixes[countryCode] + cleanedNumber;
+			break;
 
-        case 'UK': // United Kingdom
-            // Remove leading zero for UK numbers
-            formattedNumber = cleanedNumber.startsWith('0')
-                ? prefixes[countryCode] + cleanedNumber.slice(1)
-                : prefixes[countryCode] + cleanedNumber;
-            break;
+		case 'UK': // United Kingdom
+			// Remove leading zero for UK numbers
+			formattedNumber = cleanedNumber.startsWith('0')
+				? prefixes[countryCode] + cleanedNumber.slice(1)
+				: prefixes[countryCode] + cleanedNumber;
+			break;
 
-        case 'IT': // Italy
-            // Italian numbers do not require leading zero removal
-            formattedNumber = prefixes[countryCode] + cleanedNumber;
-            break;
+		case 'IT': // Italy
+			// Italian numbers do not require leading zero removal
+			formattedNumber = prefixes[countryCode] + cleanedNumber;
+			break;
 
-        default:
-            return null;
-    }
+		default:
+			return null;
+	}
 
-    return formattedNumber;
+	return formattedNumber;
 }
 
 PayPlugUtils.createNotificationCustomObject = function createNotificationCustomObject(notificationJson) {
 	let keyValue = notificationJson.id + "-" + StringUtils.formatCalendar(new Calendar(), "yyyyMMddhhmmss");
 
 	Transaction.wrap(function () {
-        var payplugNotification = CustomObjectMgr.createCustomObject('payplugNotification', keyValue);
-        payplugNotification.getCustom()['payplugLog'] = JSON.stringify(notificationJson, null, 3);
-        payplugNotification.getCustom()['id'] = notificationJson.id;
-    });
+		var payplugNotification = CustomObjectMgr.createCustomObject('payplugNotification', keyValue);
+		payplugNotification.getCustom()['payplugLog'] = JSON.stringify(notificationJson, null, 3);
+		payplugNotification.getCustom()['id'] = notificationJson.id;
+	});
 }
 
 module.exports = PayPlugUtils;

@@ -7,22 +7,22 @@ var Resource = require('dw/web/Resource');
  * @return {Object} an object that contains error information
  */
 function processForm(req, paymentForm, viewFormData) {
-    var viewData = viewFormData;
-    viewData.paymentMethod = {
-        value: paymentForm.paymentMethod.value,
-        htmlName: paymentForm.paymentMethod.value
-    };
-    return {
-        error: false,
-        viewData: viewData
-    };
+	var viewData = viewFormData;
+	viewData.paymentMethod = {
+		value: paymentForm.paymentMethod.value,
+		htmlName: paymentForm.paymentMethod.value
+	};
+	return {
+		error: false,
+		viewData: viewData
+	};
 }
 
 /**
  * default hook if no save payment information processor is supported
  */
 function savePaymentInformation() {
-    return;
+	return;
 }
 
 exports.processForm = processForm;

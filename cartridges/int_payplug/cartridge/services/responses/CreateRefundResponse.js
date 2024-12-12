@@ -1,7 +1,7 @@
 'use strict';
 
 function CreateRefundResponse(response) {
-    this.response = response;
+	this.response = response;
 }
 
 

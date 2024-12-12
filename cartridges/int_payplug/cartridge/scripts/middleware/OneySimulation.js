@@ -1,37 +1,47 @@
 'use strict';
 
+const Site = require('dw/system/Site');
+
 const PayPlugPaymentModel = require('~/cartridge/models/PayPlugPaymentModel');
 
-function OneySimulationHelper() {}
+function OneySimulationHelper() { }
 
 OneySimulationHelper.applySimulationInViewData = function applySimulationInViewData(req, res, next) {
-    const viewData = res.getViewData();
+	if (!Site.getCurrent().getCustomPreferenceValue('PP_oneyDisplay').some(item => item.value === 'Cart')) {
+		next()
+		return;
+	}
+	const viewData = res.getViewData();
 
-    const BasketMgr = require('dw/order/BasketMgr');
+	const BasketMgr = require('dw/order/BasketMgr');
 
-    var currentBasket = BasketMgr.getCurrentBasket();
+	var currentBasket = BasketMgr.getCurrentBasket();
 
-    if (currentBasket) {
-        const cartTotal = parseFloat(currentBasket.totalGrossPrice * 100);
+	if (currentBasket) {
+		const cartTotal = parseFloat(currentBasket.totalGrossPrice * 100);
 		const PayPlug = new PayPlugPaymentModel();
-        viewData.oneySimulation = PayPlug.oneySimulation(cartTotal).response;
+		viewData.oneySimulation = PayPlug.oneySimulation(cartTotal).response;
 
-        res.setViewData(viewData);
-    }
+		res.setViewData(viewData);
+	}
 
-    next();
+	next();
 }
 
 OneySimulationHelper.applySimulationInViewDataProduct = function applySimulationInViewDataProduct(req, res, next) {
+	if (!Site.getCurrent().getCustomPreferenceValue('PP_oneyDisplay').some(item => item.value === 'PDP')) {
+		next()
+		return;
+	}
 	var viewData = res.getViewData();
 
-    const productPrice = viewData.product.price.sales ? viewData.product.price.sales.value : viewData.product.price.min.sales.value;
-    const PayPlug = new PayPlugPaymentModel();
+	const productPrice = viewData.product.price.sales ? viewData.product.price.sales.value : viewData.product.price.min.sales.value;
+	const PayPlug = new PayPlugPaymentModel();
 	viewData.oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice * 100)).response;
 
 
-    res.setViewData(viewData);
-    next();
+	res.setViewData(viewData);
+	next();
 }
 
 module.exports = OneySimulationHelper;

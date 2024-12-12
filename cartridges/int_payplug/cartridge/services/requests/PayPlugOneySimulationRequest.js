@@ -12,7 +12,7 @@ const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig'
 
 
 function PayPlugOneySimulationRequest(amount) {
-    this.body = {
+	this.body = {
 		amount: amount,
 		country: Locale.getLocale(request.getLocale()).getCountry(),
 		operations: ["x3_with_fees", "x4_with_fees", "x3_without_fees", "x4_without_fees"]
@@ -21,10 +21,10 @@ function PayPlugOneySimulationRequest(amount) {
 
 
 PayPlugOneySimulationRequest.prototype.getRequest = function getRequest() {
-    return {
-        endpoint: PayPlugServiceConfig.getOneySimulation(),
-        body: this.body
-    };
+	return {
+		endpoint: PayPlugServiceConfig.getOneySimulation(),
+		body: this.body
+	};
 }
 
 module.exports = PayPlugOneySimulationRequest;

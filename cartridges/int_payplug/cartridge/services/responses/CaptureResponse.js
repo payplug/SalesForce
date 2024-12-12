@@ -1,7 +1,7 @@
 'use strict';
 
 function CaptureResponse(response) {
-    this.response = response;
+	this.response = response;
 }
 
 

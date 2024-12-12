@@ -17,14 +17,14 @@ function PayPlugPaymentRequest(paymentMethod, creditCardID) {
 	const ppPaymentMethod = paymentMethod.getCustom()['PP_paymentMethod'].getValue() || 'credit_card';
 	const integrationMode = ppPaymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue();
 	this.cart = BasketMgr.getCurrentBasket();
-    this.body = {
-        currency: this.cart.getCurrencyCode(),
+	this.body = {
+		currency: this.cart.getCurrencyCode(),
 		billing: {
 			title: this.cart.getBillingAddress().getTitle(),
 			first_name: this.cart.getBillingAddress().getFirstName(),
 			last_name: this.cart.getBillingAddress().getLastName(),
 			mobile_phone_number: PayPlugUtils.formatPhoneNumber(this.cart.getBillingAddress().getPhone(), this.cart.getBillingAddress().getCountryCode().getValue().toUpperCase()),
-            email: this.cart.getCustomerEmail(),
+			email: this.cart.getCustomerEmail(),
 			landline_phone_number: null,
 			address1: this.cart.getBillingAddress().getAddress1(),
 			address2: this.cart.getBillingAddress().getAddress2(),
@@ -40,7 +40,7 @@ function PayPlugPaymentRequest(paymentMethod, creditCardID) {
 			last_name: this.cart.getDefaultShipment().getShippingAddress().getLastName(),
 			mobile_phone_number: PayPlugUtils.formatPhoneNumber(this.cart.getDefaultShipment().getShippingAddress().getPhone(), this.cart.getDefaultShipment().getShippingAddress().getCountryCode().getValue().toUpperCase()),
 			landline_phone_number: null,
-            email: this.cart.getCustomerEmail(),
+			email: this.cart.getCustomerEmail(),
 			address1: this.cart.getDefaultShipment().getShippingAddress().getAddress1(),
 			address2: this.cart.getDefaultShipment().getShippingAddress().getAddress2(),
 			company_name: this.cart.getDefaultShipment().getShippingAddress().getCompanyName() || 'company',
@@ -66,7 +66,7 @@ function PayPlugPaymentRequest(paymentMethod, creditCardID) {
 			transaction_id: PayPlugUtils.createOrderNo(),
 			customer_id: customer.isAuthenticated() ? customer.getID() : '',
 		}
-    }
+	}
 
 	this.body.amount = Math.round(this.cart.getTotalGrossPrice().getValue() * 100);
 
@@ -105,38 +105,38 @@ function _getCartItemInfo(cart) {
 
 	calendar.add(Calendar.DAY_OF_MONTH, expectedDelivery);
 	// Formatte la date en YYYY-MM-DD
-    const year = calendar.get(Calendar.YEAR);
-    var month = calendar.get(Calendar.MONTH) + 1; // Les mois commencent à 0
-    var day = calendar.get(Calendar.DAY_OF_MONTH);
+	const year = calendar.get(Calendar.YEAR);
+	var month = calendar.get(Calendar.MONTH) + 1; // Les mois commencent à 0
+	var day = calendar.get(Calendar.DAY_OF_MONTH);
 
-    // Ajout de zéros devant les valeurs si nécessaire
-    month = month < 10 ? '0' + month : month;
-    day = day < 10 ? '0' + day : day;
+	// Ajout de zéros devant les valeurs si nécessaire
+	month = month < 10 ? '0' + month : month;
+	day = day < 10 ? '0' + day : day;
 
-    // Retourne la date au format YYYY-MM-DD
-    const expected_delivery_date = year + '-' + month + '-' + day;
-    return cart.getProductLineItems().toArray().map(function (productLineItem) {
+	// Retourne la date au format YYYY-MM-DD
+	const expected_delivery_date = year + '-' + month + '-' + day;
+	return cart.getProductLineItems().toArray().map(function (productLineItem) {
 		let product = productLineItem.getProduct();
-        return {
+		return {
 			brand: product.getBrand() || 'none',
 			expected_delivery_date: expected_delivery_date,
 			delivery_label: !empty(shippingMethod) ? shippingMethod.getID() + '_' + shippingMethod.getDisplayName() : '',
 			delivery_type: 'carrier',
-            merchant_item_id: productLineItem.getProductID(),
+			merchant_item_id: productLineItem.getProductID(),
 			name: productLineItem.getProductName(),
 			price: Math.round(productLineItem.getPrice().getValue() * 100) / productLineItem.getQuantityValue(),
-            quantity: productLineItem.getQuantityValue(),
+			quantity: productLineItem.getQuantityValue(),
 			total_amount: Math.round(productLineItem.getPrice().getValue() * 100),
-        };
-    });
+		};
+	});
 }
 
 
 PayPlugPaymentRequest.prototype.getRequest = function getRequest() {
-    return {
-        endpoint: PayPlugServiceConfig.getPaymentRequestEndpoint(),
-        body: this.body
-    };
+	return {
+		endpoint: PayPlugServiceConfig.getPaymentRequestEndpoint(),
+		body: this.body
+	};
 }
 
 module.exports = PayPlugPaymentRequest;

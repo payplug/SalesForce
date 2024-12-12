@@ -3,7 +3,7 @@
 const PayPlugAPIProvider = require("*/cartridge/services/api/PayPlugAPIProvider");
 const PayPlugPaymentAPI = PayPlugAPIProvider.get("PayPlug");
 
-function PayPlugPaymentModel() {}
+function PayPlugPaymentModel() { }
 
 /**
  *
@@ -11,9 +11,9 @@ function PayPlugPaymentModel() {}
  */
 
 PayPlugPaymentModel.prototype.createPayment = function createPayment(paymentMethod, creditCardID) {
-    const paymentStatus = PayPlugPaymentAPI.createPayment(paymentMethod, creditCardID);
+	const paymentStatus = PayPlugPaymentAPI.createPayment(paymentMethod, creditCardID);
 
-    return paymentStatus;
+	return paymentStatus;
 }
 
 PayPlugPaymentModel.prototype.removeCustomerCardFromWallet = function removeCustomerCardFromWallet(cardID) {
@@ -23,21 +23,21 @@ PayPlugPaymentModel.prototype.removeCustomerCardFromWallet = function removeCust
 }
 
 PayPlugPaymentModel.prototype.capturePayment = function capturePayment(order) {
-    const paymentStatus = PayPlugPaymentAPI.capturePayment(order);
+	const paymentStatus = PayPlugPaymentAPI.capturePayment(order);
 
-    return paymentStatus;
+	return paymentStatus;
 }
 
 PayPlugPaymentModel.prototype.refundPayment = function refundPayment(amount, order) {
-    const paymentStatus = PayPlugPaymentAPI.createRefund(amount, order);
+	const paymentStatus = PayPlugPaymentAPI.createRefund(amount, order);
 
-    return paymentStatus;
+	return paymentStatus;
 }
 
 PayPlugPaymentModel.prototype.oneySimulation = function oneySimulation(amount) {
-    const status = PayPlugPaymentAPI.oneySimulation(amount);
+	const status = PayPlugPaymentAPI.oneySimulation(amount);
 
-    return status;
+	return status;
 }
 
 module.exports = PayPlugPaymentModel;

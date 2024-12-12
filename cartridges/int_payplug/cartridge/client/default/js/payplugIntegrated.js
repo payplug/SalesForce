@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 	const integratedPayment = new Payplug.IntegratedPayment();
-	integratedPayment.secureDomain = "https://secure-qa.payplug.com";
+	if (!$('.payplugIntegrated').data('pp-is-live')) {
+		integratedPayment.secureDomain = "https://secure-qa.payplug.com";
+	}
 
 	// Add scheme
 	const schemeElement = document.getElementById('scheme');
@@ -79,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (isFormValid) {
 			// Create payment object on your back-end
 			createPaymentOnBackEnd((payplug_id) => {
-				integratedPayment.pay(payplug_id, 0, {save_card: $('input[name="pp-integrated-savecard"]').is(':checked')});
+				integratedPayment.pay(payplug_id, 0, { save_card: $('input[name="pp-integrated-savecard"]').is(':checked') });
 			});
 		}
 	});
@@ -95,28 +97,28 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function createPaymentOnBackEnd(callback) {
-    const payplugUrl = $('#payplugIntegratedPayment').data('pp-url');
+	const payplugUrl = $('#payplugIntegratedPayment').data('pp-url');
 
-    if (!payplugUrl) {
-        console.error("Payplug URL not found");
-        return;
-    }
+	if (!payplugUrl) {
+		console.error("Payplug URL not found");
+		return;
+	}
 
-    $.ajax({
-        url: payplugUrl,
-        type: 'get',
-        dataType: 'html',
-        async: true,
-        success: function (data) {
-            const payplug_id = JSON.parse(data).payplug_id;
+	$.ajax({
+		url: payplugUrl,
+		type: 'get',
+		dataType: 'html',
+		async: true,
+		success: function (data) {
+			const payplug_id = JSON.parse(data).payplug_id;
 
-            // Appeler le callback une fois que le payplug_id est récupéré
-            if (callback && typeof callback === 'function') {
-                callback(payplug_id);
-            }
-        },
-        error: function (error) {
-            console.error("Failed to create payment on backend:", error);
-        }
-    });
+			// Appeler le callback une fois que le payplug_id est récupéré
+			if (callback && typeof callback === 'function') {
+				callback(payplug_id);
+			}
+		},
+		error: function (error) {
+			console.error("Failed to create payment on backend:", error);
+		}
+	});
 }

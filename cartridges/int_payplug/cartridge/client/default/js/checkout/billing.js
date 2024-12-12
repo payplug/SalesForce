@@ -9,69 +9,69 @@ var cleave = require('base/components/cleave');
  * @param {Object} customer - the customer model
  */
 function updateBillingAddressSelector(order, customer) {
-    var shippings = order.shipping;
+	var shippings = order.shipping;
 
-    var form = $('form[name$=billing]')[0];
-    var $billingAddressSelector = $('.addressSelector', form);
-    var hasSelectedAddress = false;
+	var form = $('form[name$=billing]')[0];
+	var $billingAddressSelector = $('.addressSelector', form);
+	var hasSelectedAddress = false;
 
-    if ($billingAddressSelector && $billingAddressSelector.length === 1) {
-        $billingAddressSelector.empty();
-        // Add New Address option
-        $billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
-            null,
-            false,
-            order,
-            { type: 'billing' }));
+	if ($billingAddressSelector && $billingAddressSelector.length === 1) {
+		$billingAddressSelector.empty();
+		// Add New Address option
+		$billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+			null,
+			false,
+			order,
+			{ type: 'billing' }));
 
-        // Separator -
-        $billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
-            order.resources.shippingAddresses, false, order, {
-                // className: 'multi-shipping',
-                type: 'billing'
-            }
-        ));
+		// Separator -
+		$billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+			order.resources.shippingAddresses, false, order, {
+			// className: 'multi-shipping',
+			type: 'billing'
+		}
+		));
 
-        shippings.forEach(function (aShipping) {
-            var isSelected = order.billing.matchingAddressId === aShipping.UUID;
-            hasSelectedAddress = hasSelectedAddress || isSelected;
-            // Shipping Address option
-            $billingAddressSelector.append(
-                addressHelpers.methods.optionValueForAddress(aShipping, isSelected, order,
-                    {
-                        // className: 'multi-shipping',
-                        type: 'billing'
-                    }
-                )
-            );
-        });
+		shippings.forEach(function (aShipping) {
+			var isSelected = order.billing.matchingAddressId === aShipping.UUID;
+			hasSelectedAddress = hasSelectedAddress || isSelected;
+			// Shipping Address option
+			$billingAddressSelector.append(
+				addressHelpers.methods.optionValueForAddress(aShipping, isSelected, order,
+					{
+						// className: 'multi-shipping',
+						type: 'billing'
+					}
+				)
+			);
+		});
 
-        if (customer.addresses && customer.addresses.length > 0) {
-            $billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
-                order.resources.accountAddresses, false, order));
-            customer.addresses.forEach(function (address) {
-                var isSelected = order.billing.matchingAddressId === address.ID;
-                hasSelectedAddress = hasSelectedAddress || isSelected;
-                // Customer Address option
-                $billingAddressSelector.append(
-                    addressHelpers.methods.optionValueForAddress({
-                        UUID: 'ab_' + address.ID,
-                        shippingAddress: address
-                    }, isSelected, order, { type: 'billing' })
-                );
-            });
-        }
-    }
+		if (customer.addresses && customer.addresses.length > 0) {
+			$billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+				order.resources.accountAddresses, false, order));
+			customer.addresses.forEach(function (address) {
+				var isSelected = order.billing.matchingAddressId === address.ID;
+				hasSelectedAddress = hasSelectedAddress || isSelected;
+				// Customer Address option
+				$billingAddressSelector.append(
+					addressHelpers.methods.optionValueForAddress({
+						UUID: 'ab_' + address.ID,
+						shippingAddress: address
+					}, isSelected, order, { type: 'billing' })
+				);
+			});
+		}
+	}
 
-    if (hasSelectedAddress
-        || (!order.billing.matchingAddressId && order.billing.billingAddress.address)) {
-        // show
-        $(form).attr('data-address-mode', 'edit');
-    } else {
-        $(form).attr('data-address-mode', 'new');
-    }
+	if (hasSelectedAddress
+		|| (!order.billing.matchingAddressId && order.billing.billingAddress.address)) {
+		// show
+		$(form).attr('data-address-mode', 'edit');
+	} else {
+		$(form).attr('data-address-mode', 'new');
+	}
 
-    $billingAddressSelector.show();
+	$billingAddressSelector.show();
 }
 
 /**
@@ -79,23 +79,23 @@ function updateBillingAddressSelector(order, customer) {
  * @param {Object} order - the order model
  */
 function updateBillingAddress(order) {
-    var billing = order.billing;
-    if (!billing.billingAddress || !billing.billingAddress.address) return;
+	var billing = order.billing;
+	if (!billing.billingAddress || !billing.billingAddress.address) return;
 
-    var form = $('form[name=dwfrm_billing]');
-    if (!form) return;
+	var form = $('form[name=dwfrm_billing]');
+	if (!form) return;
 
-    $('input[name$=_firstName]', form).val(billing.billingAddress.address.firstName);
-    $('input[name$=_lastName]', form).val(billing.billingAddress.address.lastName);
-    $('input[name$=_address1]', form).val(billing.billingAddress.address.address1);
-    $('input[name$=_address2]', form).val(billing.billingAddress.address.address2);
-    $('input[name$=_city]', form).val(billing.billingAddress.address.city);
-    $('input[name$=_postalCode]', form).val(billing.billingAddress.address.postalCode);
-    $('select[name$=_stateCode],input[name$=_stateCode]', form)
-        .val(billing.billingAddress.address.stateCode);
-    $('select[name$=_country]', form).val(billing.billingAddress.address.countryCode.value);
-    $('input[name$=_phone]', form).val(billing.billingAddress.address.phone);
-    $('input[name$=_email]', form).val(order.orderEmail);
+	$('input[name$=_firstName]', form).val(billing.billingAddress.address.firstName);
+	$('input[name$=_lastName]', form).val(billing.billingAddress.address.lastName);
+	$('input[name$=_address1]', form).val(billing.billingAddress.address.address1);
+	$('input[name$=_address2]', form).val(billing.billingAddress.address.address2);
+	$('input[name$=_city]', form).val(billing.billingAddress.address.city);
+	$('input[name$=_postalCode]', form).val(billing.billingAddress.address.postalCode);
+	$('select[name$=_stateCode],input[name$=_stateCode]', form)
+		.val(billing.billingAddress.address.stateCode);
+	$('select[name$=_country]', form).val(billing.billingAddress.address.countryCode.value);
+	$('input[name$=_phone]', form).val(billing.billingAddress.address.phone);
+	$('input[name$=_email]', form).val(order.orderEmail);
 }
 
 /**
@@ -103,19 +103,19 @@ function updateBillingAddress(order) {
  * @param {Object} order - the order model
  */
 function validateAndUpdateBillingPaymentInstrument(order) {
-    var billing = order.billing;
-    if (!billing.payment || !billing.payment.selectedPaymentInstruments
-        || billing.payment.selectedPaymentInstruments.length <= 0) return;
+	var billing = order.billing;
+	if (!billing.payment || !billing.payment.selectedPaymentInstruments
+		|| billing.payment.selectedPaymentInstruments.length <= 0) return;
 
-    var form = $('form[name=dwfrm_billing]');
-    if (!form) return;
+	var form = $('form[name=dwfrm_billing]');
+	if (!form) return;
 
-    var instrument = billing.payment.selectedPaymentInstruments[0];
-    $('select[name$=expirationMonth]', form).val(instrument.expirationMonth);
-    $('select[name$=expirationYear]', form).val(instrument.expirationYear);
-    // Force security code and card number clear
-    $('input[name$=securityCode]', form).val('');
-    $('input[name$=cardNumber]').data('cleave').setRawValue('');
+	var instrument = billing.payment.selectedPaymentInstruments[0];
+	$('select[name$=expirationMonth]', form).val(instrument.expirationMonth);
+	$('select[name$=expirationYear]', form).val(instrument.expirationYear);
+	// Force security code and card number clear
+	$('input[name$=securityCode]', form).val('');
+	$('input[name$=cardNumber]').data('cleave').setRawValue('');
 }
 
 /**
@@ -123,23 +123,23 @@ function validateAndUpdateBillingPaymentInstrument(order) {
  * @param {Object} order - the order model
  */
 function updateBillingAddressFormValues(order) {
-    module.exports.methods.updateBillingAddress(order);
-    module.exports.methods.validateAndUpdateBillingPaymentInstrument(order);
+	module.exports.methods.updateBillingAddress(order);
+	module.exports.methods.validateAndUpdateBillingPaymentInstrument(order);
 }
 
 /**
  * clears the billing address form values
  */
 function clearBillingAddressFormValues() {
-    updateBillingAddressFormValues({
-        billing: {
-            billingAddress: {
-                address: {
-                    countryCode: {}
-                }
-            }
-        }
-    });
+	updateBillingAddressFormValues({
+		billing: {
+			billingAddress: {
+				address: {
+					countryCode: {}
+				}
+			}
+		}
+	});
 }
 
 /**
@@ -147,16 +147,16 @@ function clearBillingAddressFormValues() {
  * @param {Object} order - checkout model to use as basis of new truth
  */
 function updateBillingAddressSummary(order) {
-    // update billing address summary
-    addressHelpers.methods.populateAddressSummary('.billing .address-summary',
-        order.billing.billingAddress.address);
+	// update billing address summary
+	addressHelpers.methods.populateAddressSummary('.billing .address-summary',
+		order.billing.billingAddress.address);
 
-    // update billing parts of order summary
-    $('.order-summary-email').text(order.orderEmail);
+	// update billing parts of order summary
+	$('.order-summary-email').text(order.orderEmail);
 
-    if (order.billing.billingAddress.address) {
-        $('.order-summary-phone').text(order.billing.billingAddress.address.phone);
-    }
+	if (order.billing.billingAddress.address) {
+		$('.order-summary-phone').text(order.billing.billingAddress.address.phone);
+	}
 }
 
 /**
@@ -166,13 +166,13 @@ function updateBillingAddressSummary(order) {
  * @param {Object} [options] - options
  */
 function updateBillingInformation(order, customer) {
-    updateBillingAddressSelector(order, customer);
+	updateBillingAddressSelector(order, customer);
 
-    // update billing address form
-    updateBillingAddressFormValues(order);
+	// update billing address form
+	updateBillingAddressFormValues(order);
 
-    // update billing address summary and billing parts of order summary
-    updateBillingAddressSummary(order);
+	// update billing address summary and billing parts of order summary
+	updateBillingAddressSummary(order);
 }
 
 /**
@@ -181,36 +181,36 @@ function updateBillingInformation(order, customer) {
  */
 // ### Custom PayPlug cartridge start ###
 function updatePaymentInformation(order, options) {
-    // update payment details
-    var $paymentSummary = $('.payment-details');
+	// update payment details
+	var $paymentSummary = $('.payment-details');
 
-    if (order.billing.payment && order.billing.payment.selectedPaymentInstruments
-        && order.billing.payment.selectedPaymentInstruments.length > 0) {
-            if (!order.billing.payment.selectedPaymentInstruments[0].isPayPlug) {
-                $paymentSummary.empty().append('<span>' + order.resources.cardType + ' '
-                    + order.billing.payment.selectedPaymentInstruments[0].type
-                    + '</span><div>'
-                    + order.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber
-                    + '</div><div><span>'
-                    + order.resources.cardEnding + ' '
-                    + order.billing.payment.selectedPaymentInstruments[0].expirationMonth
-                    + '/' + order.billing.payment.selectedPaymentInstruments[0].expirationYear
-                    + '</span></div>');
-            } else {
-				if (options && options.payPlugPaymentUrl) {
-                    $.ajax({
-                        url: options.payPlugPaymentUrl,
-                        type: 'get',
-                        success: function (data) {
-                            $paymentSummary.empty().append(data);
-                        },
-                        error: function (err) {
-                            console.log('Cannot retrieve payPlugPaymentUrl.');
-                        }
-                    });
-                }
-            }
-    }
+	if (order.billing.payment && order.billing.payment.selectedPaymentInstruments
+		&& order.billing.payment.selectedPaymentInstruments.length > 0) {
+		if (!order.billing.payment.selectedPaymentInstruments[0].isPayPlug) {
+			$paymentSummary.empty().append('<span>' + order.resources.cardType + ' '
+				+ order.billing.payment.selectedPaymentInstruments[0].type
+				+ '</span><div>'
+				+ order.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber
+				+ '</div><div><span>'
+				+ order.resources.cardEnding + ' '
+				+ order.billing.payment.selectedPaymentInstruments[0].expirationMonth
+				+ '/' + order.billing.payment.selectedPaymentInstruments[0].expirationYear
+				+ '</span></div>');
+		} else {
+			if (options && options.payPlugPaymentUrl) {
+				$.ajax({
+					url: options.payPlugPaymentUrl,
+					type: 'get',
+					success: function (data) {
+						$paymentSummary.empty().append(data);
+					},
+					error: function (err) {
+						console.log('Cannot retrieve payPlugPaymentUrl.');
+					}
+				});
+			}
+		}
+	}
 }
 // ### Custom PayPlug cartridge end ###
 
@@ -218,124 +218,124 @@ function updatePaymentInformation(order, options) {
  * clears the credit card form
  */
 function clearCreditCardForm() {
-    $('input[name$="_cardNumber"]').data('cleave').setRawValue('');
-    $('select[name$="_expirationMonth"]').val('');
-    $('select[name$="_expirationYear"]').val('');
-    $('input[name$="_securityCode"]').val('');
+	$('input[name$="_cardNumber"]').data('cleave').setRawValue('');
+	$('select[name$="_expirationMonth"]').val('');
+	$('select[name$="_expirationYear"]').val('');
+	$('input[name$="_securityCode"]').val('');
 }
 
 module.exports = {
-    methods: {
-        updateBillingAddressSelector: updateBillingAddressSelector,
-        updateBillingAddressFormValues: updateBillingAddressFormValues,
-        clearBillingAddressFormValues: clearBillingAddressFormValues,
-        updateBillingInformation: updateBillingInformation,
-        updatePaymentInformation: updatePaymentInformation,
-        clearCreditCardForm: clearCreditCardForm,
-        updateBillingAddress: updateBillingAddress,
-        validateAndUpdateBillingPaymentInstrument: validateAndUpdateBillingPaymentInstrument,
-        updateBillingAddressSummary: updateBillingAddressSummary
-    },
+	methods: {
+		updateBillingAddressSelector: updateBillingAddressSelector,
+		updateBillingAddressFormValues: updateBillingAddressFormValues,
+		clearBillingAddressFormValues: clearBillingAddressFormValues,
+		updateBillingInformation: updateBillingInformation,
+		updatePaymentInformation: updatePaymentInformation,
+		clearCreditCardForm: clearCreditCardForm,
+		updateBillingAddress: updateBillingAddress,
+		validateAndUpdateBillingPaymentInstrument: validateAndUpdateBillingPaymentInstrument,
+		updateBillingAddressSummary: updateBillingAddressSummary
+	},
 
-    showBillingDetails: function () {
-        $('.btn-show-billing-details').on('click', function () {
-            $(this).parents('[data-address-mode]').attr('data-address-mode', 'new');
-        });
-    },
+	showBillingDetails: function () {
+		$('.btn-show-billing-details').on('click', function () {
+			$(this).parents('[data-address-mode]').attr('data-address-mode', 'new');
+		});
+	},
 
-    hideBillingDetails: function () {
-        $('.btn-hide-billing-details').on('click', function () {
-            $(this).parents('[data-address-mode]').attr('data-address-mode', 'shipment');
-        });
-    },
+	hideBillingDetails: function () {
+		$('.btn-hide-billing-details').on('click', function () {
+			$(this).parents('[data-address-mode]').attr('data-address-mode', 'shipment');
+		});
+	},
 
-    selectBillingAddress: function () {
-        $('.payment-form .addressSelector').on('change', function () {
-            var form = $(this).parents('form')[0];
-            var selectedOption = $('option:selected', this);
-            var optionID = selectedOption[0].value;
+	selectBillingAddress: function () {
+		$('.payment-form .addressSelector').on('change', function () {
+			var form = $(this).parents('form')[0];
+			var selectedOption = $('option:selected', this);
+			var optionID = selectedOption[0].value;
 
-            if (optionID === 'new') {
-                // Show Address
-                $(form).attr('data-address-mode', 'new');
-            } else {
-                // Hide Address
-                $(form).attr('data-address-mode', 'shipment');
-            }
+			if (optionID === 'new') {
+				// Show Address
+				$(form).attr('data-address-mode', 'new');
+			} else {
+				// Hide Address
+				$(form).attr('data-address-mode', 'shipment');
+			}
 
-            // Copy fields
-            var attrs = selectedOption.data();
-            var element;
+			// Copy fields
+			var attrs = selectedOption.data();
+			var element;
 
-            Object.keys(attrs).forEach(function (attr) {
-                element = attr === 'countryCode' ? 'country' : attr;
-                if (element === 'cardNumber') {
-                    $('.cardNumber').data('cleave').setRawValue(attrs[attr]);
-                } else {
-                    $('[name$=' + element + ']', form).val(attrs[attr]);
-                }
-            });
-        });
-    },
+			Object.keys(attrs).forEach(function (attr) {
+				element = attr === 'countryCode' ? 'country' : attr;
+				if (element === 'cardNumber') {
+					$('.cardNumber').data('cleave').setRawValue(attrs[attr]);
+				} else {
+					$('[name$=' + element + ']', form).val(attrs[attr]);
+				}
+			});
+		});
+	},
 
-    handleCreditCardNumber: function () {
-        cleave.handleCreditCardNumber('.cardNumber', '#cardType');
-    },
+	handleCreditCardNumber: function () {
+		cleave.handleCreditCardNumber('.cardNumber', '#cardType');
+	},
 
-    santitizeForm: function () {
-        $('body').on('checkout:serializeBilling', function (e, data) {
-            var serializedForm = cleave.serializeData(data.form);
+	santitizeForm: function () {
+		$('body').on('checkout:serializeBilling', function (e, data) {
+			var serializedForm = cleave.serializeData(data.form);
 
-            data.callback(serializedForm);
-        });
-    },
+			data.callback(serializedForm);
+		});
+	},
 
-    selectSavedPaymentInstrument: function () {
-        $(document).on('click', '.saved-payment-instrument', function (e) {
-            e.preventDefault();
-            $('.saved-payment-security-code').val('');
-            $('.saved-payment-instrument').removeClass('selected-payment');
-            $(this).addClass('selected-payment');
-            $('.saved-payment-instrument .card-image').removeClass('checkout-hidden');
-            $('.saved-payment-instrument .security-code-input').addClass('checkout-hidden');
-            $('.saved-payment-instrument.selected-payment' +
-                ' .card-image').addClass('checkout-hidden');
-            $('.saved-payment-instrument.selected-payment ' +
-                '.security-code-input').removeClass('checkout-hidden');
-        });
-    },
+	selectSavedPaymentInstrument: function () {
+		$(document).on('click', '.saved-payment-instrument', function (e) {
+			e.preventDefault();
+			$('.saved-payment-security-code').val('');
+			$('.saved-payment-instrument').removeClass('selected-payment');
+			$(this).addClass('selected-payment');
+			$('.saved-payment-instrument .card-image').removeClass('checkout-hidden');
+			$('.saved-payment-instrument .security-code-input').addClass('checkout-hidden');
+			$('.saved-payment-instrument.selected-payment' +
+				' .card-image').addClass('checkout-hidden');
+			$('.saved-payment-instrument.selected-payment ' +
+				'.security-code-input').removeClass('checkout-hidden');
+		});
+	},
 
-    addNewPaymentInstrument: function () {
-        $('.btn.add-payment').on('click', function (e) {
-            e.preventDefault();
-            $('.payment-information').data('is-new-payment', true);
-            clearCreditCardForm();
-            $('.credit-card-form').removeClass('checkout-hidden');
-            $('.user-payment-instruments').addClass('checkout-hidden');
-        });
-    },
+	addNewPaymentInstrument: function () {
+		$('.btn.add-payment').on('click', function (e) {
+			e.preventDefault();
+			$('.payment-information').data('is-new-payment', true);
+			clearCreditCardForm();
+			$('.credit-card-form').removeClass('checkout-hidden');
+			$('.user-payment-instruments').addClass('checkout-hidden');
+		});
+	},
 
-    cancelNewPayment: function () {
-        $('.cancel-new-payment').on('click', function (e) {
-            e.preventDefault();
-            $('.payment-information').data('is-new-payment', false);
-            clearCreditCardForm();
-            $('.user-payment-instruments').removeClass('checkout-hidden');
-            $('.credit-card-form').addClass('checkout-hidden');
-        });
-    },
+	cancelNewPayment: function () {
+		$('.cancel-new-payment').on('click', function (e) {
+			e.preventDefault();
+			$('.payment-information').data('is-new-payment', false);
+			clearCreditCardForm();
+			$('.user-payment-instruments').removeClass('checkout-hidden');
+			$('.credit-card-form').addClass('checkout-hidden');
+		});
+	},
 
-    clearBillingForm: function () {
-        $('body').on('checkout:clearBillingForm', function () {
-            clearBillingAddressFormValues();
-        });
-    },
+	clearBillingForm: function () {
+		$('body').on('checkout:clearBillingForm', function () {
+			clearBillingAddressFormValues();
+		});
+	},
 
-    paymentTabs: function () {
-        $('.payment-options .nav-item').on('click', function (e) {
-            e.preventDefault();
-            var methodID = $(this).data('method-id');
-            $('.payment-information').data('payment-method-id', methodID);
-        });
-    }
+	paymentTabs: function () {
+		$('.payment-options .nav-item').on('click', function (e) {
+			e.preventDefault();
+			var methodID = $(this).data('method-id');
+			$('.payment-information').data('payment-method-id', methodID);
+		});
+	}
 };

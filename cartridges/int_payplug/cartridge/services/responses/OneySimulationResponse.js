@@ -1,7 +1,7 @@
 'use strict';
 
 function OneySimulationResponse(response) {
-    this.response = response;
+	this.response = response;
 }
 
 
