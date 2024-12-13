@@ -1,0 +1,295 @@
+* {
+	box-sizing: border-box;
+}
+.top .container {
+	width: 100%;
+	max-width: 100%;
+}
+.top .importXML, .top .add-account, .top .btn-warning:not(:disabled):not(.disabled):active, .top .btn-success:not(:disabled):not(.disabled):active, .top .btn-success, input[name*="ppAccount_submit"] {
+	background-color: #eb5202;
+	border: none;
+	box-shadow: none;
+	color: #fff;
+}
+.top .importXML:hover, .top .add-account:hover, .top .btn-success, input[name*="ppAccount_submit"]:hover {
+	background-color: #d45919;
+	color: #fff;
+}
+.top .btn-warning:visited, .top .btn-success:visited {
+	color: #fff;
+}
+.top .ml-auto {
+	text-align: right;
+}
+.top .bg-success, .top .bg-warning, .edit:not(:disabled):not(.disabled):active {
+	font-size: 2rem;
+}
+.table-striped {
+	font-size: 1.3rem;
+	border: 0.063rem solid #dee2e6;
+}
+.table-striped thead tr {
+	background-color: #514943;
+	color: #fff;
+	outline: none;
+	vertical-align: top;
+}
+.table-striped td, .table-striped th {
+	border-right: 0.063rem solid #dee2e6;
+	vertical-align: top;
+	word-break: break-word;
+}
+.table-striped th:last-child {
+	border-left: 0.063rem solid #dee2e6;
+	border-right: 0;
+}
+table.dataTable thead th, table.dataTable thead td {
+	padding: 0.8rem 1rem;
+	vertical-align: top;
+}
+.table-striped .btn-info, .table-striped .btn-info:visited, .table-striped .btn-info:hover, .table-striped .btn-info:active, .table-striped .btn-info:focus, .table-striped .btn-info:not(:disabled):not(.disabled):active, .table-striped .btn-danger:not(:disabled):not(.disabled):active, .table-striped .deleteAccount, .dt-buttons .buttons-copy, .dt-buttons .buttons-csv, .dt-buttons .buttons-excel, .dt-buttons .buttons-print, .dt-buttons .buttons-pdf, .view-btn, .action-link, .view-btn.btn:focus, .view-btn.btn {
+	background-color: transparent;
+	border: none;
+	font-weight: bold;
+	font-size: 1.3rem;
+	color: #00629b;
+	font-size: 1.3rem;
+	text-decoration: underline;
+	padding: 0;
+	padding-right: 1rem;
+	box-shadow: none;
+	vertical-align: top;
+}
+.view-btn, .view-btn:hover {
+	text-decoration: underline;
+	margin-bottom: 2rem;
+	text-transform: uppercase;
+}
+.table-striped .btn-info:hover, .table-striped .deleteAccount:hover, .dt-buttons .buttons-copy:hover, .dt-buttons .buttons-csv:hover, .dt-buttons .buttons-excel:hover, .dt-buttons .buttons-print:hover, .dt-buttons .buttons-pdf:hover, .view-btn:hover {
+	color: #137dba;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+}
+.dt-buttons .buttons-copy:not(:disabled):not(.disabled):active, .dt-buttons .buttons-csv:not(:disabled):not(.disabled):active, .dt-buttons .buttons-excel:not(:disabled):not(.disabled):active, .dt-buttons .buttons-print:not(:disabled):not(.disabled):active, .dt-buttons .buttons-pdf:not(:disabled):not(.disabled):active, .view-btn:not(:disabled):not(.disabled):active, .view-btn:focus, .view-btn:active, .view-btn:visited {
+	background-color: transparent;
+	color: #137dba;
+}
+.table-striped .form-control[placeholder*="Search"] {
+	border: none;
+	background: transparent;
+	border-bottom: 0.063rem solid #ced4da;
+	border-radius: 0;
+	box-shadow: none;
+	color: #fff;
+	padding: 0;
+	max-width: 90%;
+	text-overflow: ellipsis;
+}
+.table-striped .form-control[placeholder*="Search"]::placeholder {
+	color: #fff;
+	text-align: left;
+}
+.table.dataTable.no-footer {
+	border-bottom: 0.063rem solid #ced4da;
+}
+tfoot {
+	display: table-header-group;
+}
+.form-control[type*="password"] {
+	padding: 0.375rem 0.75rem;
+}
+.form-control[id*="pp"], input::placeholder {
+	font-size: 1.4rem;
+	line-height: 1.5;
+	outline: none;
+}
+.form-control[id*="pp"]:active, .form-control[id*="pp"]:focus {
+	outline: none;
+	border: 0.063rem solid #ced4da;
+}
+.form-control[id*="ppAccount_ppLocale"] {
+	width: 50%;
+	margin-right: 1rem;
+}
+.form-locale {
+	display: flex;
+}
+input[name*="pp"][type*="submit"] {
+	padding: 0.5rem 1rem;
+	font-size: 1.25rem;
+	line-height: 1.5;
+	border-radius: 0.3rem;
+	box-shadow: none;
+}
+select[name*="pp"] {
+	padding-left: 0.3rem;
+}
+label[for*="pp"] {
+	font-size: 1.25rem;
+}
+form[name*="pp"] .form-control {
+	-webkit-box-shadow: inset 0 0 0 5rem #fff;
+	-webkit-text-fill-color: #000;
+}
+form[name*="pp"] .form-check {
+	margin-bottom: 1rem;
+}
+form[name*="pp"] .form-check-input {
+	margin-top: 0.1rem;
+}
+form[name*="pp"] .badge-info {
+	background-color: transparent;
+	color: #000;
+	margin-left: 1.4rem;
+}
+.breadcrumb {
+	background-color: transparent;
+	padding: 0;
+	display: block;
+}
+.breadcrumb-element {
+	font-size: 1.2rem;
+	margin-right: 0.2rem;
+}
+.breadcrumb-element:not(:last-child) {
+	text-decoration: underline;
+}
+.breadcrumb-element:not(:last-child):hover {
+	color: #137dba;
+}
+.dataTableText {
+	font-size: 2rem;
+}
+.text-success {
+	color: green;
+}
+.text-danger {
+	color: red;
+}
+.text-bold, .card-text {
+	font-weight: bold;
+}
+.text-nodecoration {
+	text-decoration: none;
+	font-weight: normal;
+}
+.form-control:focus {
+	border: none;
+}
+.dataTables_length {
+	margin-top: 1rem;
+}
+.dataTableText {
+	display: flex;
+}
+.form-control:focus {
+	box-shadow: none;
+}
+select option {
+	background-color: #fff;
+}
+select:focus {
+	background-color: #fff;
+	border: 0.063rem solid #ced4da;
+}
+select[name*="Table_length"], .card-text, .cart-header {
+	margin: 0 0.5rem;
+	height: auto;
+	min-width: auto;
+	font-size: 1.3rem;
+}
+.card-text {
+	margin: 0;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button[id*="_next"] {
+	padding-right: 0;
+}
+.paginate_button, .dataTables_info, .dataTableText, input[placeholder*="Search"], .badge-success, label[for*="ppActions"] {
+	font-size: 1.3rem;
+}
+input[name*="ppActions"] {
+	margin: 0 0.5rem;
+	border: 0.063rem solid #ced4da;
+	border-radius: 0.125rem;
+	width: 7rem;
+	outline: none;
+}
+.dataTableText {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.bg-primary {
+	background-color: rgba( 0, 0, 0, 0.05 ) !important;
+   /* used important here to overwrite default styling */
+}
+.row .row {
+	margin-left: -1.53rem;
+	margin-right: -1.53rem;
+}
+.table-striped[aria-describedby*="_info"] h1 {
+	font-size: 1.4rem;
+}
+.bm-actions, .bm-actions-form {
+	display: flex;
+	justify-content: flex-start;
+}
+.bm-actions {
+	align-items: baseline;
+}
+.bm-actions-form {
+	align-items: baseline;
+}
+.bm-actions-form .form-group {
+	margin-bottom: 0;
+	display: flex;
+	align-items: center;
+}
+.bm-actions-form label {
+	margin-bottom: 0;
+}
+.bm-payplug .card {
+	margin-bottom: 2rem;
+}
+.bm-payplug .card-title {
+	margin-bottom: 0.5rem;
+}
+.bm-refund-block {
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+   /* z-index used here for popup */
+}
+.bm-refund-block .bg-info, .bm-refund-block .bg-info-error {
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff !important;
+   /* used important here to overwrite default styling */
+	color: #84bd00;
+	padding: 3rem 2rem;
+	border: 0.125rem solid #514943;
+	border-radius: 0.25rem;
+	font-size: 1.6rem;
+}
+.bm-refund-block .bm-close {
+	content: "\f00d";
+	color: #717171;
+	font-family: "fontAwesome";
+	font-size: 1.6rem;
+	height: 3rem;
+	line-height: 2.8rem;
+	position: absolute;
+	top: 0.313rem;
+	right: 0.625rem;
+	cursor: pointer;
+}
+.bm-refund-block .bg-info-error {
+	color: red;
+}
