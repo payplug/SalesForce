@@ -5,81 +5,53 @@
         assets.addCss('/css/payplugOney.css');
         assets.addJs('/js/payplugOney.js');
     </isscript>
-    <div class="payment-widget">
-        <h2>Oney Payment Options</h2>
-
-        <div class="payment-selector">
-            <label for="paymentType">Select Payment Type:</label>
-            <select id="paymentType">
-                <option value="x3_with_fees">3 Installments (With Fees)</option>
-                <option value="x4_with_fees">4 Installments (With Fees)</option>
-                <option value="x3_without_fees">3 Installments (No Fees)</option>
-                <option value="x4_without_fees">4 Installments (No Fees)</option>
-            </select>
-        </div>
-
-        <div id="paymentOptionsContainer">
-            <isif condition="${pdict.oneySimulation.x3_with_fees}">
-                <div class="payment-option" data-type="x3_with_fees">
-                    <h3>Pay in 3 Installments (With Fees)</h3>
-                    <p class="details">
-                        Total Cost: ${pdict.oneySimulation.x3_with_fees.total_cost}€<br>
-                        Down Payment: ${pdict.oneySimulation.x3_with_fees.down_payment_amount / 100}€<br>
-                        Installments:
-                        <isloop items="${pdict.oneySimulation.x3_with_fees.installments}" var="installment">
-                            ${installment.amount / 100}€ on ${installment.date}<br>
-                        </isloop>
-                        Effective Annual Percentage Rate (TAEG): ${pdict.oneySimulation.x3_with_fees.effective_annual_percentage_rate}%
-                    </p>
-                    <a href="#" class="action-button">Proceed with 3x Payment</a>
-                </div>
-            </isif>
-
-            <isif condition="${pdict.oneySimulation.x4_with_fees}">
-                <div class="payment-option" data-type="x4_with_fees" style="display: none;">
-                    <h3>Pay in 4 Installments (With Fees)</h3>
-                    <p class="details">
-                        Total Cost: ${pdict.oneySimulation.x4_with_fees.total_cost}€<br>
-                        Down Payment: ${pdict.oneySimulation.x4_with_fees.down_payment_amount / 100}€<br>
-                        Installments:
-                        <isloop items="${pdict.oneySimulation.x4_with_fees.installments}" var="installment">
-                            ${installment.amount / 100}€ on ${installment.date}<br>
-                        </isloop>
-                        Effective Annual Percentage Rate (TAEG): ${pdict.oneySimulation.x4_with_fees.effective_annual_percentage_rate}%
-                    </p>
-                    <a href="#" class="action-button">Proceed with 4x Payment</a>
-                </div>
-            </isif>
-
-            <isif condition="${pdict.oneySimulation.x3_without_fees}">
-                <div class="payment-option" data-type="x3_without_fees" style="display: none;">
-                    <h3>Pay in 3 Installments (No Fees)</h3>
-                    <p class="details">
-                        Down Payment: ${pdict.oneySimulation.x3_without_fees.down_payment_amount / 100}€<br>
-                        Installments:
-                        <isloop items="${pdict.oneySimulation.x3_without_fees.installments}" var="installment">
-                            ${installment.amount / 100}€ on ${installment.date}<br>
-                        </isloop>
-                        Effective Annual Percentage Rate (TAEG): ${pdict.oneySimulation.x3_without_fees.effective_annual_percentage_rate}%
-                    </p>
-                    <a href="#" class="action-button">Proceed with 3x Payment</a>
-                </div>
-            </isif>
-
-            <isif condition="${pdict.oneySimulation.x4_without_fees}">
-                <div class="payment-option" data-type="x4_without_fees" style="display: none;">
-                    <h3>Pay in 4 Installments (No Fees)</h3>
-                    <p class="details">
-                        Down Payment: ${pdict.oneySimulation.x4_without_fees.down_payment_amount / 100}€<br>
-                        Installments:
-                        <isloop items="${pdict.oneySimulation.x4_without_fees.installments}" var="installment">
-                            ${installment.amount / 100}€ on ${installment.date}<br>
-                        </isloop>
-                        Effective Annual Percentage Rate (TAEG): ${pdict.oneySimulation.x4_without_fees.effective_annual_percentage_rate}%
-                    </p>
-                    <a href="#" class="action-button">Proceed with 4x Payment</a>
-                </div>
-            </isif>
+    <a id="openPopin">
+        <img alt="oney" src="${URLUtils.staticURL('images/logo_3x4x_oney.png')}"/>
+        <img alt="simulation" class="oneySimu" src="${URLUtils.staticURL('images/question.svg')}"/>
+    </a>
+    <div id="popin" class="popin">
+        <div class="popin-content">
+            <button id="closePopin" class="close-btn">&times;</button>
+            <div class="popin-header">
+                <img class="oneyLogo" src="${URLUtils.staticURL('images/Logo_Oney.svg')}" alt="oneyLogo"/>
+            </div>
+            <div class="popin-body">
+                <select id="payment-options">
+                    <isif condition="${!empty(pdict.oneySimulation.x3)}">
+                        <option value="3x">Paiement en 3x</option>
+                    </isif>
+                    <isif condition="${!empty(pdict.oneySimulation.x4)}">
+                        <option value="4x">Paiement en 4x</option>
+                    </isif>
+                </select>
+                <isif condition="${!empty(pdict.oneySimulation.x3)}">
+                    <div class="payment-details" id="3x" style="display: none;">
+                        <p><strong>Pour un montant de :</strong> <isprint value="${pdict.oneySimulationAmount}" style="MONEY_LONG" /></p>
+                        <p><strong>Premier apport :</strong> <isprint value="${pdict.oneySimulation.x3.downPayment}" style="MONEY_LONG" /> </p>
+                        <isif condition="${pdict.oneySimulation.x3.taeg > 0}">
+                            <p>(Coût de financement: <isprint value="${pdict.oneySimulation.x3.fees}" style="MONEY_LONG" />, TAEG: ${pdict.oneySimulation.x3.taeg} %) </p>
+                        </isif>
+                        <p><strong>Mensualité n°1 :</strong> <isprint value="${pdict.oneySimulation.x3.firstPayment}" style="MONEY_LONG" /></p>
+                        <p><strong>Mensualité n°2 :</strong> <isprint value="${pdict.oneySimulation.x3.secondPayment}" style="MONEY_LONG" /></p>
+                        <p><strong>Total :</strong> <isprint value="${pdict.oneySimulation.x3.total}" style="MONEY_LONG" /></p>
+                    </div>
+                </isif>
+                <isif condition="${!empty(pdict.oneySimulation.x4)}">
+                    <div class="payment-details" id="4x" style="display: none;">
+                        <p><strong>Pour un montant de :</strong> <isprint value="${pdict.oneySimulationAmount}" style="MONEY_LONG" /></p>
+                        <p><strong>Premier apport :</strong> <isprint value="${pdict.oneySimulation.x4.downPayment}" style="MONEY_LONG" /></p>
+                        <isif condition="${pdict.oneySimulation.x4.taeg > 0}">
+                            <p>(Coût de financement: <isprint value="${pdict.oneySimulation.x4.fees}" style="MONEY_LONG" />, TAEG: ${pdict.oneySimulation.x4.taeg} %) </p>
+                        </isif>
+                        <p><strong>Mensualité n°1 :</strong> <isprint value="${pdict.oneySimulation.x4.firstPayment}" style="MONEY_LONG" /></p>
+                        <p><strong>Mensualité n°2 :</strong> <isprint value="${pdict.oneySimulation.x4.secondPayment}" style="MONEY_LONG" /></p>
+                        <p><strong>Mensualité n°3 :</strong> <isprint value="${pdict.oneySimulation.x4.thirdPayment}" style="MONEY_LONG" /></p>
+                        <p><strong>Total :</strong> <isprint value="${pdict.oneySimulation.x4.total}" style="MONEY_LONG" /></p>
+                    </div>
+                </isif>
+                <div class="separator"></div>
+                ${Resource.msg('oney.condition', 'payplug', null)}
+            </div>
         </div>
     </div>
 </isif>

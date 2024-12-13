@@ -9,13 +9,14 @@ const BasketMgr = require('dw/order/BasketMgr');
 /** Scripts Declaration */
 const PayPlugUtils = require('~/cartridge/scripts/util/PayPlugUtils');
 const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig');
+const PaymentMethodHelper = require('~/cartridge/scripts/helpers/OneyPaymentMethodHelper');
 
 
 function PayPlugOneySimulationRequest(amount) {
 	this.body = {
 		amount: amount,
 		country: Locale.getLocale(request.getLocale()).getCountry(),
-		operations: ["x3_with_fees", "x4_with_fees", "x3_without_fees", "x4_without_fees"]
+		operations: PaymentMethodHelper.getOneyApplicablePaymentMethods(customer, amount)
 	};
 }
 

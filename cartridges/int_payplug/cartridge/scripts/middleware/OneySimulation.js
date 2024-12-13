@@ -1,6 +1,7 @@
 'use strict';
 
 const Site = require('dw/system/Site');
+const Money = require('dw/value/Money');
 
 const PayPlugPaymentModel = require('~/cartridge/models/PayPlugPaymentModel');
 
@@ -18,9 +19,11 @@ OneySimulationHelper.applySimulationInViewData = function applySimulationInViewD
 	var currentBasket = BasketMgr.getCurrentBasket();
 
 	if (currentBasket) {
-		const cartTotal = parseFloat(currentBasket.totalGrossPrice * 100);
+		const cartTotal = currentBasket.totalGrossPrice;
 		const PayPlug = new PayPlugPaymentModel();
-		viewData.oneySimulation = PayPlug.oneySimulation(cartTotal).response;
+		viewData.oneySimulationAmount = new Money(cartTotal.getValue(), cartTotal.getCurrencyCode());
+		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100))
+		viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
 
 		res.setViewData(viewData);
 	}
@@ -35,9 +38,11 @@ OneySimulationHelper.applySimulationInViewDataProduct = function applySimulation
 	}
 	var viewData = res.getViewData();
 
-	const productPrice = viewData.product.price.sales ? viewData.product.price.sales.value : viewData.product.price.min.sales.value;
+	const productPrice = viewData.product.price.sales ? viewData.product.price.sales : viewData.product.price.min.sales;
 	const PayPlug = new PayPlugPaymentModel();
-	viewData.oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice * 100)).response;
+	viewData.oneySimulationAmount = new Money(productPrice.value, productPrice.currency);
+	const oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice.value * 100))
+	viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
 
 
 	res.setViewData(viewData);
