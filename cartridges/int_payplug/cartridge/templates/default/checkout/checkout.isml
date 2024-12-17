@@ -130,6 +130,7 @@
                     </div>
                     <div class="card-body order-total-summary">
                         <isinclude template="checkout/orderTotalSummary" />
+                        <isinclude template="payplug/oneysimulation" />
                     </div>
                 </div>
 
