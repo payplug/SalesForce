@@ -20,7 +20,6 @@ function loadAndEncapsulateScript(url) {
 document.addEventListener('DOMContentLoaded', function () {
 	[].forEach.call(document.querySelectorAll(".payplugLightbox"), function (el) {
 		el.addEventListener('click', function (event) {
-			console.log('click');
 			event.preventDefault();
 			$.ajax({
 				url: el.getAttribute('data-pp-lightbox-url'),

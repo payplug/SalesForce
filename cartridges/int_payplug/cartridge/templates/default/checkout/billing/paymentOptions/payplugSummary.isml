@@ -6,23 +6,21 @@
 
 <div id="PayPlugtable" style="margin-top: 10px;">
     <table class="infobox w e">
-        <isif condition="${payplugPaymentData !== null}">
-            <tbody style="float:right;">
+        <tbody style="float:right;">
+            <tr>
+                <td class="infobox_title">${Resource.msg('order.paymentmethod', 'payplug', null)}</td>
+                <td class="infobox_item">${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod'] || 'credit card'}</td>
+            </tr>
+            <isif condition="${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod'] === 'credit card' && !empty(payplugPaymentData)}">
                 <tr>
-                    <td class="infobox_title">${Resource.msg('order.paymentmethod', 'payplug', null)}</td>
-                    <td class="infobox_item">${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod'] || 'credit card'}</td>
+                    <td class="infobox_title">${Resource.msg('order.masked_card', 'payplug', null)}</td>
+                    <td class="infobox_item">**** **** **** ${payplugPaymentData.card.last4}</td>
                 </tr>
-                <isif condition="${pdict.orderHistoryDetails.getCustom()['pp_paymentMethod'] === 'credit card'}">
-                    <tr>
-                        <td class="infobox_title">${Resource.msg('order.masked_card', 'payplug', null)}</td>
-                        <td class="infobox_item">**** **** **** ${payplugPaymentData.card.last4}</td>
-                    </tr>
-                    <tr>
-                        <td class="infobox_title">${Resource.msg('order.card.expiration', 'payplug', null)}</td>
-                        <td class="infobox_item">${payplugPaymentData.card.exp_month}/${payplugPaymentData.card.exp_year}</td>
-                    </tr>
-                </isif>
-            </tbody>
-        </isif>
+                <tr>
+                    <td class="infobox_title">${Resource.msg('order.card.expiration', 'payplug', null)}</td>
+                    <td class="infobox_item">${payplugPaymentData.card.exp_month}/${payplugPaymentData.card.exp_year}</td>
+                </tr>
+            </isif>
+        </tbody>
     </table>
 </div>

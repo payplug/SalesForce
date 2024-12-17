@@ -25,7 +25,7 @@
                                     <td><a href="${URLUtils.url('PayPlugBM-HandleOrders', 'viewOrder', order.currentOrderNo)}">${order.currentOrderNo}</a></td>
                                     <td>${order.creationDate}</td>
                                     <td>${order.getCustom()['pp_isCaptured'] ? 'Captured' : 'Not Captured'}</td>
-                                    <td>${dw.value.Money(order.getCustom()['pp_amountRefunded'], order.getCurrencyCode())}</td>
+                                    <td>${dw.value.Money(order.getCustom()['pp_amountRefunded'] || 0, order.getCurrencyCode())}</td>
                                     <td>${order.getPaymentStatus()}</td>
                                     <td><a href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}" class="action-link">${Resource.msg('order.viewInBM', 'locale', null)}</a></td>
                                 </tr>

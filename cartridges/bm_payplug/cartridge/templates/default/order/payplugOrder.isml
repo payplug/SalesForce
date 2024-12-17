@@ -75,7 +75,7 @@
                                             </span>
                                         </p>
                                         <p class="card-text">${Resource.msgf('order.refundedAmount', 'locale', null)}
-                                            <span class="text-nodecoration">${order.getCustom()['pp_amountRefunded']}</span>
+                                            <span class="text-nodecoration">${order.getCustom()['pp_amountRefunded'] || 0}</span>
                                         </p>
                                     </div>
                                 </div>
