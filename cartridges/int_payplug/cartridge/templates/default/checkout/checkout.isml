@@ -11,8 +11,9 @@
         }
         if (dw.system.Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue() === 'integrated') {
             assets.addJs('/js/payplugLightbox.js');
-            assets.addJs('/js/payplugIntegrated.js')
+            assets.addJs('/js/payplugIntegrated.js');
         }
+        assets.addJs('/js/payplugApplePay.js');
         assets.addCss('/css/checkout/checkout.css');
     </isscript>
 

@@ -28,6 +28,18 @@ PayPlugPaymentModel.prototype.capturePayment = function capturePayment(order) {
 	return paymentStatus;
 }
 
+PayPlugPaymentModel.prototype.updatePayment = function updatePayment(paymentToken, paymentID) {
+	const paymentStatus = PayPlugPaymentAPI.updatePayment(paymentToken, paymentID);
+
+	return paymentStatus;
+}
+
+PayPlugPaymentModel.prototype.cancelPayment = function cancelPayment(paymentID) {
+	const paymentStatus = PayPlugPaymentAPI.cancelPayment(paymentID);
+
+	return paymentStatus;
+}
+
 PayPlugPaymentModel.prototype.refundPayment = function refundPayment(amount, order) {
 	const paymentStatus = PayPlugPaymentAPI.createRefund(amount, order);
 

@@ -83,9 +83,9 @@ function handleRefundNotification(order, payplugPaymentData) {
 
 
 function handlePaymentNotification(order, payplugPaymentData) {
+	let message = JSON.stringify(payplugPaymentData, null, 2);
 	if (payplugPaymentData.is_paid ||
 		(!empty(payplugPaymentData.authorization) && payplugPaymentData.authorization.authorized_amount !== 0 && !empty(payplugPaymentData.authorization.authorized_at))) {
-		let message = JSON.stringify(payplugPaymentData, null, 2);
 		order.setPaymentStatus(order.PAYMENT_STATUS_PAID);
 		order.getCustom()['payplugPaymentData'] = message;
 		order.getCustom()['pp_pspReference'] = payplugPaymentData.id;

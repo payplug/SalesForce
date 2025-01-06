@@ -8,6 +8,8 @@ const Logger = require('dw/system/Logger');
 /** Scripts Declaration */
 const ServiceModel = require('~/cartridge/services/models/ServiceModel');
 const PayPlugServiceConfig = require('~/cartridge/services/PayPlugServiceConfig');
+const PayPlugUpdateRequest = require('~/cartridge/services/requests/PayPlugUpdateRequest');
+const PayPlugCancelRequest = require('~/cartridge/services/requests/PayPlugCancelRequest');
 const PayPlugPaymentRequest = require('~/cartridge/services/requests/PayPlugPaymentRequest');
 const PayPlugCaptureRequest = require('~/cartridge/services/requests/PayPlugCaptureRequest');
 const PayPlugCreateRefundRequest = require('~/cartridge/services/requests/PayPlugCreateRefundRequest');
@@ -18,6 +20,7 @@ const PayPlugRemoveCustomerCardRequest = require('~/cartridge/services/requests/
 /** Constant Declaration */
 const LOGGER_PayPlug = Logger.getLogger("PayPlug", "service");
 const OVERLAY_RESPONSE = {
+	UpdateResponse: require('*/cartridge/services/responses/UpdateResponse'),
 	PaymentResponse: require('*/cartridge/services/responses/PaymentResponse'),
 	CaptureResponse: require('*/cartridge/services/responses/CaptureResponse'),
 	CreateRefund: require('*/cartridge/services/responses/CreateRefundResponse'),
@@ -43,6 +46,24 @@ PayPlugPaymentAPI.prototype.capturePayment = function capturePayment(order) {
 	);
 	serviceModel.setLogger(LOGGER_PayPlug);
 	return serviceModel.executeCall(new PayPlugCaptureRequest(order).getRequest(), OVERLAY_RESPONSE.CaptureResponse);
+}
+
+PayPlugPaymentAPI.prototype.updatePayment = function updatePayment(payment_token, paymentID) {
+	const serviceModel = new ServiceModel(
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').patchCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugUpdateRequest(payment_token, paymentID).getRequest(), OVERLAY_RESPONSE.UpdateResponse);
+}
+
+PayPlugPaymentAPI.prototype.cancelPayment = function cancelPayment(paymentID) {
+	const serviceModel = new ServiceModel(
+		PayPlugServiceConfig.getServiceName(),
+		require('~/cartridge/services/callbacks/PayPlugCallbacks.js').patchCallback()
+	);
+	serviceModel.setLogger(LOGGER_PayPlug);
+	return serviceModel.executeCall(new PayPlugCancelRequest(paymentID).getRequest(), OVERLAY_RESPONSE.UpdateResponse);
 }
 
 PayPlugPaymentAPI.prototype.removeCustomerCardFromWallet = function removeCustomerCardFromWallet(cardID) {

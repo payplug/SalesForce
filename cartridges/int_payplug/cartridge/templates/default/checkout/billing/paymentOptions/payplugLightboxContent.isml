@@ -67,11 +67,22 @@
                 </form>
             </div>
         </isif>
+
         <div class="payplugLightboxForm">
-            <button data-pp-lightbox-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
-                data-pp-paymentid="${paymentOption.ID}"
-                data-pp-lightbox-lib="${dw.system.Site.current.preferences.custom.PP_libraryUrl}"
-                class="btn btn-default payplugLightbox">Buy now - ${paymentOption.ID}</button>
+            <isif condition="${paymentOption.isApplePay}">
+                <apple-pay-button class="onApplePayButtonClicked payplugLightbox"
+                    data-pp-applepay="${URLUtils.https('PayPlugApplePay-ApplePayRequest').toString()}"
+                    data-pp-validate="${URLUtils.https('PayPlugApplePay-ValidateMerchant').toString()}"
+                    data-pp-update="${URLUtils.https('PayPlugApplePay-UpdatePayment').toString()}"
+                    data-pp-applevalidationurl="${URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentOption.ID)}"
+                    buttonstyle="black" type="plain" locale="fr-FR"></apple-pay-button>
+            <iselse/>
+                    <button data-pp-lightbox-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
+                        data-pp-paymentid="${paymentOption.ID}"
+                        data-pp-lightbox-lib="${dw.system.Site.current.preferences.custom.PP_libraryUrl}"
+                        class="btn btn-default payplugLightbox">Buy now - ${paymentOption.ID}</button>
+            </isif>
         </div>
+
     </div>
 </div>

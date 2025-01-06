@@ -5,6 +5,7 @@ const Site = require('dw/system/Site');
 const Locale = require('dw/util/Locale');
 const URLUtils = require('dw/web/URLUtils');
 const Calendar = require('dw/util/Calendar');
+const Encoding = require('dw/crypto/Encoding');
 const BasketMgr = require('dw/order/BasketMgr');
 const PaymentManager = require('dw/order/PaymentMgr');
 
@@ -95,6 +96,14 @@ function PayPlugPaymentRequest(paymentMethod, creditCardID) {
 	if (integrationMode === 'integrated' && (this.body.payment_method === 'credit_card' || empty(this.body.payment_method))) {
 		this.body.integration = 'INTEGRATED_PAYMENT';
 		delete this.body.hosted_payment.cancel_url;
+	}
+
+	if (ppPaymentMethod === 'apple_pay') {
+		const bytes = new dw.util.Bytes(JSON.stringify({ 'apple_pay_domain': Site.getCurrent().getCustomPreferenceValue('PP_ApplePayDomain') }), 'UTF-8');
+		this.body.payment_context.apple_pay = {
+			domain_name: Site.getCurrent().getCustomPreferenceValue('PP_ApplePayDomain'),
+			application_data: Encoding.toBase64(bytes)
+		}
 	}
 }
 

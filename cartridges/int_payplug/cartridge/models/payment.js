@@ -22,6 +22,7 @@ function applicablePaymentMethods(paymentMethods) {
 			name: method.name,
 			isPayPlug: PayPlugUtils.isPaymentMethodPayPlug(method),
 			isCreditCard: paymentMethod === 'credit_card',
+			isApplePay: paymentMethod === 'apple_pay',
 			integrationMode: paymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue(),
 			img: method.getImage() ? method.getImage().getHttpsURL() : false
 		};

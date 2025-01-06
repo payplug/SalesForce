@@ -5,3 +5,5 @@
 <isif condition="${customSitePrefs.PP_integrationMode.getValue() === 'integrated'}">
     <script src="${customSitePrefs.PP_libraryIntegratedUrl}"></script>
 </isif>
+
+<script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script>
