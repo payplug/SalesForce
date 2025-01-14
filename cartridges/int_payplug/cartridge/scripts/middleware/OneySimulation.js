@@ -4,6 +4,7 @@ const Site = require('dw/system/Site');
 const Money = require('dw/value/Money');
 
 const PayPlugPaymentModel = require('~/cartridge/models/PayPlugPaymentModel');
+const OneyPaymentMethodHelper = require('~/cartridge/scripts/helpers/OneyPaymentMethodHelper');
 
 function OneySimulationHelper() { }
 
@@ -24,6 +25,7 @@ OneySimulationHelper.applySimulationInViewData = function applySimulationInViewD
 		viewData.oneySimulationAmount = new Money(cartTotal.getValue(), cartTotal.getCurrencyCode());
 		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100))
 		viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
+		viewData.isOneyAvailable = OneyPaymentMethodHelper.isOneyAvailable();
 
 		res.setViewData(viewData);
 	}
@@ -48,6 +50,7 @@ OneySimulationHelper.applySimulationInViewDataCheckout = function applySimulatio
 		viewData.oneySimulationAmount = new Money(cartTotal.getValue(), cartTotal.getCurrencyCode());
 		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100))
 		viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
+		viewData.isOneyAvailable = OneyPaymentMethodHelper.isOneyAvailable();
 
 		res.setViewData(viewData);
 	}
@@ -67,6 +70,7 @@ OneySimulationHelper.applySimulationInViewDataProduct = function applySimulation
 	viewData.oneySimulationAmount = new Money(productPrice.value, productPrice.currency);
 	const oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice.value * 100))
 	viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
+	viewData.isOneyAvailable = OneyPaymentMethodHelper.isOneyAvailable();
 
 
 	res.setViewData(viewData);

@@ -1,10 +1,10 @@
 
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addCss('/css/payplugOney.css');
+    assets.addJs('/js/payplugOney.js');
+</isscript>
 <isif condition="${!empty(pdict.oneySimulation)}">
-    <isscript>
-        var assets = require('*/cartridge/scripts/assets.js');
-        assets.addCss('/css/payplugOney.css');
-        assets.addJs('/js/payplugOney.js');
-    </isscript>
     <a id="openPopin">
         <img alt="oney" src="${URLUtils.staticURL('images/logo_3x4x_oney.png')}"/>
         <img alt="simulation" class="oneySimu" src="${URLUtils.staticURL('images/question.svg')}"/>
@@ -54,4 +54,8 @@
             </div>
         </div>
     </div>
+<iselseif condition="${pdict.isOneyAvailable}"/>
+    <a id="openPopin">
+        <img alt="oney" src="${URLUtils.staticURL('images/oney_disable.png')}"/>
+    </a>
 </isif>

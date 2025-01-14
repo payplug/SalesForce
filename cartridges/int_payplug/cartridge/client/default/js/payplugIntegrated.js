@@ -5,6 +5,23 @@ document.addEventListener('DOMContentLoaded', function () {
 		integratedPayment.secureDomain = "https://secure-qa.payplug.com";
 	}
 
+	const props = {
+		inputStyles: {
+			default: {
+				color: '#2B343D',
+				fontFamily: 'Poppins, sans-serif',
+				fontSize: '14px',
+				textAlign: 'left',
+				'::placeholder': {
+					color: '#969a9f',
+				},
+				':focus': {
+					color: '#2B343D',
+				}
+			}
+		}
+	}
+
 	// Add scheme
 	const schemeElement = document.getElementById('scheme');
 	const schemes = integratedPayment.getSupportedSchemes();
@@ -30,38 +47,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Add card holder field
 	integratedPayment.cardHolder(document.getElementById('cardholder-input-container'), {
-		default: {
-			fontFamily: "sans-serif",
-		}
+		default: props.inputStyles.default
 	});
 
 	// Add each payments fields
 	integratedPayment.cardNumber(document.getElementById('pan-input-container'), {
-		default: {
-			fontFamily: "sans-serif",
-		},
-		invalid: {
-			fontFamily: "sans-serif",
-			color: '#FF695E',
-		},
+		default: props.inputStyles.default
 	});
 	integratedPayment.cvv(document.getElementById('cvv-input-container'), {
-		default: {
-			fontFamily: "sans-serif",
-		},
-		invalid: {
-			fontFamily: "sans-serif",
-			color: '#FF695E',
-		},
+		default: props.inputStyles.default
 	});
 	integratedPayment.expiration(document.getElementById('exp-input-container'), {
-		default: {
-			fontFamily: "sans-serif",
-		},
-		invalid: {
-			fontFamily: "sans-serif",
-			color: '#FF695E',
-		},
+		default: props.inputStyles.default
 	});
 
 	// Handle your form submission
@@ -88,6 +85,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Implement your own retrieve function from back end
 	integratedPayment.onCompleted((event) => {
+		console.log(event)
+		alert(event)
 		if (event.error) {
 			console.error(event);
 		} else {

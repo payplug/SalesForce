@@ -1,44 +1,53 @@
 <isdecorate template="application/MenuFrame">
-<isinclude template="components/header"/>
+    <isinclude template="components/header" />
 
     <img border="0" src="${URLUtils.staticURL('/images/logo_payplug.svg')}" width="100">
     <isif condition="${!empty(pdict.order)}">
-        <isset name="order" value="${pdict.order}" scope="page"/>
+        <isset name="order" value="${pdict.order}" scope="page" />
+        <isif condition="${!empty(order.getCustom()['payplugPaymentData'])}">
+            <isset name="paymentData" value="${JSON.parse(order.getCustom()['payplugPaymentData'])}" scope="page" />
+        </isif>
         <div class="bm-payplug">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <isbreadcrumbs bctext1="PayPlug" bcurl1="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'custom_module_payplug')}" bctext2="${Resource.msg('order.manageOrders','locale',null)}" bcurl2="${URLUtils.url('PayPlugBM-HandleOrders')}" bctext3="${Resource.msgf('order.number', 'locale', null, order.currentOrderNo)}" />
+                        <isbreadcrumbs bctext1="PayPlug" bcurl1="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'custom_module_payplug')}" bctext2="${Resource.msg('order.manageOrders', 'locale', null)}" bcurl2="${URLUtils.url('PayPlugBM-HandleOrders')}" bctext3="${Resource.msgf('order.number', 'locale', null, order.currentOrderNo)}" />
                         <div class="bm-actions">
-                            <a class="btn btn-lg view-btn" href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}">${Resource.msg('order.viewInBM','locale',null)}</a>
-                            <isif condition ="${!empty(pdict.responseMessage)}">
+                            <a class="btn btn-lg view-btn" href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}">${Resource.msg('order.viewInBM', 'locale', null)}</a>
+                            <isif condition="${!empty(paymentData)}">
+                                <a class="btn btn-lg view-btn" href="${(dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM ? 'https://portal.payplug.com/#/payments/online/' : 'https://portal-qa.payplug.com/#/payments/online/') + paymentData.id}">
+                                    View in PayPlug Dashboard
+                                </a>
+                            </isif>
+                            <isif condition="${!empty(pdict.responseMessage)}">
+
                                 <div class="bm-refund-block">
-                                <isif condition ="${pdict.operationSuccess == 'true'}">
-                                    <div class="bg-info">
-                                        <i class="fa fa-times bm-close" aria-hidden="true"></i>
-                                        ${pdict.responseMessage}
-                                    </div>
-                                <iselse/>
-                                    <div class="bg-info-error">
-                                        <i class="fa fa-times bm-close" aria-hidden="true"></i>
-                                        ${pdict.responseMessage}
-                                    </div>
-                                </isif>
+                                    <isif condition="${pdict.operationSuccess == 'true'}">
+                                        <div class="bg-info">
+                                            <i class="fa fa-times bm-close" aria-hidden="true"></i>
+                                            ${pdict.responseMessage}
+                                        </div>
+                                    <iselse/>
+                                        <div class="bg-info-error">
+                                            <i class="fa fa-times bm-close" aria-hidden="true"></i>
+                                            ${pdict.responseMessage}
+                                        </div>
+                                    </isif>
                                 </div>
                             </isif>
                         </div>
-                        <isset name="orderTotalRefund" value="${order.totalGrossPrice.value}" scope="page"/>
+                        <isset name="orderTotalRefund" value="${order.totalGrossPrice.value}" scope="page" />
                         <isif condition="${!order.getCustom()['pp_isCaptured']}">
                             <form method="post" action="${URLUtils.url('PayPlugBM-HandleOrdersForm')}" class="bm-actions-form">
-                                <input type="hidden" value="${order.orderNo}" name="${pdict.CurrentForms.payplugActions.ppOrder.htmlName}"/>
+                                <input type="hidden" value="${order.orderNo}" name="${pdict.CurrentForms.payplugActions.ppOrder.htmlName}" />
                                 <button name="${pdict.CurrentForms.payplugActions.ppOrderCaptureSubmit.htmlName}" class="btn btn-lg view-btn">${Resource.msg('order.captureOrder', 'locale', null)}</button>
                             </form>
                         <iselse/>
                             <form method="post" action="${URLUtils.url('PayPlugBM-HandleOrdersForm')}" class="bm-actions-form">
-                                <input type="hidden" value="${order.orderNo}" name="${pdict.CurrentForms.payplugActions.ppOrder.htmlName}"/>
+                                <input type="hidden" value="${order.orderNo}" name="${pdict.CurrentForms.payplugActions.ppOrder.htmlName}" />
                                 <div class="form-group">
                                     <label for="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}">${Resource.msg('order.refundAmount', 'locale', null)}</label>
-                                    <input type="text" name="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}" placeholder="${(orderTotalRefund - order.custom.pp_amountRefunded)}" id="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}"/>
+                                    <input type="text" name="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}" placeholder="${(orderTotalRefund - order.custom.pp_amountRefunded)}" id="${pdict.CurrentForms.payplugActions.ppOrderRefundAmount.htmlName}" />
                                 </div>
                                 <button name="${pdict.CurrentForms.payplugActions.ppOrderRefundSubmit.htmlName}" class="btn btn-lg view-btn">${Resource.msg('order.refundOrder', 'locale', null)}</button>
                             </form>
@@ -87,11 +96,10 @@
                                     <div class="card">
                                         <h5 class="card-header bg-primary">${Resource.msg('order.payplug.data', 'locale', null)}</h5>
                                         <div class="card-body">
-                                            <isset name="paymentData" value="${JSON.parse(order.getCustom()['payplugPaymentData'])}" scope="page" />
                                             <isloop items="${Object.keys(paymentData)}" var="key">
                                                 <isif condition="${typeof paymentData[key] === 'object' && paymentData[key] != null}">
                                                     <!-- Handle nested objects -->
-                                                    <br/>
+                                                    <br />
                                                     <h2>${key}</h2>
                                                     <div class="nested-object">
                                                         <isloop items="${Object.keys(paymentData[key])}" var="nestedKey">
@@ -113,5 +121,5 @@
         </div>
     </isif>
 
-<isinclude template="components/footer"/>
+    <isinclude template="components/footer" />
 </isdecorate>

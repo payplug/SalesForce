@@ -2,10 +2,6 @@ const { event } = require("jquery");
 
 async function onApplePayButtonClicked(url) {
 	try {
-		// Vérifiez si Apple Pay est disponible
-		if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) {
-			return;
-		}
 
 		var paymentId;
 
@@ -86,6 +82,11 @@ async function validateMerchant() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+	// Vérifiez si Apple Pay est disponible
+	if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) {
+		$('li[data-pp-apple="true"]').hide();
+		return;
+	}
 	$('.onApplePayButtonClicked').on('click', function (event) {
 		event.preventDefault();
 		onApplePayButtonClicked($(this).data('pp-applepay'));

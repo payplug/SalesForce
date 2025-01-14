@@ -24,4 +24,11 @@ OneyPaymentMethodHelper.getOneyApplicablePaymentMethods = function getOneyApplic
 	return [];
 }
 
+OneyPaymentMethodHelper.isOneyAvailable = function isOneyAvailable() {
+    return PaymentMgr.getActivePaymentMethods().toArray().some((pm) => {
+		return !empty(pm.custom.PP_paymentMethod.value) && pm.custom.PP_paymentMethod.value.indexOf('oney') !== -1;
+    });
+};
+
+
 module.exports = OneyPaymentMethodHelper;

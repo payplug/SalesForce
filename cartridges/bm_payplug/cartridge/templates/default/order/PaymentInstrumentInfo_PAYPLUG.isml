@@ -75,7 +75,7 @@
                 <tr>
                     <td class="infobox_title">${Resource.msg('order.link_payplug', 'payplug', null)}</td>
                     <td class="infobox_item">
-                        <a href="${(payplugPaymentData.is_live ? 'https://portal.payplug.com/#/payments/online/' : 'https://portal-qa.payplug.com/#/payments/online/') + payplugPaymentData.id}">
+                        <a href="${(dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM ? 'https://portal.payplug.com/#/payments/online/' : 'https://portal-qa.payplug.com/#/payments/online/') + payplugPaymentData.id}">
                             ${payplugPaymentData.id}
                         </a>
                     </td>
