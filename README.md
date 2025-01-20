@@ -16,6 +16,7 @@ This module integrates **PayPlug** with Salesforce Commerce Cloud (SFRA) to prov
   - iDEAL
   - Bancontact
   - Satispay
+  - Apple Pay
 
 - **Checkout Flows:**
   - **Redirection:** Redirect users to PayPlug's hosted payment page.
@@ -44,12 +45,12 @@ This module integrates **PayPlug** with Salesforce Commerce Cloud (SFRA) to prov
 ### Steps
 
 1. **Add the Module to Your Project:**
-   - Import the module into your SFCC instance under `int_payplug`.
+   - Import the module into your SFCC instance under `int_payplug | bm_payplug`.
 
 2. **Update Your Cartridge Path:**
    - Add the PayPlug module to your `Cartridge Path` in **Business Manager**:
      ```
-     int_payplug:your_project
+     int_payplug:bm_playplug:your_project
      ```
 
 3. **Configure PayPlug Preferences:**
@@ -72,9 +73,18 @@ This module integrates **PayPlug** with Salesforce Commerce Cloud (SFRA) to prov
 
 ## Technical Details
 
-- **Cartridge Name:** `int_payplug`
+- **Cartridge Name:** `int_payplug & bm_payplug`
 - **Custom Preferences:**
-  - `pp_api_key` : API key for authentication.
+  - `PP_secretKey` : API key for authentication.
+  - `PP_differedPayment` : Boolean for differed Payment.
+  - `PP_libraryUrl` : URL for payplug library.
+  - `PP_libraryIntegratedUrl` : URL for payplug Library Integrated payment.
+  - `PP_force3DS` : Boolean for forcing 3DS.
+  - `PP_integrationMode` : Selection of integration mode.
+  - `PP_oneClickPayment` : Boolean for one click payment.
+  - `PP_oneyDisplay` : Selection of Oney display.
+  - `PP_ApplePayDomainCertificate` : Apple Pay certificate.
+  - `PP_ApplePayDomain` : Apple Pay Domain.
 
 - **Payment Status Handling:**
   - **PAID:** When the payment is successfully authorized or completed.

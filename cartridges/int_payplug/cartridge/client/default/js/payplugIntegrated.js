@@ -85,8 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Implement your own retrieve function from back end
 	integratedPayment.onCompleted((event) => {
-		console.log(event)
-		alert(event)
 		if (event.error) {
 			console.error(event);
 		} else {

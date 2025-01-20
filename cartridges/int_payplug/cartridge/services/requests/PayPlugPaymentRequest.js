@@ -60,7 +60,7 @@ function PayPlugPaymentRequest(paymentMethod, creditCardID) {
 			cancel_url: URLUtils.https('PayPlug-CancelURL').abs().toString(),
 		},
 		force_3ds: Site.getCurrent().getCustomPreferenceValue('PP_force3DS'),
-		allow_save_card: customer.isAuthenticated() && Site.getCurrent().getCustomPreferenceValue('PP_oneClickPayment'),
+		allow_save_card: customer.isAuthenticated() && Site.getCurrent().getCustomPreferenceValue('PP_oneClickPayment') || false,
 		notification_url: URLUtils.https('PayPlug-Notification').abs().toString(),
 		initiator: 'PAYER',
 		metadata: {

@@ -45,7 +45,7 @@ server.get('GetForm', server.middleware.https, function (req, res, next) {
 	res.json({
 		payplug_url: PaymentResponse.getPaymentURL(),
 		payplug_id: PaymentResponse.getPaymentID()
-	})
+	});
 
 	next();
 });
