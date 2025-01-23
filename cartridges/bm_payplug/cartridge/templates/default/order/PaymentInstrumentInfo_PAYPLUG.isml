@@ -19,7 +19,7 @@
             <isset name="paymentMethod" value="${payplugPaymentData.payment_method ? payplugPaymentData.payment_method.type : 'credit card'}" scope="page" />
             <tbody>
                 <tr>
-                    <td class="infobox_title">${Resource.msg('order.transactionid', 'payplug', null)}</td>
+                    <td class="infobox_title">${Resource.msg('order.transactionID', 'payplug', null)}</td>
                     <td class="infobox_item">${payplugPaymentData.id}</td>
                 </tr>
                 <tr>
