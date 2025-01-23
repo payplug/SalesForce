@@ -272,6 +272,18 @@ server.get('PlaceOrderLightbox', server.middleware.https, function (req, res, ne
 	var currentBasket = BasketMgr.getCurrentBasket();
 	const paymentMethod = req.querystring.paymentMethodID;
 
+	if (!currentBasket) {
+		const lastorder = orderHelpers.getLastOrder(req);
+		const orderlast = OrderMgr.getOrder(lastorder.orderNumber);
+		res.render('checkout/confirmation/formRedirect', {
+			error: false,
+			orderID: orderlast.orderNo,
+			orderToken: orderlast.orderToken,
+			continueUrl: URLUtils.url('Order-Confirm').toString()
+		});
+		return next();
+	}
+
 	if (HookMgr.hasHook('app.payment.processor.payplug')) {
 		HookMgr.callHook('app.payment.processor.payplug',
 			'Handle',
@@ -284,16 +296,6 @@ server.get('PlaceOrderLightbox', server.middleware.https, function (req, res, ne
 		HookMgr.callHook('app.payment.processor.default', 'Handle');
 	}
 
-	if (!currentBasket) {
-		res.json({
-			error: true,
-			cartError: true,
-			fieldErrors: [],
-			serverErrors: [],
-			redirectUrl: URLUtils.url('Cart-Show').toString()
-		});
-		return next();
-	}
 
 	var validatedProducts = validationHelpers.validateProducts(currentBasket);
 	if (validatedProducts.error) {
