@@ -5,59 +5,63 @@
     assets.addJs('/js/payplugOney.js');
 </isscript>
 <isif condition="${!empty(pdict.oneySimulation)}">
-    <a id="openPopin">
-        <img alt="oney" src="${URLUtils.staticURL('images/logo_3x4x_oney.png')}"/>
-        <img alt="simulation" class="oneySimu" src="${URLUtils.staticURL('images/question.svg')}"/>
-    </a>
-    <div id="popin" class="popin">
-        <div class="popin-content">
-            <button id="closePopin" class="close-btn">&times;</button>
-            <div class="popin-header">
-                <img class="oneyLogo" src="${URLUtils.staticURL('images/Logo_Oney.svg')}" alt="oneyLogo"/>
-            </div>
-            <div class="popin-body">
-                <select id="payment-options">
+    <div class="oney-simulation" data-simulation-update="${URLUtils.https('PayPlug-UpdateSimulation').toString()}">
+        <a id="openPopin">
+            <img alt="oney" src="${URLUtils.staticURL('images/logo_3x4x_oney.png')}"/>
+            <img alt="simulation" class="oneySimu" src="${URLUtils.staticURL('images/question.svg')}"/>
+        </a>
+        <div id="popin" class="popin">
+            <div class="popin-content">
+                <button id="closePopin" class="close-btn">&times;</button>
+                <div class="popin-header">
+                    <img class="oneyLogo" src="${URLUtils.staticURL('images/Logo_Oney.svg')}" alt="oneyLogo"/>
+                </div>
+                <div class="popin-body">
+                    <select id="payment-options">
+                        <isif condition="${!empty(pdict.oneySimulation.x3)}">
+                            <option value="3x">${Resource.msg('oney.3x', 'payplug', null)}</option>
+                        </isif>
+                        <isif condition="${!empty(pdict.oneySimulation.x4)}">
+                            <option value="4x">${Resource.msg('oney.4x', 'payplug', null)}</option>
+                        </isif>
+                    </select>
                     <isif condition="${!empty(pdict.oneySimulation.x3)}">
-                        <option value="3x">${Resource.msg('oney.3x', 'payplug', null)}</option>
+                        <div class="payment-details" id="3x" style="display: none;">
+                            <p><strong>${Resource.msg('oney.amount', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulationAmount}" style="MONEY_LONG" /></p>
+                            <p><strong>${Resource.msg('oney.deposit', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulation.x3.downPayment}" style="MONEY_LONG" /> </p>
+                            <isif condition="${pdict.oneySimulation.x3.taeg > 0}">
+                                <p>(${Resource.msg('oney.financing', 'payplug', null)} <isprint value="${pdict.oneySimulation.x3.fees}" style="MONEY_LONG" />, TAEG: ${pdict.oneySimulation.x3.taeg} %) </p>
+                            </isif>
+                            <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}1 :</strong> <isprint value="${pdict.oneySimulation.x3.firstPayment}" style="MONEY_LONG" /></p>
+                            <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}2 :</strong> <isprint value="${pdict.oneySimulation.x3.secondPayment}" style="MONEY_LONG" /></p>
+                            <p><strong>Total :</strong> <isprint value="${pdict.oneySimulation.x3.total}" style="MONEY_LONG" /></p>
+                        </div>
                     </isif>
                     <isif condition="${!empty(pdict.oneySimulation.x4)}">
-                        <option value="4x">${Resource.msg('oney.4x', 'payplug', null)}</option>
+                        <div class="payment-details" id="4x" style="display: none;">
+                            <p><strong>${Resource.msg('oney.amount', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulationAmount}" style="MONEY_LONG" /></p>
+                            <p><strong>${Resource.msg('oney.deposit', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulation.x4.downPayment}" style="MONEY_LONG" /></p>
+                            <isif condition="${pdict.oneySimulation.x4.taeg > 0}">
+                                <p>(${Resource.msg('oney.financing', 'payplug', null)} <isprint value="${pdict.oneySimulation.x4.fees}" style="MONEY_LONG" />, TAEG: ${pdict.oneySimulation.x4.taeg} %) </p>
+                            </isif>
+                            <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}1 :</strong> <isprint value="${pdict.oneySimulation.x4.firstPayment}" style="MONEY_LONG" /></p>
+                            <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}2 :</strong> <isprint value="${pdict.oneySimulation.x4.secondPayment}" style="MONEY_LONG" /></p>
+                            <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}3 :</strong> <isprint value="${pdict.oneySimulation.x4.thirdPayment}" style="MONEY_LONG" /></p>
+                            <p><strong>${Resource.msg('oney.total', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulation.x4.total}" style="MONEY_LONG" /></p>
+                        </div>
                     </isif>
-                </select>
-                <isif condition="${!empty(pdict.oneySimulation.x3)}">
-                    <div class="payment-details" id="3x" style="display: none;">
-                        <p><strong>${Resource.msg('oney.amount', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulationAmount}" style="MONEY_LONG" /></p>
-                        <p><strong>${Resource.msg('oney.deposit', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulation.x3.downPayment}" style="MONEY_LONG" /> </p>
-                        <isif condition="${pdict.oneySimulation.x3.taeg > 0}">
-                            <p>(${Resource.msg('oney.financing', 'payplug', null)} <isprint value="${pdict.oneySimulation.x3.fees}" style="MONEY_LONG" />, TAEG: ${pdict.oneySimulation.x3.taeg} %) </p>
-                        </isif>
-                        <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}1 :</strong> <isprint value="${pdict.oneySimulation.x3.firstPayment}" style="MONEY_LONG" /></p>
-                        <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}2 :</strong> <isprint value="${pdict.oneySimulation.x3.secondPayment}" style="MONEY_LONG" /></p>
-                        <p><strong>Total :</strong> <isprint value="${pdict.oneySimulation.x3.total}" style="MONEY_LONG" /></p>
+                    <div class="separator"></div>
+                    <div class="oneyCondition">
+                        ${Resource.msg('oney.condition', 'payplug', null)}
                     </div>
-                </isif>
-                <isif condition="${!empty(pdict.oneySimulation.x4)}">
-                    <div class="payment-details" id="4x" style="display: none;">
-                        <p><strong>${Resource.msg('oney.amount', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulationAmount}" style="MONEY_LONG" /></p>
-                        <p><strong>${Resource.msg('oney.deposit', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulation.x4.downPayment}" style="MONEY_LONG" /></p>
-                        <isif condition="${pdict.oneySimulation.x4.taeg > 0}">
-                            <p>(${Resource.msg('oney.financing', 'payplug', null)} <isprint value="${pdict.oneySimulation.x4.fees}" style="MONEY_LONG" />, TAEG: ${pdict.oneySimulation.x4.taeg} %) </p>
-                        </isif>
-                        <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}1 :</strong> <isprint value="${pdict.oneySimulation.x4.firstPayment}" style="MONEY_LONG" /></p>
-                        <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}2 :</strong> <isprint value="${pdict.oneySimulation.x4.secondPayment}" style="MONEY_LONG" /></p>
-                        <p><strong>${Resource.msg('oney.monthly', 'payplug', null)}3 :</strong> <isprint value="${pdict.oneySimulation.x4.thirdPayment}" style="MONEY_LONG" /></p>
-                        <p><strong>${Resource.msg('oney.total', 'payplug', null)}</strong> <isprint value="${pdict.oneySimulation.x4.total}" style="MONEY_LONG" /></p>
-                    </div>
-                </isif>
-                <div class="separator"></div>
-                <div class="oneyCondition">
-                    ${Resource.msg('oney.condition', 'payplug', null)}
                 </div>
             </div>
         </div>
     </div>
 <iselseif condition="${pdict.isOneyAvailable}"/>
-    <a id="openPopin">
-        <img alt="oney" src="${URLUtils.staticURL('images/oney_disable.png')}"/>
-    </a>
+    <div class="oney-simulation" data-simulation-update="${URLUtils.https('PayPlug-UpdateSimulation').toString()}">
+        <a id="openPopin">
+            <img alt="oney" src="${URLUtils.staticURL('images/oney_disable.png')}"/>
+        </a>
+    </div>
 </isif>

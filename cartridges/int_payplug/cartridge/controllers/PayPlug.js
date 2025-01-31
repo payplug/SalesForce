@@ -1,6 +1,7 @@
 'use strict';
 
 // API Includes
+const Money = require('dw/value/Money');
 const URLUtils = require('dw/web/URLUtils');
 const Resource = require('dw/web/Resource');
 const HookMgr = require('dw/system/HookMgr');
@@ -19,6 +20,7 @@ const COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
 const addressHelpers = require('*/cartridge/scripts/helpers/addressHelpers');
 const PayPlugPaymentModel = require('~/cartridge/models/PayPlugPaymentModel');
 const validationHelpers = require('*/cartridge/scripts/helpers/basketValidationHelpers');
+const OneyPaymentMethodHelper = require('~/cartridge/scripts/helpers/OneyPaymentMethodHelper');
 const basketCalculationHelpers = require('*/cartridge/scripts/helpers/basketCalculationHelpers');
 
 
@@ -489,13 +491,21 @@ server.post('Notification', server.middleware.https, function (req, res, next) {
 	next();
 });
 
-server.get('OneySimuation', server.middleware.https, function (req, res, next) {
+server.get('UpdateSimulation', cache.applyDefaultCache, function (req, res, next) {
+	const currentBasket = BasketMgr.getCurrentBasket();
 	const PayPlug = new PayPlugPaymentModel();
-	const simu = PayPlug.oneySimulation(200000);
-	res.render('payplug/oneySimuation', {
-		simu: simu
-	});
+	const currencyCode = session.getCurrency().getCurrencyCode()
 
+	if (req.querystring.price) {
+		const productPrice = parseFloat(req.querystring.price);
+		const priceSimulation = PayPlug.oneySimulation(productPrice * 100);
+		res.render('payplug/oneysimulation', {
+			oneySimulationAmount: new Money(productPrice, currencyCode),
+			oneySimulation: priceSimulation ? priceSimulation.getSimulation() : [],
+			isOneyAvailable: OneyPaymentMethodHelper.isOneyAvailable()
+
+		})
+	}
 	next();
 });
 

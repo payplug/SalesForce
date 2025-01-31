@@ -20,10 +20,10 @@ OneySimulationHelper.applySimulationInViewData = function applySimulationInViewD
 	var currentBasket = BasketMgr.getCurrentBasket();
 
 	if (currentBasket) {
-		const cartTotal = currentBasket.totalGrossPrice;
+		const cartTotal = currentBasket.getTotalGrossPrice();
 		const PayPlug = new PayPlugPaymentModel();
 		viewData.oneySimulationAmount = new Money(cartTotal.getValue(), cartTotal.getCurrencyCode());
-		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100))
+		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100));
 		viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
 		viewData.isOneyAvailable = OneyPaymentMethodHelper.isOneyAvailable();
 
@@ -45,10 +45,10 @@ OneySimulationHelper.applySimulationInViewDataCheckout = function applySimulatio
 	var currentBasket = BasketMgr.getCurrentBasket();
 
 	if (currentBasket) {
-		const cartTotal = currentBasket.totalGrossPrice;
+		const cartTotal = currentBasket.getTotalGrossPrice();
 		const PayPlug = new PayPlugPaymentModel();
 		viewData.oneySimulationAmount = new Money(cartTotal.getValue(), cartTotal.getCurrencyCode());
-		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100))
+		const oneySimulation = PayPlug.oneySimulation(parseFloat(cartTotal.value * 100));
 		viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
 		viewData.isOneyAvailable = OneyPaymentMethodHelper.isOneyAvailable();
 
@@ -68,7 +68,7 @@ OneySimulationHelper.applySimulationInViewDataProduct = function applySimulation
 	const productPrice = viewData.product.price.sales ? viewData.product.price.sales : viewData.product.price.min.sales;
 	const PayPlug = new PayPlugPaymentModel();
 	viewData.oneySimulationAmount = new Money(productPrice.value, productPrice.currency);
-	const oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice.value * 100))
+	const oneySimulation = PayPlug.oneySimulation(parseFloat(productPrice.value * 100));
 	viewData.oneySimulation = oneySimulation ? oneySimulation.getSimulation() : [];
 	viewData.isOneyAvailable = OneyPaymentMethodHelper.isOneyAvailable();
 
