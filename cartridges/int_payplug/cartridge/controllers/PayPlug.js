@@ -30,12 +30,14 @@ server.get('GetHPP', server.middleware.https, function (req, res, next) {
 	const PayPlugPayment = new PayPlugPaymentModel();
 	const PaymentResponse = PayPlugPayment.createPayment(paymentMethod, server.forms.getForm('billing').payplugCreditCard.value);
 
+	session.getCustom()['payplugPaymentID'] = PaymentResponse.getPaymentID();
+
 	res.render('payplug/paymentSummary', {
 		paymentMethodName: paymentMethod.getName(),
 		paymentURL: PaymentResponse.getPaymentURL()
 	});
 
-	next();
+	return next();
 });
 
 
@@ -43,6 +45,8 @@ server.get('GetForm', server.middleware.https, function (req, res, next) {
 	const paymentMethod = PaymentManager.getPaymentMethod(req.querystring.paymentMethodID);
 	const PayPlugPayment = new PayPlugPaymentModel();
 	const PaymentResponse = PayPlugPayment.createPayment(paymentMethod, server.forms.getForm('billing').payplugCreditCard.value);
+
+	session.getCustom()['payplugPaymentID'] = PaymentResponse.getPaymentID();
 
 	res.json({
 		payplug_url: PaymentResponse.getPaymentURL(),
@@ -88,6 +92,7 @@ server.get('CreateOrderHPP', server.middleware.https, function (req, res, next) 
 
 		return next();
 	}
+
 
 	var validationOrderStatus = hooksHelper('app.validate.order', 'validateOrder', currentBasket, require('*/cartridge/scripts/hooks/validateOrder').validateOrder);
 	if (validationOrderStatus.error) {
@@ -218,9 +223,17 @@ server.get('CancelURL', server.middleware.https, function (req, res, next) {
 
 server.get('ReturnURL', server.middleware.https, function (req, res, next) {
 	// Places the order
-	var currentBasket = BasketMgr.getCurrentBasket();
 	var lastorder = orderHelpers.getLastOrder(req);
 	const order = OrderMgr.getOrder(lastorder.orderNumber);
+	if (!PayPlugUtils.checkPayPlugPayment()) {
+		Transaction.wrap(() => {
+			BasketMgr.createBasketFromOrder(order);
+			OrderMgr.failOrder(order);
+		})
+		res.redirect(URLUtils.url('Checkout-Begin', 'PayPlugError', true));
+		return next();
+	}
+	var currentBasket = BasketMgr.getCurrentBasket();
 
 	var placeOrderResult = COHelpers.placeOrder(order, {
 		status: true
@@ -271,6 +284,10 @@ server.get('ReturnURL', server.middleware.https, function (req, res, next) {
 });
 
 server.get('PlaceOrderLightbox', server.middleware.https, function (req, res, next) {
+	if (!PayPlugUtils.checkPayPlugPayment()) {
+		res.redirect(URLUtils.url('Checkout-Begin', 'PayPlugError', true));
+		return next();
+	}
 	var currentBasket = BasketMgr.getCurrentBasket();
 	const paymentMethod = req.querystring.paymentMethodID;
 

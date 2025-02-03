@@ -117,4 +117,14 @@ PayPlugUtils.createNotificationCustomObject = function createNotificationCustomO
 	});
 }
 
+PayPlugUtils.checkPayPlugPayment = function checkPayPlugPayment() {
+	const PayPlugPaymentModel = require('~/cartridge/models/PayPlugPaymentModel');
+	let paymentID = session.getCustom()['payplugPaymentID'];
+	delete session.getCustom()['payplugPaymentID'];
+
+	const PayPlugPayment = new PayPlugPaymentModel();
+	const PaymentResponse = PayPlugPayment.retrievePayment(paymentID);
+	return (empty(PaymentResponse.getFailure()));
+}
+
 module.exports = PayPlugUtils;

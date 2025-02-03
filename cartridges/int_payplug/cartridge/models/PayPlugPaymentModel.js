@@ -40,6 +40,12 @@ PayPlugPaymentModel.prototype.cancelPayment = function cancelPayment(paymentID) 
 	return paymentStatus;
 }
 
+PayPlugPaymentModel.prototype.retrievePayment = function retrievePayment(paymentID) {
+	const paymentStatus = PayPlugPaymentAPI.retrievePayment(paymentID);
+
+	return paymentStatus;
+}
+
 PayPlugPaymentModel.prototype.refundPayment = function refundPayment(amount, order) {
 	const paymentStatus = PayPlugPaymentAPI.createRefund(amount, order);
 

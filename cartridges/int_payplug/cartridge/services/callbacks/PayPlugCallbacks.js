@@ -42,6 +42,18 @@ PayPlugCallBacks.patchCallback = function _patchCallback() {
 	};
 }
 
+PayPlugCallBacks.getCallback = function _getCallback() {
+	return {
+		createRequest: function (svc, params) {
+			svc.setRequestMethod("GET");
+			svc.addHeader('Authorization', 'Bearer ' + Site.getCurrent().getCustomPreferenceValue('PP_secretKey'));
+			svc.addHeader('PayPlug-Version', payplugVersion);
+			svc.setURL(svc.getURL() + params.endpoint);
+		},
+		parseResponse: this.parseResponse
+	};
+}
+
 PayPlugCallBacks.deleteCallback = function _deleteCallback() {
 	return {
 		createRequest: function (svc, params) {

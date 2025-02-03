@@ -38,6 +38,10 @@ PayPlugServiceConfig.getUpdateEndpoint = function getCaptureEndpoint(paymentRefe
 	return StringUtils.format("{0}/payments/{1}", API_VERSION, paymentReference);
 }
 
+PayPlugServiceConfig.getRetrieveEndpoint = function getRetrieveEndpoint(paymentReference) {
+	return StringUtils.format("{0}/payments/{1}", API_VERSION, paymentReference);
+}
+
 PayPlugServiceConfig.getCreateRefundEndpoint = function getCreateRefundEndpoint(paymentReference) {
 	return StringUtils.format("{0}/payments/{1}/refunds", API_VERSION, paymentReference);
 }
