@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <isbreadcrumbs bctext1="PayPlug" bcurl1="${URLUtils.url('SiteNavigationBar-ShowMenuitemOverview', 'CurrentMenuItemId', 'custom_module_payplug')}" bctext2="${Resource.msg('order.manageOrders', 'locale', null)}" bcurl2="${URLUtils.url('PayPlugBM-HandleOrders')}" bctext3="${Resource.msgf('order.number', 'locale', null, order.currentOrderNo)}" />
                         <div class="bm-actions">
-                            <a class="btn btn-lg view-btn" href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}">${Resource.msg('order.viewInBM', 'locale', null)}</a>
+                            <a class="btn btn-lg view-btn" href="${URLUtils.url('ViewOrder-FindByUUID', 'OrderUUID', order.UUID)}">${Resource.msg('order.viewInBM', 'locale', null)}</a>
                             <isif condition="${!empty(paymentData)}">
                                 <a class="btn btn-lg view-btn" href="${(dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM ? 'https://portal.payplug.com/#/payments/online/' : 'https://portal-qa.payplug.com/#/payments/online/') + paymentData.id}">
                                     View in PayPlug Dashboard

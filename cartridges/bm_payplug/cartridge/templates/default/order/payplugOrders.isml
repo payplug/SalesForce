@@ -28,7 +28,7 @@
                                     <td>${dw.value.Money(order.getCustom()['pp_amountRefunded'] || 0, order.getCurrencyCode())}</td>
                                     <td>${order.getPaymentStatus()}</td>
                                     <td>
-                                        <a href="${URLUtils.url('ViewOrder_52-FindByNumber', 'OrderID', order.UUID)}" class="action-link">${Resource.msg('order.viewInBM', 'locale', null)}</a>
+                                        <a href="${URLUtils.url('ViewOrder-FindByUUID', 'OrderUUID', order.UUID)}" class="action-link">${Resource.msg('order.viewInBM', 'locale', null)}</a>
                                         <a href="${URLUtils.url('PayPlugBM-HandleOrders', 'viewOrder', order.currentOrderNo)}" class="action-link">${Resource.msg('order.viewDetails', 'locale', null)}</a>
                                     </td>
                                 </tr>

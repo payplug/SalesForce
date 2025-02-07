@@ -13,7 +13,7 @@
         </fieldset>
         <isif condition="${customer.isAuthenticated() && paymentOption.isCreditCard && dw.system.Site.current.preferences.custom['PP_oneClickPayment']}">
             <div class="payplugSavedCard">
-                <isloop items="${customer.profile.wallet.paymentInstruments}" var="wallet">
+                <isloop items="${customer.getProfile().getWallet().getPaymentInstruments('PAYPLUG_ONECLICK')}" var="wallet">
                     <fieldset class="payment-form-fields">
                         <input type="radio"
                             name="dwfrm_billing_payplugCreditCard"

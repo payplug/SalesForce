@@ -115,7 +115,14 @@ function validateAndUpdateBillingPaymentInstrument(order) {
 	$('select[name$=expirationYear]', form).val(instrument.expirationYear);
 	// Force security code and card number clear
 	$('input[name$=securityCode]', form).val('');
-	$('input[name$=cardNumber]').data('cleave').setRawValue('');
+	var $input = $('input[name$=cardNumber]');
+
+	if ($input.length > 0) {
+		var cleaveInstance = $input.data('cleave');
+		if (cleaveInstance) {
+			cleaveInstance.setRawValue('');
+		}
+	}
 }
 
 /**
