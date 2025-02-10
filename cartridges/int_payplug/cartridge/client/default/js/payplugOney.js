@@ -4,14 +4,20 @@ document.addEventListener('DOMContentLoaded', function () {
 	oneyChangePayment();
 
 	$('body').on('product:afterAttributeSelect', function (e) {
-		updateSimulation();
+		updateSimulation($('.sales span').attr('content') * $('.quantity-select').val());
 	});
 
+	$('body').on('cart:update', function (e) {
+		let price = $('.grand-total').text();
+		let cleanPrice = price.replace(/[€\s]/g, '');
+
+    	cleanPrice = cleanPrice.replace(/\./g, '').replace(',', '.');
+		updateSimulation(parseFloat(cleanPrice));
+	});
 });
 
-function updateSimulation() {
-	const $price = $('.sales span').attr('content') * $('.quantity-select').val();
-	var url = $('.oney-simulation').data('simulation-update') + '?price=' + $price;
+function updateSimulation(price) {
+	var url = $('.oney-simulation').data('simulation-update') + '?price=' + price;
 	$.ajax({
 		url: url,
 		type: 'get',
