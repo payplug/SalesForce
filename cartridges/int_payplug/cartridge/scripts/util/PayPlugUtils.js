@@ -127,4 +127,18 @@ PayPlugUtils.checkPayPlugPayment = function checkPayPlugPayment() {
 	return (empty(PaymentResponse.getFailure()));
 }
 
+PayPlugUtils.getApplePayMethod = function getApplePayMethod() {
+    const paymentMethods = PaymentMgr.getActivePaymentMethods(); // Récupère toutes les méthodes de paiement
+    const iterator = paymentMethods.iterator(); // Crée un itérateur
+
+    while (iterator.hasNext()) {
+        let paymentMethod = iterator.next();
+
+        if (paymentMethod.getCustom()['PP_paymentMethod'].getValue() === 'apple_pay') {
+            return paymentMethod; // Retourne la méthode de paiement trouvée
+        }
+    }
+    return null; // Retourne null si aucune méthode Apple Pay n'est trouvée
+}
+
 module.exports = PayPlugUtils;
