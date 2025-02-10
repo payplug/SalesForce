@@ -23,8 +23,8 @@ const LOGGER_PayPlug = Logger.getLogger("PayPlug", "service");
 const OVERLAY_RESPONSE = {
 	UpdateResponse: require('*/cartridge/services/responses/UpdateResponse'),
 	PaymentResponse: require('*/cartridge/services/responses/PaymentResponse'),
-	RetrieveResponse: require('*/cartridge/services/responses/RetrieveResponse'),
 	CaptureResponse: require('*/cartridge/services/responses/CaptureResponse'),
+	RetrieveResponse: require('*/cartridge/services/responses/RetrieveResponse'),
 	CreateRefund: require('*/cartridge/services/responses/CreateRefundResponse'),
 	OneySimulationResponse: require('*/cartridge/services/responses/OneySimulationResponse'),
 	RemoveCustomerCardResponse: require('*/cartridge/services/responses/RemoveCustomerCardResponse'),

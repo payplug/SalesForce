@@ -38,6 +38,8 @@ server.get('ValidateMerchant',
 		const PayPlugPayment = new PayPlugPaymentModel();
 		const PaymentResponse = PayPlugPayment.createPayment(paymentMethod, null);
 
+		session.getCustom()['payplugPaymentID'] = PaymentResponse.getPaymentID();
+
 		res.json({
 			merchant_session: PaymentResponse ? PaymentResponse.response.payment_method.merchant_session : null,
 			paymentId: PaymentResponse ? PaymentResponse.getPaymentID() : null
