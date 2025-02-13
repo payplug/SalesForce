@@ -22,29 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	}
 
-	// Add scheme
-	const schemeElement = document.getElementById('scheme');
-	const schemes = integratedPayment.getSupportedSchemes();
-	schemes.forEach((scheme, id) => {
-		const radio = document.createElement('input');
-		radio.type = 'radio';
-		radio.name = 'scheme';
-		radio.id = scheme.name;
-		radio.value = scheme.id;
-		if (scheme.id === 0)
-			radio.checked = true;
-		schemeElement.appendChild(radio);
-
-		//Add logo scheme or text
-		const elmt = document.createElement('img');
-		elmt.src = scheme.iconUrl;
-		elmt.style.width = '26px';
-		elmt.style.height = '21px';
-		elmt.title = scheme.name;
-		elmt.alt = scheme.name;
-		schemeElement.appendChild(elmt);
-	});
-
 	// Add card holder field
 	integratedPayment.cardHolder(document.getElementById('cardholder-input-container'), {
 		default: props.inputStyles.default
