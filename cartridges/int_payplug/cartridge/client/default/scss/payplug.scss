@@ -82,6 +82,7 @@
 		font-size: 14px;
 		color: #2b343d;
 		padding-top: 1rem;
+		width: 100%;
 	}
 
 	#save-input-container input[type="checkbox"] {
@@ -93,6 +94,47 @@
 
 	#save-input-container p {
 		margin: 0;
+	}
+
+	.cardtitleimage-container, .expcvv-container, .secure-by-payplug-container {
+		display: flex;
+	}
+
+	.cardtitleimage-container {
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		margin: .9375rem 0;
+		.image-title {
+			text-transform: uppercase;
+			height: max-content;
+			font-weight: bold;
+			color: #555D64;
+			font-size: .875rem;
+		}
+		img {
+			margin-bottom: unset;
+		}
+	}
+
+	.expcvv-container {
+		gap: .625rem;
+		margin-top: .625rem;
+	}
+
+	.secure-by-payplug-container {
+		width: 100%;
+		margin-top: 1.25rem;
+		align-items: center;
+		gap: .5rem;
+		img {
+			height: .9375rem;
+			margin-bottom: unset
+		};
+		span {
+			font-size: .8125rem;
+			color: #555D64;
+		}
 	}
 }
 

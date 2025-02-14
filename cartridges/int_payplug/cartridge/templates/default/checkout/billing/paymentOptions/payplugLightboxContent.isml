@@ -23,47 +23,74 @@
                         <p>${Resource.msg('label.payment.ending', 'account', null)} ${wallet.creditCardExpirationMonth}/${wallet.creditCardExpirationYear}</p>
                     </fieldset>
                 </isloop>
-                    <fieldset class="payment-form-fields">
-                        <input type="radio"
-                            name="dwfrm_billing_payplugCreditCard"
-                            value="" checked />
-                        <p>
-                            <isif condition="${paymentOption.integrationMode === 'lightbox'}">
-                                ${Resource.msg('other.credit.card', 'payplug', null)}
-                            <iselse/>
-                                <div class="payplugIntegrated" data-pp-is-live="${dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM}">
-                                    <img src="${URLUtils.staticURL('images/payment-cards.svg')}" alt="Payment Card"/>
-                                    <form id="my-payment-form">
-                                        <div id="cardholder-input-container"></div>
-                                        <div id="pan-input-container"></div>
+                <fieldset class="payment-form-fields">
+                    <input type="radio"
+                        name="dwfrm_billing_payplugCreditCard"
+                        value="" checked />
+                    <p>
+                        <isif condition="${paymentOption.integrationMode === 'lightbox'}">
+                            ${Resource.msg('other.credit.card', 'payplug', null)}
+                        <iselse/>
+                            <div class="payplugIntegrated" data-pp-is-live="${dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM}">
+                                <form id="my-payment-form">
+                                    <div id="cardholder-input-container"></div>
+                                    <div class="cardtitleimage-container">
+                                        <div class="image-title">votre carte</div>
+                                        <img src="${URLUtils.staticURL('images/payment-cards.svg')}" alt="Payment Card" />
+                                    </div>
+                                    <div id="pan-input-container"></div>
+                                    <div class="expcvv-container">
                                         <div id="exp-input-container"></div>
                                         <div id="cvv-input-container"></div>
-                                        <div id="save-input-container">
-                                            <input type="checkbox" name="pp-integrated-savecard"/>
-                                            <p>${Resource.msg('payplug.savecard', 'payplug', null)}</p>
-                                        </div>
-                                        <button id="payplugIntegratedPayment" data-pp-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
-                                            data-pp-paymentid="${paymentOption.ID}"
-                                            data-pp-validationurl="${URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentOption.ID)}"
-                                            class="payplugIntegratedPayment">Payer</button>
-                                    </form>
-                                </div>
-                            </isif>
-                        </p>
-                    </fieldset>
+                                    </div>
+                                    <div class="secure-by-payplug-container">
+                                        <img src="${URLUtils.staticURL('images/lock.svg')}" alt="Payment Card" />
+                                        <span>Transaction sécurisée par</span>
+                                        <img src="${URLUtils.staticURL('images/logo_payplug.svg')}" alt="Payment Card" />
+                                    </div>
+                                    <div id="save-input-container">
+                                        <input type="checkbox" name="pp-integrated-savecard" />
+                                        <p>${Resource.msg('payplug.savecard', 'payplug', null)}</p>
+                                    </div>
+                                    <button id="payplugIntegratedPayment" data-pp-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
+                                        data-pp-paymentid="${paymentOption.ID}"
+                                        data-pp-validationurl="${URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentOption.ID)}"
+                                        class="payplugIntegratedPayment">Payer</button>
+                                </form>
+                            </div>
+                        </isif>
+                    </p>
+                </fieldset>
             </div>
         <iselseif condition="${paymentOption.isCreditCard && paymentOption.integrationMode === 'integrated'}" />
             <div class="payplugIntegrated">
-                <form id="my-payment-form">
-                    <div id="cardholder-input-container"></div>
-                    <div id="pan-input-container"></div>
-                    <div id="exp-input-container"></div>
-                    <div id="cvv-input-container"></div>
-                    <button id="payplugIntegratedPayment" data-pp-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
-                        data-pp-paymentid="${paymentOption.ID}"
-                        data-pp-validationurl="${URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentOption.ID)}"
-                        class="payplugIntegratedPayment">Payer</button>
-                </form>
+                <div class="payplugIntegrated" data-pp-is-live="${dw.system.System.getInstanceType() == dw.system.System.PRODUCTION_SYSTEM}">
+                    <form id="my-payment-form">
+                        <div id="cardholder-input-container"></div>
+                        <div class="cardtitleimage-container">
+                            <div class="image-title">votre carte</div>
+                            <img src="${URLUtils.staticURL('images/payment-cards.svg')}" alt="Payment Card" />
+                        </div>
+                        <div id="pan-input-container"></div>
+                        <div class="expcvv-container">
+                            <div id="exp-input-container"></div>
+                            <div id="cvv-input-container"></div>
+                        </div>
+                        <div class="secure-by-payplug-container">
+                            <img src="${URLUtils.staticURL('images/lock.svg')}" alt="Payment Card" />
+                            <span>Transaction sécurisée par</span>
+                            <img src="${URLUtils.staticURL('images/logo_payplug.svg')}" alt="Payment Card" />
+                        </div>
+                        <div id="save-input-container">
+                            <input type="checkbox" name="pp-integrated-savecard" />
+                            <p>${Resource.msg('payplug.savecard', 'payplug', null)}</p>
+                        </div>
+                        <button id="payplugIntegratedPayment" data-pp-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
+                            data-pp-paymentid="${paymentOption.ID}"
+                            data-pp-validationurl="${URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentOption.ID)}"
+                            class="payplugIntegratedPayment">Payer</button>
+                    </form>
+                </div>
             </div>
         </isif>
 
@@ -76,10 +103,10 @@
                     data-pp-applevalidationurl="${URLUtils.https('PayPlug-PlaceOrderLightbox', 'paymentMethodID', paymentOption.ID)}"
                     buttonstyle="black" type="plain" locale="fr-FR"></apple-pay-button>
             <iselse/>
-                    <button data-pp-lightbox-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
-                        data-pp-paymentid="${paymentOption.ID}"
-                        data-pp-lightbox-lib="${dw.system.Site.current.preferences.custom.PP_libraryUrl}"
-                        class="btn btn-default payplugLightbox">Buy now - ${paymentOption.ID}</button>
+                <button data-pp-lightbox-url="${URLUtils.https('PayPlug-GetForm', 'paymentMethodID', paymentOption.ID)}"
+                    data-pp-paymentid="${paymentOption.ID}"
+                    data-pp-lightbox-lib="${dw.system.Site.current.preferences.custom.PP_libraryUrl}"
+                    class="btn btn-default payplugLightbox">Buy now - ${paymentOption.ID}</button>
             </isif>
         </div>
 
