@@ -15,7 +15,8 @@ function OneyPaymentMethodHelper() { }
 OneyPaymentMethodHelper.getOneyApplicablePaymentMethods = function getOneyApplicablePaymentMethods(customer, price) {
 	const countryCode = LocaleHelper.getCountryCode();
 	if (countryCode) {
-		var paymentMethods = PaymentMgr.getApplicablePaymentMethods(customer, countryCode, price);
+		let amount = price / 100;
+		var paymentMethods = PaymentMgr.getApplicablePaymentMethods(customer, countryCode, amount);
 		return paymentMethods.toArray().filter((pm) => {
 			return !empty(pm.custom.PP_paymentMethod.value) && pm.custom.PP_paymentMethod.value.indexOf('oney') !== -1;
 		}).map(pm => pm.getCustom()['PP_paymentMethod'].getValue().replace(/^oney_/, ''));
