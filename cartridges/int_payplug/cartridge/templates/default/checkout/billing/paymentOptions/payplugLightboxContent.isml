@@ -55,7 +55,6 @@
         <iselseif condition="${paymentOption.isCreditCard && paymentOption.integrationMode === 'integrated'}" />
             <div class="payplugIntegrated">
                 <form id="my-payment-form">
-                    <div id="scheme"></div>
                     <div id="cardholder-input-container"></div>
                     <div id="pan-input-container"></div>
                     <div id="exp-input-container"></div>
