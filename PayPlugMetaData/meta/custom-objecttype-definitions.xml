@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <custom-type type-id="payplugNotification">
+        <display-name xml:lang="x-default">PayPlug - Notification</display-name>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>site</storage-scope>
+        <retention-days>3</retention-days>
+        <key-definition attribute-id="id">
+            <type>string</type>
+            <min-length>0</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="payplugLog">
+                <display-name xml:lang="x-default">PayPlug - Log</display-name>
+                <type>text</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="PayPlug">
+                <display-name xml:lang="x-default">PayPlug</display-name>
+                <attribute attribute-id="id"/>
+                <attribute attribute-id="payplugLog"/>
+            </attribute-group>
+        </group-definitions>
+    </custom-type>
+
+</metadata>

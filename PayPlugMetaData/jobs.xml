@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
+
+    <job job-id="PayPlugCapture">
+        <description/>
+        <parameters/>
+        <flow>
+            <context site-id="RefArchGlobal"/>
+            <step step-id="Capture" type="custom.PayPlugPaymentCapture" enforce-restart="false">
+                <description/>
+                <parameters/>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-once enabled="false">
+                <date>2025-02-04Z</date>
+                <time>05:00:00.000Z</time>
+            </run-once>
+        </triggers>
+    </job>
+
+    <job job-id="PayPlugNotification">
+        <description/>
+        <parameters/>
+        <flow>
+            <context site-id="RefArchGlobal"/>
+            <step step-id="Notification" type="custom.PayPlugPaymentNotification" enforce-restart="false">
+                <description/>
+                <parameters/>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="false">
+                <recurrence>
+                    <date-from>2025-02-03Z</date-from>
+                    <date-to>2025-02-04Z</date-to>
+                    <start-time>05:00:00.000Z</start-time>
+                    <interval>1m</interval>
+                    <day-of-week/>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+</jobs>

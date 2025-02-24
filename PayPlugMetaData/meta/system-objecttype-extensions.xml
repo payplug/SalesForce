@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+
+    <type-extension type-id="Basket">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="payplugOrderNo">
+                <display-name xml:lang="x-default">Payplug Order No</display-name>
+                <description xml:lang="x-default">Save orderNo inside basket for payplug</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+        <group-definitions>
+            <attribute-group group-id="PayPlug">
+                <display-name xml:lang="x-default">PayPlug</display-name>
+                <attribute attribute-id="payplugOrderNo"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
+    <type-extension type-id="Order">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="isPayPlug">
+                <display-name xml:lang="x-default">Is PayPlug</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>true</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="payplugPaymentData">
+                <display-name xml:lang="x-default">PayPlug - Payment Data</display-name>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="pp_amount">
+                <display-name xml:lang="x-default">PayPlug - Amount</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="pp_amountRefunded">
+                <display-name xml:lang="x-default">PayPlug - Amount Refunded</display-name>
+                <type>double</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>true</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="pp_isCaptured">
+                <display-name xml:lang="x-default">PayPlug - Is Captured</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>true</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="pp_limitCapture">
+                <display-name xml:lang="x-default">PayPlug - Limit Capture</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="pp_paymentMethod">
+                <display-name xml:lang="x-default">PayPlug - Payment Method</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="pp_pspReference">
+                <display-name xml:lang="x-default">PayPlug - PSP Reference</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="PayPlug">
+                <display-name xml:lang="x-default">PayPlug</display-name>
+                <attribute attribute-id="isPayPlug"/>
+                <attribute attribute-id="payplugPaymentData"/>
+                <attribute attribute-id="pp_pspReference"/>
+                <attribute attribute-id="pp_amount"/>
+                <attribute attribute-id="pp_paymentMethod"/>
+                <attribute attribute-id="pp_limitCapture"/>
+                <attribute attribute-id="pp_isCaptured"/>
+                <attribute attribute-id="pp_amountRefunded"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
+    <type-extension type-id="PaymentMethod">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="PP_paymentMethod">
+                <display-name xml:lang="x-default">PayPlug - Payment Method</display-name>
+                <type>enum-of-string</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Credit Card</display>
+                        <value>credit_card</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">American Express</display>
+                        <value>american_express</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Bancontact</display>
+                        <value>bancontact</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">IDeal</display>
+                        <value>ideal</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">MyBank</display>
+                        <value>mybank</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Satispay</display>
+                        <value>satispay</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Apple Pay</display>
+                        <value>apple_pay</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Oney X3 with fees</display>
+                        <value>oney_x3_with_fees</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Oney X4 with fees</display>
+                        <value>oney_x4_with_fees</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Oney X3 without fees</display>
+                        <value>oney_x3_without_fees</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Oney X4 without fees</display>
+                        <value>oney_x4_without_fees</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="PayPlug">
+                <display-name xml:lang="x-default">PayPlug</display-name>
+                <attribute attribute-id="PP_paymentMethod"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
+    <type-extension type-id="SitePreferences">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="PP_ApplePayDomain">
+                <display-name xml:lang="x-default">PayPlug - Apple Pay Domain</display-name>
+                <description xml:lang="x-default">Authorized domain for processing Apple Pay transactions.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_ApplePayDomainCertificate">
+                <display-name xml:lang="x-default">PayPlug - Apple Pay Domain Certificate</display-name>
+                <description xml:lang="x-default">Certificate verifying the domain's authenticity for Apple Pay.</description>
+                <type>text</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_differedPayment">
+                <display-name xml:lang="x-default">PayPlug - Differed Capture</display-name>
+                <display-name xml:lang="fr">PayPlug - Differed Capture</display-name>
+                <display-name xml:lang="it">PayPlug - Differed Capture</display-name>
+                <description xml:lang="x-default">Option to enable deferred capture of payments.</description>
+                <description xml:lang="fr">Option pour activer la capture différée des paiements.</description>
+                <description xml:lang="it">Opzione per abilitare la cattura differita dei pagamenti.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_force3DS">
+                <display-name xml:lang="x-default">PayPlug - Force 3DS</display-name>
+                <display-name xml:lang="fr">PayPlug - Library Integrated Payment</display-name>
+                <display-name xml:lang="it">PayPlug - Library Integrated Payment</display-name>
+                <description xml:lang="x-default">Option to force the 3D Secure protocol during payments.</description>
+                <description xml:lang="fr">Intégration du paiement via la bibliothèque PayPlug.</description>
+                <description xml:lang="it">Integrazione del pagamento tramite la libreria PayPlug.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_integrationMode">
+                <display-name xml:lang="x-default">PayPlug - Integration Mode</display-name>
+                <display-name xml:lang="fr">PayPlug - Integration Mode</display-name>
+                <display-name xml:lang="it">PayPlug - Integration Mode</display-name>
+                <description xml:lang="x-default">Payment form display: embedded on the order page, pop-up, or redirected.</description>
+                <description xml:lang="fr">Affichage du formulaire de paiement : intégré à la page de commande, en pop-up ou redirigé.</description>
+                <description xml:lang="it">Modalità di visualizzazione del modulo di pagamento: integrato nella pagina d’ordine, in pop-up o reindirizzato.</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition>
+                        <display xml:lang="x-default">Hosted Payment Page</display>
+                        <value>HPP</value>
+                    </value-definition>
+                    <value-definition default="true">
+                        <display xml:lang="x-default">Lightbox</display>
+                        <value>lightbox</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Integrated</display>
+                        <value>integrated</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_libraryIntegratedUrl">
+                <display-name xml:lang="x-default">PayPlug - Library Integrated Payement</display-name>
+                <display-name xml:lang="fr">PayPlug - Library Integrated Payment</display-name>
+                <display-name xml:lang="it">PayPlug - Library Integrated Payment</display-name>
+                <description xml:lang="x-default">Payment integration through the PayPlug library.</description>
+                <description xml:lang="fr">Intégration du paiement via la bibliothèque PayPlug.</description>
+                <description xml:lang="it">Integrazione del pagamento tramite la libreria PayPlug.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+                <default-value>https://cdn.payplug.com/js/integrated-payment/v1/index.js</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_libraryUrl">
+                <display-name xml:lang="x-default">PayPlug - Library URL</display-name>
+                <display-name xml:lang="fr">PayPlug - Library URL</display-name>
+                <display-name xml:lang="it">PayPlug - Library URL</display-name>
+                <description xml:lang="x-default">URL to access the PayPlug library.</description>
+                <description xml:lang="fr">URL pour accéder à la bibliothèque PayPlug.</description>
+                <description xml:lang="it">URL per accedere alla libreria PayPlug.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+                <default-value>https://api.payplug.com/js/1/form.latest.js</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_oneClickPayment">
+                <display-name xml:lang="x-default">PayPlug - OneClickPayment</display-name>
+                <display-name xml:lang="fr">PayPlug - OneClickPayment</display-name>
+                <display-name xml:lang="it">PayPlug - OneClickPayment</display-name>
+                <description xml:lang="x-default">Enables or disables one-click payment.</description>
+                <description xml:lang="fr">Active ou désactive le paiement en un clic.</description>
+                <description xml:lang="it">Attiva o disattiva il pagamento con un clic.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_oneyDisplay">
+                <display-name xml:lang="x-default">PayPlug - Oney Display</display-name>
+                <display-name xml:lang="fr">PayPlug - Oney Display</display-name>
+                <display-name xml:lang="it">PayPlug - Oney Display</display-name>
+                <description xml:lang="x-default">Displays Oney payment options in the user interface.</description>
+                <description xml:lang="fr">Affiche les options de paiement Oney dans l'interface utilisateur.</description>
+                <description xml:lang="it">Mostra le opzioni di pagamento Oney nell'interfaccia utente.</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <select-multiple-flag>true</select-multiple-flag>
+                <value-definitions>
+                    <value-definition>
+                        <display xml:lang="x-default">PDP</display>
+                        <value>PDP</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Cart</display>
+                        <value>Cart</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Checkout</display>
+                        <value>Checkout</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="PP_secretKey">
+                <display-name xml:lang="x-default">PayPlug - Secret Key</display-name>
+                <display-name xml:lang="fr">PayPlug - Secret Key</display-name>
+                <display-name xml:lang="it">PayPlug - Secret Key</display-name>
+                <description xml:lang="x-default">Private key used to authenticate API requests.</description>
+                <description xml:lang="fr">Clé privée utilisée pour authentifier les requêtes API.</description>
+                <description xml:lang="it">Chiave privata usata per autenticare le richieste API.</description>
+                <type>password</type>
+                <mandatory-flag>true</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="PayPlug">
+                <display-name xml:lang="x-default">PayPlug</display-name>
+                <attribute attribute-id="PP_secretKey"/>
+                <attribute attribute-id="PP_differedPayment"/>
+                <attribute attribute-id="PP_libraryUrl"/>
+                <attribute attribute-id="PP_libraryIntegratedUrl"/>
+                <attribute attribute-id="PP_force3DS"/>
+                <attribute attribute-id="PP_integrationMode"/>
+                <attribute attribute-id="PP_oneClickPayment"/>
+                <attribute attribute-id="PP_oneyDisplay"/>
+                <attribute attribute-id="PP_ApplePayDomainCertificate"/>
+                <attribute attribute-id="PP_ApplePayDomain"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
+</metadata>
