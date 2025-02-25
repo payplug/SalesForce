@@ -38,8 +38,14 @@ exports.read = function () {
 exports.process = function (notification) {
 	let message = notification.getCustom()['payplugLog'];
 	let payplugPaymentData = JSON.parse(message);
+	let order;
 
-	var order = OrderMgr.getOrder(payplugPaymentData.metadata.transaction_id);
+	if (empty(payplugPaymentData.metadata) || empty(payplugPaymentData.metadata.transaction_id)) {
+		order = OrderMgr.searchOrder('custom.pp_pspReference = {0}', payplugPaymentData.payment_id);
+	} else {
+		order = OrderMgr.getOrder(payplugPaymentData.metadata.transaction_id);
+	}
+
 	Transaction.begin();
 	if (order) {
 		if (payplugPaymentData.object === 'refund') {
