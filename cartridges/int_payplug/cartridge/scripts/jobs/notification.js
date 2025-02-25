@@ -53,11 +53,11 @@ exports.process = function (notification) {
 		} else {
 			handlePaymentNotification(order, payplugPaymentData);
 		}
-		Logger.info('Process notification for order {0}', payplugPaymentData.metadata.transaction_id);
+		Logger.info('Process notification for order {0}', order.getOrderNo());
 		CustomObjectMgr.remove(notification);
 
 	} else {
-		Logger.info('Order not found {0}', payplugPaymentData.metadata.transaction_id);
+		Logger.info('Order not found {0}', payplugPaymentData.payment_id);
 		CustomObjectMgr.remove(notification);
 	}
 	Transaction.commit();
