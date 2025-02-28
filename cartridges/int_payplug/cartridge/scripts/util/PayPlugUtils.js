@@ -1,5 +1,6 @@
 'use strict';
 
+const Site = require('dw/system/Site');
 const Calendar = require('dw/util/Calendar');
 const OrderMgr = require('dw/order/OrderMgr');
 const BasketMgr = require('dw/order/BasketMgr');
@@ -12,6 +13,16 @@ function PayPlugUtils() { }
 
 PayPlugUtils.isPaymentMethodPayPlug = function isPaymentMethodPayPlug(paymentMethod) {
 	return (paymentMethod.getPaymentProcessor().getID() === 'PAYPLUG');
+}
+
+PayPlugUtils.getIntegrationMode = function getIntegrationMode(paymentMethod) {
+	const HPPRedirectPM = ['oney', 'bancontact', 'satispay'];
+
+	if (HPPRedirectPM.some(element => paymentMethod.startsWith(element))) {
+		return 'HPP';
+	}
+
+	return Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue();
 }
 
 PayPlugUtils.getPaymentMethodByID = function getPaymentMethodByID(paymentMethodID) {

@@ -23,7 +23,7 @@ function applicablePaymentMethods(paymentMethods) {
 			isPayPlug: PayPlugUtils.isPaymentMethodPayPlug(method),
 			isCreditCard: paymentMethod === 'credit_card',
 			isApplePay: paymentMethod === 'apple_pay',
-			integrationMode: paymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue(),
+			integrationMode: PayPlugUtils.getIntegrationMode(paymentMethod),
 			img: method.getImage() ? method.getImage().getHttpsURL() : false
 		};
 	});

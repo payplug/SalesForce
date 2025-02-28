@@ -16,7 +16,7 @@ const PayPlugServiceConfig = require('*/cartridge/services/PayPlugServiceConfig'
 
 function PayPlugPaymentRequest(paymentMethod, creditCardID) {
 	const ppPaymentMethod = paymentMethod.getCustom()['PP_paymentMethod'].getValue() || 'credit_card';
-	const integrationMode = ppPaymentMethod.indexOf('oney') !== -1 ? 'HPP' : Site.getCurrent().getCustomPreferenceValue('PP_integrationMode').getValue();
+	const integrationMode = PayPlugUtils.getIntegrationMode(ppPaymentMethod);
 	this.cart = BasketMgr.getCurrentBasket();
 	this.body = {
 		currency: this.cart.getCurrencyCode(),
