@@ -170,9 +170,9 @@
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
             <attribute-definition attribute-id="PP_differedPayment">
-                <display-name xml:lang="x-default">PayPlug - Differed Capture</display-name>
-                <display-name xml:lang="fr">PayPlug - Differed Capture</display-name>
-                <display-name xml:lang="it">PayPlug - Differed Capture</display-name>
+                <display-name xml:lang="x-default">PayPlug - Deferred Capture</display-name>
+                <display-name xml:lang="fr">PayPlug - Deferred Capture</display-name>
+                <display-name xml:lang="it">PayPlug - Deferred Capture</display-name>
                 <description xml:lang="x-default">Option to enable deferred capture of payments.</description>
                 <description xml:lang="fr">Option pour activer la capture différée des paiements.</description>
                 <description xml:lang="it">Opzione per abilitare la cattura differita dei pagamenti.</description>
